@@ -1,0 +1,2624 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản trị — Cà Phê Hòa</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='52' x='50' text-anchor='middle' font-weight='bold'>CH</text></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+
+  <style>
+/* ══════════════════════════════════════════════════════════════════════
+   admin.css — CÀ PHÊ HÒA · Giao diện quản trị (admin.html)
+   Cùng tông màu nâu cà phê · be · trắng sữa với storefront
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --coffee:       #6F4E37;
+  --coffee-dark:  #4B3226;
+  --coffee-deep:  #2E1F16;
+  --caramel:      #B0703C;
+  --beige:        #E9DCCB;
+  --beige-soft:   #F3EADB;
+  --cream:        #FBF7F0;
+  --milk:         #FFFDF8;
+  --text:         #3A2B22;
+  --text-soft:    #7A6A5D;
+  --border:       #E3D5C3;
+  --green:        #2F7D4F;
+  --green-soft:   #E7F4EC;
+  --red:          #C0392B;
+  --red-soft:     #FBEAE7;
+  --amber:        #B45309;
+  --amber-soft:   #FBF0DD;
+  --blue:         #1D4ED8;
+  --blue-soft:    #E7EEFC;
+  --shadow:       0 6px 24px rgba(75, 50, 38, .10);
+  --shadow-lg:    0 14px 40px rgba(75, 50, 38, .18);
+  --radius:       16px;
+  --sidebar-w:    250px;
+  --font-head:    'Playfair Display', 'Times New Roman', serif;
+  --font-body:    'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; }
+input, select, textarea { font-family: inherit; font-size: .95rem; color: var(--text); }
+
+h1, h2, h3 { font-family: var(--font-head); color: var(--coffee-dark); }
+
+/* ═══════════ MÀN HÌNH ĐĂNG NHẬP ═══════════ */
+
+.login-wrap {
+  min-height: 100vh; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--coffee-deep) 0%, var(--coffee) 55%, var(--caramel) 100%);
+  padding: 20px;
+}
+.login-box {
+  width: min(400px, 100%); background: var(--milk); border-radius: 22px;
+  padding: 38px 32px; box-shadow: var(--shadow-lg); text-align: center;
+}
+.login-box .logo { width: 66px; height: 66px; margin: 0 auto 16px; border-radius: 50%; background: var(--coffee); color: #fff; display: grid; place-items: center; font-size: 1.15rem; font-weight: 700; letter-spacing: .05em; }
+.login-box h1 { font-size: 1.5rem; margin-bottom: 4px; }
+.login-box .sub { color: var(--text-soft); font-size: .85rem; margin-bottom: 24px; }
+.login-box input {
+  width: 100%; padding: 13px 16px; border-radius: 12px; border: 1.5px solid var(--border);
+  background: var(--cream); outline: none; margin-bottom: 14px; transition: border .2s;
+}
+.login-box input:focus { border-color: var(--caramel); }
+.login-box .btn { width: 100%; }
+.login-hint { margin-top: 14px; font-size: .75rem; color: var(--text-soft); }
+.login-err { color: var(--red); font-size: .82rem; margin-bottom: 10px; min-height: 1.2em; }
+
+/* ═══════════ KHUNG TRANG ═══════════ */
+
+.app { display: none; min-height: 100vh; }
+.app.show { display: block; }
+
+/* Sidebar */
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-w); z-index: 50;
+  background: var(--coffee-deep); color: var(--beige-soft);
+  display: flex; flex-direction: column;
+  transition: transform .3s ease;
+}
+.sidebar .brand { display: flex; align-items: center; gap: 11px; padding: 20px 22px 18px; border-bottom: 1px solid rgba(233,220,203,.12); }
+.sidebar .brand .logo { width: 40px; height: 40px; border-radius: 50%; background: var(--caramel); display: grid; place-items: center; font-size: 1.2rem; }
+.sidebar .brand .name { font-family: var(--font-head); font-weight: 700; color: #fff; font-size: 1.05rem; line-height: 1.2; }
+.sidebar .brand .name small { display: block; font-family: var(--font-body); font-size: .68rem; font-weight: 400; color: rgba(233,220,203,.65); }
+
+.sidebar nav { flex: 1; padding: 14px 12px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
+.side-link {
+  display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 12px;
+  color: rgba(233,220,203,.78); font-size: .92rem; font-weight: 500;
+  border: none; background: none; text-align: left; width: 100%; transition: .2s;
+}
+.side-link:hover { background: rgba(233,220,203,.09); color: #fff; }
+.side-link.active { background: var(--caramel); color: #fff; font-weight: 600; }
+.side-link .pill { margin-left: auto; font-size: .68rem; background: var(--caramel); color: #fff; padding: 2px 9px; border-radius: 999px; font-weight: 700; }
+
+.sidebar .foot { padding: 16px; border-top: 1px solid rgba(233,220,203,.12); }
+.sidebar .foot .btn-logout { width: 100%; background: rgba(233,220,203,.1); color: var(--beige-soft); border: none; padding: 10px; border-radius: 12px; font-size: .88rem; transition: .2s; }
+.sidebar .foot .btn-logout:hover { background: var(--red); color: #fff; }
+.sidebar .foot .ver { text-align: center; font-size: .68rem; color: rgba(233,220,203,.4); margin-top: 10px; }
+
+.sidebar-mask { position: fixed; inset: 0; background: rgba(46,31,22,.55); z-index: 45; display: none; }
+.sidebar-mask.show { display: block; }
+
+/* Content */
+.content { margin-left: var(--sidebar-w); min-height: 100vh; display: flex; flex-direction: column; }
+
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 26px; background: rgba(251,247,240,.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.topbar .burger { display: none; background: none; border: none; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--coffee-dark); }
+.topbar h2 { font-size: 1.2rem; flex: 1; }
+.topbar .sync-chip { font-size: .74rem; color: var(--text-soft); background: var(--milk); border: 1px solid var(--border); padding: 5px 12px; border-radius: 999px; display: inline-flex; gap: 6px; align-items: center; }
+.topbar .sync-chip.ok { color: var(--green); border-color: var(--green); background: var(--green-soft); }
+.topbar .sync-chip.bad { color: var(--red); border-color: var(--red); background: var(--red-soft); }
+.btn-sync { background: var(--beige-soft); border: 1px solid var(--border); border-radius: 999px; padding: 7px 15px; font-size: .8rem; color: var(--coffee-dark); font-weight: 600; transition: .2s; }
+.btn-sync:hover { background: var(--beige); }
+
+.page { padding: 26px; flex: 1; }
+.page[hidden] { display: none; }
+
+/* ═══════════ DASHBOARD ═══════════ */
+
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; margin-bottom: 26px; }
+.stat-card {
+  background: var(--milk); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px 22px; box-shadow: var(--shadow); position: relative; overflow: hidden;
+}
+.stat-card .label { font-size: .8rem; color: var(--text-soft); font-weight: 500; }
+.stat-card .value { font-size: 1.55rem; font-weight: 700; color: var(--coffee-dark); margin-top: 4px; font-variant-numeric: tabular-nums; }
+.stat-card .delta { font-size: .75rem; margin-top: 6px; color: var(--text-soft); }
+.stat-card.accent { background: linear-gradient(135deg, var(--coffee) 0%, var(--caramel) 100%); border: none; }
+.stat-card.accent .label { color: rgba(255,253,248,.8); }
+.stat-card.accent .value { color: #fff; }
+.stat-card.accent .delta { color: rgba(255,253,248,.7); }
+
+.dash-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }
+.panel { background: var(--milk); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+.panel-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+.panel-head h3 { font-size: 1rem; font-family: var(--font-body); font-weight: 700; color: var(--coffee-dark); }
+.panel-head a { font-size: .8rem; color: var(--caramel); font-weight: 600; text-decoration: none; }
+.panel-body { padding: 18px 20px; }
+
+/* Biểu đồ cột doanh thu 7 ngày */
+.chart { display: flex; align-items: flex-end; gap: 10px; height: 190px; padding-top: 10px; }
+.chart .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+.chart .bar { width: 100%; max-width: 44px; background: linear-gradient(180deg, var(--caramel), var(--coffee)); border-radius: 8px 8px 3px 3px; min-height: 3px; transition: opacity .2s; position: relative; }
+.chart .bar:hover { opacity: .82; }
+.chart .bar .tip {
+  position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+  background: var(--coffee-deep); color: #fff; font-size: .68rem; padding: 4px 9px; border-radius: 7px;
+  white-space: nowrap; opacity: 0; pointer-events: none; transition: .18s;
+}
+.chart .bar:hover .tip { opacity: 1; }
+.chart .day { font-size: .7rem; color: var(--text-soft); }
+
+/* Bảng bán chạy */
+.rank-list { list-style: none; display: flex; flex-direction: column; }
+.rank-list li { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px dashed var(--border); }
+.rank-list li:last-child { border: none; }
+.rank-list .no { width: 26px; height: 26px; border-radius: 8px; background: var(--beige-soft); color: var(--coffee-dark); display: grid; place-items: center; font-size: .78rem; font-weight: 700; flex-shrink: 0; }
+.rank-list li:nth-child(1) .no { background: var(--caramel); color: #fff; }
+.rank-list .nm { flex: 1; min-width: 0; font-size: .9rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rank-list .qty { font-size: .78rem; color: var(--text-soft); white-space: nowrap; }
+
+/* ═══════════ BẢNG CHUNG ═══════════ */
+
+.table-wrap { background: var(--milk); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 640px; }
+thead th {
+  text-align: left; font-size: .74rem; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--text-soft); font-weight: 600; padding: 13px 16px;
+  background: var(--beige-soft); border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+tbody td { padding: 13px 16px; border-bottom: 1px solid var(--border); font-size: .88rem; vertical-align: middle; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--cream); }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.t-empty { text-align: center; padding: 44px 16px !important; color: var(--text-soft); }
+.t-empty .big { font-size: 2.2rem; margin-bottom: 6px; }
+
+.mini-thumb { width: 46px; height: 46px; border-radius: 10px; object-fit: cover; background: var(--beige-soft); flex-shrink: 0; }
+.prod-cell { display: flex; align-items: center; gap: 12px; }
+.prod-cell .meta { min-width: 0; }
+.prod-cell .meta .nm { font-weight: 600; font-size: .9rem; }
+.prod-cell .meta .sub { font-size: .75rem; color: var(--text-soft); }
+
+/* Badge trạng thái */
+.badge-st { display: inline-flex; align-items: center; gap: 6px; font-size: .74rem; font-weight: 600; padding: 4px 12px; border-radius: 999px; white-space: nowrap; }
+.badge-st::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.st-pending    { background: var(--amber-soft); color: var(--amber); }
+.st-preparing  { background: var(--beige); color: var(--coffee-dark); }
+.st-delivering { background: var(--blue-soft); color: var(--blue); }
+.st-completed  { background: var(--green-soft); color: var(--green); }
+.st-cancelled  { background: var(--red-soft); color: var(--red); }
+
+/* Công cụ hàng đầu trang */
+.toolbar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 20px; }
+.toolbar .spacer { flex: 1; }
+.toolbar input[type="search"], .toolbar select {
+  padding: 10px 15px; border-radius: 999px; border: 1.5px solid var(--border);
+  background: var(--milk); outline: none; font-size: .9rem;
+}
+.toolbar input[type="search"]:focus, .toolbar select:focus { border-color: var(--caramel); }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; border: none; border-radius: 999px;
+  padding: 11px 22px; font-size: .9rem; font-weight: 600; transition: all .2s;
+}
+.btn-primary { background: var(--coffee); color: #fff; box-shadow: var(--shadow); }
+.btn-primary:hover { background: var(--coffee-dark); transform: translateY(-1px); }
+.btn-ghost { background: var(--beige-soft); color: var(--coffee-dark); }
+.btn-ghost:hover { background: var(--beige); }
+.btn-sm { padding: 7px 14px; font-size: .8rem; }
+.btn-danger { background: var(--red-soft); color: var(--red); }
+.btn-danger:hover { background: var(--red); color: #fff; }
+.btn-ok { background: var(--green-soft); color: var(--green); }
+.btn-ok:hover { background: var(--green); color: #fff; }
+.btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
+/* Toggle active */
+.switch { position: relative; display: inline-block; width: 42px; height: 24px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch .track { position: absolute; inset: 0; background: var(--border); border-radius: 999px; transition: .22s; cursor: pointer; }
+.switch .track::before { content: ''; position: absolute; width: 18px; height: 18px; border-radius: 50%; background: #fff; top: 3px; left: 3px; transition: .22s; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+.switch input:checked + .track { background: var(--green); }
+.switch input:checked + .track::before { transform: translateX(18px); }
+
+/* ═══════════ MODAL ═══════════ */
+
+.modal-mask { position: fixed; inset: 0; background: rgba(46,31,22,.55); z-index: 80; opacity: 0; pointer-events: none; transition: opacity .25s; backdrop-filter: blur(2px); }
+.modal-mask.show { opacity: 1; pointer-events: auto; }
+
+.modal { position: fixed; z-index: 85; inset: 0; display: grid; place-items: center; padding: 18px; opacity: 0; pointer-events: none; transition: opacity .22s; }
+.modal.show { opacity: 1; pointer-events: auto; }
+.modal .box {
+  width: min(640px, 100%); max-height: 90vh; overflow-y: auto;
+  background: var(--cream); border-radius: 20px; box-shadow: var(--shadow-lg);
+  transform: translateY(16px); transition: transform .26s;
+}
+.modal.show .box { transform: none; }
+.modal.wide .box { width: min(760px, 100%); }
+
+.modal-head { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px 0; }
+.modal-head h3 { font-size: 1.15rem; }
+.modal-head .close { background: none; border: none; font-size: 1.5rem; color: var(--text-soft); line-height: 1; }
+.modal-body { padding: 18px 24px 26px; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-field.full { grid-column: 1 / -1; }
+.form-field label { font-size: .82rem; font-weight: 600; color: var(--coffee-dark); }
+.form-field .req { color: var(--red); }
+.form-field input, .form-field select, .form-field textarea {
+  padding: 11px 14px; border-radius: 12px; border: 1.5px solid var(--border);
+  background: var(--milk); outline: none; transition: border .2s; width: 100%;
+}
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--caramel); }
+.form-field textarea { resize: vertical; min-height: 76px; }
+.form-help { font-size: .72rem; color: var(--text-soft); }
+
+/* Upload ảnh */
+.upload-box { border: 2px dashed var(--border); border-radius: 14px; padding: 16px; display: flex; gap: 16px; align-items: center; background: var(--milk); }
+.upload-box .preview { width: 96px; height: 96px; border-radius: 12px; object-fit: cover; background: var(--beige-soft); flex-shrink: 0; }
+.upload-box .up-actions { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.upload-box input[type="file"] { display: none; }
+.upload-box .up-status { font-size: .76rem; color: var(--text-soft); }
+.upload-box .up-status.uploading { color: var(--caramel); font-weight: 600; }
+
+/* Chi tiết đơn hàng */
+.order-items { list-style: none; margin: 4px 0 0; }
+.order-items li { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed var(--border); font-size: .9rem; }
+.order-items li:last-child { border: none; }
+.kv { display: grid; grid-template-columns: 120px 1fr; gap: 6px 14px; font-size: .88rem; }
+.kv dt { color: var(--text-soft); }
+.kv dd { font-weight: 500; word-break: break-word; }
+
+/* Cài đặt */
+.settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+.settings-note { background: var(--amber-soft); border: 1px solid #EAD9B8; color: var(--amber); border-radius: 13px; padding: 13px 16px; font-size: .82rem; margin-bottom: 16px; }
+
+/* Toast */
+.toast-wrap { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 120; display: flex; flex-direction: column; gap: 9px; align-items: center; width: min(92vw, 440px); }
+.toast { background: var(--coffee-dark); color: #fff; padding: 12px 22px; border-radius: 999px; font-size: .88rem; box-shadow: var(--shadow-lg); animation: tIn .3s both; text-align: center; max-width: 100%; }
+.toast.ok { background: var(--green); }
+.toast.err { background: var(--red); }
+@keyframes tIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* Loader */
+.loader { text-align: center; padding: 40px; color: var(--text-soft); }
+.loader .spin { width: 34px; height: 34px; margin: 0 auto 10px; border-radius: 50%; border: 3px solid var(--beige); border-top-color: var(--coffee); animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ═══════════ RESPONSIVE ═══════════ */
+
+@media (max-width: 1020px) {
+  .dash-grid { grid-template-columns: 1fr; }
+  .settings-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 860px) {
+  .sidebar { transform: translateX(-105%); box-shadow: var(--shadow-lg); }
+  .sidebar.open { transform: none; }
+  .content { margin-left: 0; }
+  .topbar .burger { display: block; }
+  .topbar { padding: 12px 16px; }
+  .page { padding: 16px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 520px) {
+  .stat-grid { grid-template-columns: 1fr; }
+  .toolbar input[type="search"] { flex: 1 1 100%; }
+  .modal { padding: 10px; }
+  .upload-box { flex-direction: column; align-items: stretch; }
+  .chart { gap: 5px; }
+}
+</style>
+  <script>
+/**
+ * ══════════════════════════════════════════════════════════════════════
+ *  config.js — CÀ PHÊ HÒA · Nền tảng cà phê trực tuyến
+ *  Cấu hình trung tâm, dùng chung cho mọi trang (khách) & admin.html
+ *  ► Chỉ cần sửa file này khi đổi GAS URL, thông tin cửa hàng, danh mục…
+ *  ► PHẢI được load trước mọi file js/ khác trong <head>
+ * ══════════════════════════════════════════════════════════════════════
+ */
+'use strict';
+
+window.CAFE = {
+
+  /* ── Backend Google Apps Script (cơ sở dữ liệu MỚI, riêng biệt) ───────
+     Backend đi kèm: file Code.gs — tự tạo Google Sheets mới khi deploy.
+     Ghi dữ liệu qua: GET {GAS_URL}?method=POST&body=<encoded JSON>          */
+  GAS_URL: 'https://script.google.com/macros/s/AKfycbyDCaMSu4aeWUzKsKieTNW40Jb2IGcXH5zLNNXmqgo3fCbD5Uf5YQv_ldjZuKmebZHMoA/exec',
+  /* Sau khi deploy Code.gs mới (theo file HUONG-DAN-GAS.md):
+     1. Dán URL /exec mới vào đây, HOẶC
+     2. Vào admin.html → Cài đặt → Kết nối dữ liệu → dán URL mới           */
+
+  /* ── Endpoint upload ảnh lên CDN (Base44 backend function) ─────────── */
+  uploadImageEndpoint: 'https://superagent-47f29609.base44.app/functions/uploadImage',
+
+  /* ── Thông tin cửa hàng ─────────────────────────────────────────────── */
+  shop: {
+    name:    'Cà Phê Hòa',
+    slogan:  'Hương vị đậm đà — Chất lượng trong từng tách',
+    since:   '2015',
+    phone:   '0963.284.044',
+    email:   'thienkim29903@gmail.com',
+    address: 'Phú Thịnh, Đại Từ, Thái Nguyên',
+    hours:   '07:00 – 21:30',
+    workDays:'Thứ 2 – Chủ nhật',
+    mapsUrl: 'https://maps.google.com/?q=Phú+Thịnh,+Đại+Từ,+Thái+Nguyên',
+  },
+
+  /* ── Điều hướng (dùng chung mọi trang) ───────────────────────────────── */
+  nav: [
+    { href: 'index.html',        name: 'Trang chủ' },
+    { href: 'about.html',        name: 'Giới thiệu' },
+    { href: 'service.html',      name: 'Dịch vụ' },
+    { href: 'menu.html',         name: 'Thực đơn' },
+    { href: 'reservation.html',  name: 'Đặt bàn' },
+    { href: 'testimonial.html',  name: 'Cảm nhận' },
+    { href: 'contact.html',      name: 'Liên hệ' },
+  ],
+
+  /* ── Danh mục sản phẩm (cố định theo nghiệp vụ cà phê) ──────────────── */
+  categories: [
+    { id: 'espresso',    name: 'Cà phê pha máy',       desc: 'Espresso, Americano, Latte, Cappuccino…' },
+    { id: 'traditional', name: 'Cà phê truyền thống', desc: 'Phin, cà phê sữa đá, bạc xỉu…' },
+    { id: 'beans',       name: 'Hạt cà phê đóng gói', desc: 'Robusta, Arabica, blend rang mộc' },
+  ],
+
+  /* ── Phương thức thanh toán ─────────────────────────────────────────── */
+  paymentMethods: [
+    { id: 'cod',    name: 'Thanh toán khi nhận hàng', desc: 'Thanh toán bằng tiền mặt khi nhận đơn.' },
+    { id: 'bank',   name: 'Chuyển khoản ngân hàng',   desc: 'Vietcombank · 0123456789 · CÀ PHÊ HÒA (chuyển xong gửi ảnh bill qua Zalo).' },
+    { id: 'wallet', name: 'Ví điện tử / Momo',        desc: 'Momo: 0963284044 — CÀ PHÊ HÒA (ghi nội dung: SĐT + tên).' },
+  ],
+
+  /* ── Trạng thái đơn hàng ────────────────────────────────────────────── */
+  orderStatuses: [
+    { id: 'pending',    name: 'Chờ xác nhận', color: '#b45309' },
+    { id: 'preparing',  name: 'Đang pha chế',  color: '#7c5c3e' },
+    { id: 'delivering', name: 'Đang giao',     color: '#1d4ed8' },
+    { id: 'completed',  name: 'Hoàn thành',   color: '#15803d' },
+    { id: 'cancelled',  name: 'Đã huỷ',      color: '#b91c1c' },
+  ],
+
+  /* ── Trạng thái đặt bàn ─────────────────────────────────────────────── */
+  reservationStatuses: [
+    { id: 'pending',   name: 'Chờ xác nhận', color: '#b45309' },
+    { id: 'confirmed', name: 'Đã xác nhận',  color: '#1d4ed8' },
+    { id: 'seated',    name: 'Đã đến bàn',  color: '#15803d' },
+    { id: 'cancelled', name: 'Đã huỷ',     color: '#b91c1c' },
+  ],
+
+  /* ── Giờ đặt bàn cho phép ───────────────────────────────────────────── */
+  reservationSlots: ['07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00'],
+
+  /* ── Phạm vi giá để lọc (VND) ───────────────────────────────────────── */
+  priceRanges: [
+    { id: 'all',      name: 'Tất cả mức giá', min: 0, max: Infinity },
+    { id: 'under30',  name: 'Dưới 30.000đ', min: 0, max: 30000 },
+    { id: '30to60',   name: '30.000đ – 60.000đ', min: 30000, max: 60000 },
+    { id: 'over60',   name: 'Trên 60.000đ', min: 60000, max: Infinity },
+  ],
+
+  /* ── Gợi ý hương vị để lọc nhanh (khớp theo tên + mô tả) ─────────────── */
+  flavors: [
+    { id: 'all',    name: 'Mọi hương vị' },
+    { id: 'damda',  name: 'Đậm đà',  keywords: ['đậm', 'robusta', 'cường', 'black', 'đen'] },
+    { id: 'nhe',    name: 'Nhẹ / thanh', keywords: ['arabica', 'nhẹ', 'thanh', 'latte', 'bạc xỉu', 'cappuccino'] },
+    { id: 'sua',    name: 'Có sữa',  keywords: ['sữa', 'latte', 'bạc xỉu', 'cappuccino', 'milk'] },
+    { id: 'chua',   name: 'Vị chua trái cây', keywords: ['chua', 'trái cây', 'berry', 'citrus', 'vùng cao'] },
+    { id: 'hatsen', name: 'Hạt dẻ / socola', keywords: ['hạt dẻ', 'socola', 'chocolate', 'cacao'] },
+  ],
+
+  /* ── Quản trị ────────────────────────────────────────────────────────── */
+  admin: {
+    defaultPassword: 'cafe123',       // đổi ngay trong admin → Cài đặt
+    sessionKey: 'cafe_admin_session',
+  },
+
+  version: 'v2.0.0',
+};
+</script>
+  <script>
+/**
+ * ══════════════════════════════════════════════════════════════════════
+ *  data.js — Dữ liệu mẫu CÀ PHÊ HÒA
+ *  Dùng khi backend chưa có dữ liệu (lần đầu triển khai) hoặc mất kết nối.
+ *  Ảnh mẫu dùng URL CDN công khai — chạy độc lập, không cần file ảnh kèm theo.
+ * ══════════════════════════════════════════════════════════════════════
+ */
+'use strict';
+
+window.CAFE_SAMPLES = [
+  /* ── Cà phê pha máy ─────────────────────────────────────────────── */
+  {
+    id: 'sm-espresso', name: 'Espresso Đậm Đà', category: 'espresso',
+    price: 22000, originalPrice: 0, priceNote: 'Shot đơn',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/547231611_generated_image.png',
+    description: 'Shot espresso chuẩn Ý từ hạt Robusta rang mộc, crema vàng óng, hậu vị đắng đậm đặc trưng.',
+    sortOrder: 1, isActive: true, isBest: true,
+  },
+  {
+    id: 'americano', name: 'Americano Nóng', category: 'espresso',
+    price: 29000, originalPrice: 0, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/547231611_generated_image.png',
+    description: 'Espresso pha loãng với nước nóng, vị cà phê thanh nhẹ, phù hợp nhâm nhi cả buổi.',
+    sortOrder: 2, isActive: true, isBest: false,
+  },
+  {
+    id: 'latte', name: 'Latte Kem Tươi', category: 'espresso',
+    price: 42000, originalPrice: 48000, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/311d51950_generated_image.png',
+    description: 'Espresso hoà quyện sữa tươi béo ngậy, latte art đẹp mắt — lựa chọn số 1 của các bạn trẻ.',
+    sortOrder: 3, isActive: true, isBest: true,
+  },
+  {
+    id: 'cappuccino', name: 'Cappuccino Bông Lớp', category: 'espresso',
+    price: 38000, originalPrice: 0, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/311d51950_generated_image.png',
+    description: 'Tỷ lệ cân bằng espresso – sữa – bọt sữa, nhẹ nhàng, thơm mùi hạt dẻ và socola.',
+    sortOrder: 4, isActive: true, isBest: false,
+  },
+  {
+    id: 'cold-brew', name: 'Cold Brew Trái Cây', category: 'espresso',
+    price: 45000, originalPrice: 0, priceNote: 'Hàng giới hạn',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/18ebea58b_generated_image.png',
+    description: 'Ngâm lạnh 18 tiếng, vị chua thanh trái cây, hậu ngọt dịu — cực mát cho ngày hè.',
+    sortOrder: 5, isActive: true, isBest: true,
+  },
+
+  /* ── Cà phê truyền thống ─────────────────────────────────────────── */
+  {
+    id: 'phin-den', name: 'Cà Phê Đen Phin', category: 'traditional',
+    price: 20000, originalPrice: 0, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/4aa982ea5_generated_image.png',
+    description: 'Phin giọt truyền thống, cà phê rang mộc 100% Robusta, đậm đà đúng chất Việt.',
+    sortOrder: 10, isActive: true, isBest: true,
+  },
+  {
+    id: 'sua-da', name: 'Cà Phê Sữa Đá', category: 'traditional',
+    price: 25000, originalPrice: 28000, priceNote: 'Best seller',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/18ebea58b_generated_image.png',
+    description: 'Cà phê phin rót lên sữa đặc, thêm đá — tách cà phê quốc dân của người Việt.',
+    sortOrder: 11, isActive: true, isBest: true,
+  },
+  {
+    id: 'bac-xiu', name: 'Bạc Xỉu', category: 'traditional',
+    price: 27000, originalPrice: 0, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/311d51950_generated_image.png',
+    description: 'Nhiều sữa ít cà phê, ngọt béo nhẹ nhàng — dễ uống cho người mới làm quen.',
+    sortOrder: 12, isActive: true, isBest: false,
+  },
+  {
+    id: 'phin-sua-nong', name: 'Phin Sữa Nóng', category: 'traditional',
+    price: 25000, originalPrice: 0, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/4aa982ea5_generated_image.png',
+    description: 'Cà phê phin nóng rót lên sữa đặc, ấm áp thơm nồng cho buổi sáng.',
+    sortOrder: 13, isActive: true, isBest: false,
+  },
+
+  /* ── Hạt cà phê đóng gói ─────────────────────────────────────────── */
+  {
+    id: 'robusta-500', name: 'Hạt Robusta Rang Mộc 500g', category: 'beans',
+    price: 95000, originalPrice: 120000, priceNote: 'Giá sỉ',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/5c5cb9ce6_generated_image.png',
+    description: 'Robusta Cầu Đất rang mộc, không tẩm bơ — vị đậm, hậu đắng mạnh, hợp pha phin.',
+    sortOrder: 20, isActive: true, isBest: true,
+  },
+  {
+    id: 'arabica-500', name: 'Hạt Arabica Cầu Đất 500g', category: 'beans',
+    price: 165000, originalPrice: 0, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/5c5cb9ce6_generated_image.png',
+    description: 'Arabica canh tác vùng cao, vị chua thanh, hương hoa quả — dành cho máy pha espresso.',
+    sortOrder: 21, isActive: true, isBest: false,
+  },
+  {
+    id: 'blend-250', name: 'Blend Hạt Dẻ-Socola 250g', category: 'beans',
+    price: 79000, originalPrice: 90000, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/5c5cb9ce6_generated_image.png',
+    description: 'Phối trộn 70/30 Robusta-Arabica rang vừa, nốt hương hạt dẻ và socola ngọt ngào.',
+    sortOrder: 22, isActive: true, isBest: false,
+  },
+];
+
+/* ── Cảm nhận khách hàng mẫu ──────────────────────────────────────────── */
+window.CAFE_SAMPLES_TESTIMONIALS = [
+  {
+    id: 'ts1', name: 'Minh Anh', role: 'Khách quen · 3 năm',
+    rating: 5, content: 'Cà phê sữa đá ở đây đúng kiểu northern cổ điển — đậm, thơm, ngọt vừa. Đơn online giao nhanh, đóng gói cẩn thận.',
+    isActive: true, createdAt: '2026-08-20T09:00:00Z',
+  },
+  {
+    id: 'ts2', name: 'Trần Đức Long', role: 'Nhân viên văn phòng',
+    rating: 5, content: 'Đặt hạt Arabica 500g đều đặn mỗi tháng. Rang theo mẻ nhỏ nên hạt luôn tươi, mùi thơm nguyên vẹn khi xay.',
+    isActive: true, createdAt: '2026-08-12T03:00:00Z',
+  },
+  {
+    id: 'ts3', name: 'Nguyễn Thu Hà', role: 'Tổ chức workshop',
+    rating: 4, content: 'Nhóm mình đặt combo workshop pha chế 12 người, quán chuẩn bị đủ dụng cụ, chị chủ nhiệt tình hướng dẫn rất tỉ mỉ.',
+    isActive: true, createdAt: '2026-07-30T08:00:00Z',
+  },
+  {
+    id: 'ts4', name: 'Phạm Văn Tú', role: 'Khách giao hàng',
+    rating: 5, content: 'Latte giao đến văn phòng vẫn nóng, lớp bọt sữa mịn. App đặt hàng dễ dùng, có mã đơn theo dõi tiện.',
+    isActive: true, createdAt: '2026-08-28T02:30:00Z',
+  },
+  {
+    id: 'ts5', name: 'Lê Ngọc Bích', role: 'Đặt bàn cuối tuần',
+    rating: 4, content: 'Không gian mộc mạc, yên tĩnh, hợp làm việc. Đặt bàn qua web nhanh gọn, được giữ bàn cạnh cửa sổ như yêu cầu.',
+    isActive: true, createdAt: '2026-08-05T05:00:00Z',
+  },
+];
+</script>
+</head>
+<body>
+
+<!-- ═══════════ ĐĂNG NHẬP ═══════════ -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-box">
+    <div class="logo"><span class="logo-txt">CH</span></div>
+    <h1>Cà Phê Hòa</h1>
+    <p class="sub">Đăng nhập trang quản trị cửa hàng</p>
+    <p class="login-err" id="loginErr"></p>
+    <form id="loginForm">
+      <input type="password" id="loginPwd" placeholder="Mật khẩu quản trị" autocomplete="current-password" required />
+      <button class="btn btn-primary" type="submit">Đăng nhập</button>
+    </form>
+    <p class="login-hint">Mật khẩu mặc định: <b id="defaultPwdHint"></b> — đổi ngay trong Cài đặt sau khi vào.</p>
+  </div>
+</div>
+
+<!-- ═══════════ KHUNG ỨNG DỤNG ═══════════ -->
+<div class="app" id="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="logo"><span class="logo-txt">CH</span></span>
+      <span class="name">Cà Phê Hòa<small>trang quản trị</small></span>
+    </div>
+    <nav>
+      <button class="side-link active" data-page="dashboard">Dashboard</button>
+      <button class="side-link" data-page="products">Sản phẩm</button>
+      <button class="side-link" data-page="orders">Đơn hàng <span class="pill" id="navPendingPill" hidden>0</span></button>
+      <button class="side-link" data-page="reservations">Đặt bàn <span class="pill" id="navRsvPill" hidden>0</span></button>
+      <button class="side-link" data-page="testimonials">Cảm nhận <span class="pill" id="navTstPill" hidden>0</span></button>
+      <button class="side-link" data-page="messages">Tin nhắn <span class="pill" id="navMsgPill" hidden>0</span></button>
+      <button class="side-link" data-page="settings">Cài đặt</button>
+      <button class="side-link" data-page="storefront" id="linkStorefront"><span class="ic"></span> Xem cửa hàng</button>
+    </nav>
+    <div class="foot">
+      <button class="btn-logout" id="logoutBtn">⎋ Đăng xuất</button>
+      <div class="ver" id="verLabel"></div>
+    </div>
+  </aside>
+  <div class="sidebar-mask" id="sidebarMask"></div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <div class="topbar">
+      <button class="burger" id="burger">Menu</button>
+      <h2 id="pageTitle">Bảng điều khiển</h2>
+      <span class="sync-chip" id="syncChip">● Đang tải…</span>
+      <button class="btn-sync" id="syncNowBtn">⟳ Làm mới</button>
+    </div>
+
+    <div class="page" id="page-dashboard">
+
+      <div class="stat-grid">
+        <div class="stat-card accent">
+                    <div class="label">Doanh thu hôm nay</div>
+          <div class="value" id="stToday">0đ</div>
+          <div class="delta" id="stTodayCount">0 đơn hàng</div>
+        </div>
+        <div class="stat-card">
+          <span class="ic"></span>
+          <div class="label">Doanh thu tháng này</div>
+          <div class="value" id="stMonth">0đ</div>
+          <div class="delta" id="stMonthCount">0 đơn hàng</div>
+        </div>
+        <div class="stat-card">
+                    <div class="label">Tổng đơn hàng</div>
+          <div class="value" id="stOrders">0</div>
+          <div class="delta" id="stOrdersDone">0 đơn hoàn thành</div>
+        </div>
+        <div class="stat-card">
+                    <div class="label">Đơn chờ xác nhận</div>
+          <div class="value" id="stPending">0</div>
+          <div class="delta">Cần xử lý sớm</div>
+        </div>
+        <div class="stat-card">
+                    <div class="label">Đặt bàn hôm nay</div>
+          <div class="value" id="stRsvToday">0</div>
+          <div class="delta" id="stRsvPending">0 bàn chờ xác nhận</div>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Doanh thu 7 ngày gần nhất</h3>
+            <span style="font-size:.75rem;color:var(--text-soft)" id="chartNote"></span>
+          </div>
+          <div class="panel-body">
+            <div class="chart" id="revChart"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Sản phẩm bán chạy</h3><a href="#page-orders" onclick="return false" id="goOrders2">Xem đơn</a></div>
+          <div class="panel-body">
+            <ul class="rank-list" id="bestList"></ul>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Đặt bàn sắp tới</h3><a href="#" id="goReservations">Xem tất cả</a></div>
+          <div class="panel-body">
+            <ul class="rank-list" id="rsvUpcoming"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ TRANG SẢN PHẨM ═══════════ -->
+    <div class="page" id="page-products" hidden>
+      <div class="toolbar">
+        <input type="search" id="prodSearch" placeholder="Tìm sản phẩm…" />
+        <select id="prodCatFilter">
+          <option value="all">Tất cả danh mục</option>
+        </select>
+        <span class="spacer"></span>
+        <button class="btn btn-ghost btn-sm" id="seedBtn">Nạp dữ liệu mẫu</button>
+        <button class="btn btn-primary" id="addProdBtn">Thêm sản phẩm</button>
+      </div>
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Sản phẩm</th>
+                <th>Danh mục</th>
+                <th>Giá</th>
+                <th>Hiển thị</th>
+                <th style="text-align:right">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="prodTbody"><tr><td class="t-empty" colspan="5"><div class="loader"><div class="spin"></div>Đang tải…</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ TRANG ĐƠN HÀNG ═══════════ -->
+    <div class="page" id="page-orders" hidden>
+      <div class="toolbar">
+        <select id="orderStatusFilter">
+          <option value="all">Tất cả trạng thái</option>
+        </select>
+        <input type="search" id="orderSearch" placeholder="Tìm theo mã đơn, tên, SĐT…" />
+        <span class="spacer"></span>
+        <span style="font-size:.8rem;color:var(--text-soft)" id="orderCountLabel"></span>
+      </div>
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Mã đơn</th>
+                <th>Khách hàng</th>
+                <th>Sản phẩm</th>
+                <th>Tổng tiền</th>
+                <th>Thanh toán</th>
+                <th>Trạng thái</th>
+                <th>Ngày đặt</th>
+                <th style="text-align:right">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="orderTbody"><tr><td class="t-empty" colspan="8"><div class="loader"><div class="spin"></div>Đang tải…</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ TRANG ĐẶT BÀN ═══════════ -->
+    <div class="page" id="page-reservations" hidden>
+      <div class="toolbar">
+        <select id="rsvStatusFilter"></select>
+        <input type="search" id="rsvSearch" placeholder="Tìm theo tên, SĐT, mã đặt bàn…" />
+        <span class="spacer"></span>
+        <span style="font-size:.8rem;color:var(--text-soft)" id="rsvCountLabel"></span>
+      </div>
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Mã đặt bàn</th>
+                <th>Khách hàng</th>
+                <th>Ngày · Giờ</th>
+                <th>Số khách</th>
+                <th>Yêu cầu chỗ</th>
+                <th>Trạng thái</th>
+                <th style="text-align:right">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="rsvTbody"><tr><td class="t-empty" colspan="7"><div class="loader"><div class="spin"></div>Đang tải…</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ TRANG CẢM NHẬN ═══════════ -->
+    <div class="page" id="page-testimonials" hidden>
+      <div class="toolbar">
+        <span style="font-size:.85rem;color:var(--text-soft)">Cảm nhận chỉ hiển thị trên web khi được duyệt (bật công tắc)</span>
+        <span class="spacer"></span>
+        <button class="btn btn-primary" id="addTstBtn">Thêm cảm nhận</button>
+      </div>
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Khách hàng</th>
+                <th>Sao</th>
+                <th>Cảm nhận</th>
+                <th>Ngày gửi</th>
+                <th>Hiển thị</th>
+                <th style="text-align:right">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="tstTbody"><tr><td class="t-empty" colspan="6"><div class="loader"><div class="spin"></div>Đang tải…</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ TRANG TIN NHẮN ═══════════ -->
+    <div class="page" id="page-messages" hidden>
+      <div class="toolbar">
+        <select id="msgFilter">
+          <option value="all">Tất cả tin nhắn</option>
+          <option value="unread">Chưa đọc</option>
+          <option value="read">Đã đọc</option>
+        </select>
+        <span class="spacer"></span>
+        <span style="font-size:.8rem;color:var(--text-soft)" id="msgCountLabel"></span>
+      </div>
+      <div class="table-wrap">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Người gửi</th>
+                <th>Liên hệ</th>
+                <th>Chủ đề</th>
+                <th>Nội dung</th>
+                <th>Ngày</th>
+                <th style="text-align:right">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="msgTbody"><tr><td class="t-empty" colspan="6"><div class="loader"><div class="spin"></div>Đang tải…</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ TRANG CÀI ĐẶT ═══════════ -->
+    <div class="page" id="page-settings" hidden>
+      <div class="settings-grid">
+        <div class="panel">
+          <div class="panel-head"><h3>Mật khẩu quản trị</h3></div>
+          <div class="panel-body">
+            <div class="form-field" style="margin-bottom:12px">
+              <label>Mật khẩu mới</label>
+              <input type="password" id="setNewPwd" placeholder="Tối thiểu 5 ký tự" autocomplete="new-password" />
+            </div>
+            <div class="form-field" style="margin-bottom:14px">
+              <label>Nhập lại mật khẩu mới</label>
+              <input type="password" id="setNewPwd2" placeholder="Nhắc lại mật khẩu" autocomplete="new-password" />
+            </div>
+            <button class="btn btn-primary" id="savePwdBtn">Lưu mật khẩu</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="panel" style="margin-bottom:20px">
+            <div class="panel-head"><h3>Kết nối dữ liệu (Google Apps Script)</h3></div>
+            <div class="panel-body">
+              <div class="settings-note">Dữ liệu sản phẩm & đơn hàng lưu trên Google Sheets qua Apps Script. Đổi URL nếu bạn triển khai script mới.</div>
+              <div class="form-field" style="margin-bottom:12px">
+                <label>URL Apps Script (.…/exec)</label>
+                <input type="url" id="setGasUrl" placeholder="https://script.google.com/macros/s/…/exec" />
+              </div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <button class="btn btn-primary" id="saveGasBtn">Lưu URL</button>
+                <button class="btn btn-ghost" id="resetGasBtn">Khôi phục mặc định</button>
+                <button class="btn btn-ghost" id="testGasBtn">Kiểm tra kết nối</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h3>Thông tin cửa hàng</h3></div>
+            <div class="panel-body">
+              <dl class="kv" id="settingsShopInfo"></dl>
+              <p class="form-help" style="margin-top:12px">Sửa trực tiếp trong file <code>js/config.js</code> để đồng bộ toàn bộ website.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════ MODAL SẢN PHẨM ═══════════ -->
+<div class="modal-mask" id="prodMask"></div>
+<div class="modal wide" id="prodModal" role="dialog">
+  <div class="box">
+    <div class="modal-head">
+      <h3 id="prodModalTitle">Thêm sản phẩm</h3>
+      <button class="close" id="prodModalClose">×</button>
+    </div>
+    <div class="modal-body">
+      <form id="prodForm" novalidate>
+        <input type="hidden" id="pfId" />
+        <div class="form-grid">
+          <div class="form-field full">
+            <label>Tên sản phẩm <span class="req">*</span></label>
+            <input type="text" id="pfName" required placeholder="Ví dụ: Cà phê sữa đá" />
+          </div>
+          <div class="form-field">
+            <label>Danh mục <span class="req">*</span></label>
+            <select id="pfCategory"></select>
+          </div>
+          <div class="form-field">
+            <label>Giá bán (VNĐ) <span class="req">*</span></label>
+            <input type="number" id="pfPrice" min="0" step="1000" required placeholder="25000" />
+          </div>
+          <div class="form-field">
+            <label>Giá gốc (gạch ngang, 0 nếu không có)</label>
+            <input type="number" id="pfOriginalPrice" min="0" step="1000" placeholder="30000" />
+          </div>
+          <div class="form-field">
+            <label>Ghi chú giá</label>
+            <input type="text" id="pfPriceNote" placeholder="Shot đơn, giá sỉ…" />
+          </div>
+          <div class="form-field full">
+            <label>Hình ảnh</label>
+            <div class="upload-box">
+              <img class="preview" id="pfPreview" alt="Ảnh sản phẩm" />
+              <div class="up-actions">
+                <div>
+                  <input type="file" id="pfFile" accept="image/*" />
+                  <label class="btn btn-ghost btn-sm" for="pfFile" style="cursor:pointer"> Chọn ảnh từ máy</label>
+                </div>
+                <input type="text" id="pfImageUrl" placeholder="Hoặc dán URL ảnh…" style="padding:9px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--milk);outline:none" />
+                <p class="up-status" id="pfUpStatus">Ảnh được nén và tải lên CDN; nếu mất mạng sẽ lưu base64 tại chỗ.</p>
+              </div>
+            </div>
+          </div>
+          <div class="form-field full">
+            <label>Mô tả sản phẩm</label>
+            <textarea id="pfDesc" placeholder="Hương vị, nguyên liệu, cách pha…"></textarea>
+          </div>
+          <div class="form-field">
+            <label>Thứ tự hiển thị</label>
+            <input type="number" id="pfSort" min="0" step="1" value="0" />
+          </div>
+          <div class="form-field">
+            <label>&nbsp;</label>
+            <label style="display:flex;align-items:center;gap:10px;font-weight:500;padding-top:10px">
+              <span class="switch"><input type="checkbox" id="pfActive" checked /><span class="track"></span></span>
+              Đang bán (hiển thị trên web)
+            </label>
+          </div>
+        </div>
+        <div class="form-actions" style="display:flex;gap:10px;margin-top:20px">
+          <button type="button" class="btn btn-ghost" id="pfCancel" style="flex:0 0 auto">Huỷ</button>
+          <button type="submit" class="btn btn-primary" style="flex:1"> Lưu sản phẩm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL CHI TIẾT ĐƠN HÀNG ═══════════ -->
+<div class="modal-mask" id="orderMask"></div>
+<div class="modal" id="orderModal" role="dialog">
+  <div class="box">
+    <div class="modal-head">
+      <h3 id="orderModalTitle">Chi tiết đơn hàng</h3>
+      <button class="close" id="orderModalClose">×</button>
+    </div>
+    <div class="modal-body" id="orderModalBody"></div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL CẢM NHẬN ═══════════ -->
+<div class="modal-mask" id="tstMask"></div>
+<div class="modal" id="tstModal" role="dialog">
+  <div class="box">
+    <div class="modal-head">
+      <h3 id="tstModalTitle">Thêm cảm nhận</h3>
+      <button class="close" id="tstModalClose">×</button>
+    </div>
+    <div class="modal-body">
+      <form id="tstForm" novalidate>
+        <input type="hidden" id="tfId" />
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Tên khách hàng <span class="req">*</span></label>
+            <input type="text" id="tfName" required />
+          </div>
+          <div class="form-field">
+            <label>Vai trò / danh xưng</label>
+            <input type="text" id="tfRole" placeholder="Khách quen · 3 năm" />
+          </div>
+          <div class="form-field full">
+            <label>Số sao</label>
+            <select id="tfRating">
+              <option value="5">★★★★★ — 5 sao</option>
+              <option value="4">★★★★ — 4 sao</option>
+              <option value="3">★★★ — 3 sao</option>
+              <option value="2">★★ — 2 sao</option>
+              <option value="1">★ — 1 sao</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label>Nội dung cảm nhận <span class="req">*</span></label>
+            <textarea id="tfContent" required></textarea>
+          </div>
+        </div>
+        <div class="form-actions" style="display:flex;gap:10px;margin-top:20px">
+          <button type="button" class="btn btn-ghost" id="tfCancel" style="flex:0 0 auto">Huỷ</button>
+          <button type="submit" class="btn btn-primary" style="flex:1">Lưu cảm nhận</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL XÁC NHẬN ═══════════ -->
+<div class="modal-mask" id="confirmMask"></div>
+<div class="modal" id="confirmModal" role="dialog">
+  <div class="box" style="width:min(420px,100%)">
+    <div class="modal-body" style="padding:26px 24px;text-align:center">
+      <div style="font-size:2.4rem">️</div>
+      <h3 id="confirmTitle" style="margin:8px 0 6px">Xác nhận</h3>
+      <p id="confirmText" style="color:var(--text-soft);font-size:.9rem"></p>
+      <div style="display:flex;gap:10px;margin-top:20px">
+        <button class="btn btn-ghost" id="confirmNo" style="flex:1">Huỷ</button>
+        <button class="btn btn-danger" id="confirmYes" style="flex:1;background:var(--red);color:#fff">Xoá</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+/**
+ * ══════════════════════════════════════════════════════════════════════
+ *  api.js — Tầng dữ liệu CAFE HOA
+ *  ─────────────────────────────────────────────────────────────────────
+ *  Nhiệm vụ:
+ *    • Nói chuyện với backend Google Apps Script (GAS → Google Sheets)
+ *    • Cache offline bằng localStorage + hàng đợi ghi khi mất mạng
+ *    • Chuẩn hoá dữ liệu Sản phẩm & Đơn hàng cho cả store & admin
+ *
+ *  Lưu ý protocol (giữ nguyên backend hiện tại, đã kiểm chứng):
+ *    • Đọc : GET {GAS_URL}?action=<name>&_=<timestamp>
+ *    • Ghi : GET {GAS_URL}?method=POST&body=<encodeURIComponent(JSON)>
+ *  ══════════════════════════════════════════════════════════════════════
+ */
+'use strict';
+
+(function () {
+  const LS = {
+    gasUrl:    'cafe_gas_url',
+    products:  'cafe_products_cache',
+    orders:    'cafe_orders_cache',
+    queue:     'cafe_write_queue',
+    reservations:'cafe_reservations_cache',
+    testimonials:'cafe_testimonials_cache',
+    messages:  'cafe_messages_cache',
+  };
+
+  /* ════════════════ HELPERS ════════════════ */
+
+  const $ls = {
+    get(k, fallback) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fallback; } catch { return fallback; } },
+    set(k, v)        { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } },
+    del(k)          { try { localStorage.removeItem(k); } catch {} },
+  };
+
+  function getGasUrl() {
+    const saved = $ls.get(LS.gasUrl, null);
+    if (saved && /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(saved)) return saved;
+    return (window.CAFE && window.CAFE.GAS_URL) || '';
+  }
+
+  function setGasUrl(url) {
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(url)) return false;
+    $ls.set(LS.gasUrl, url);
+    return true;
+  }
+
+  function resetGasUrl() { $ls.del(LS.gasUrl); }
+
+  /** fetch JSON an toàn, có timeout */
+  async function fetchJson(url, { timeout = 25000 } = {}) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), timeout);
+    try {
+      const res = await fetch(url, { signal: ctrl.signal, cache: 'no-store' });
+      const text = await res.text();
+      try { return JSON.parse(text); }
+      catch { throw new Error('Phản hồi không phải JSON hợp lệ'); }
+    } finally { clearTimeout(t); }
+  }
+
+  /** Đọc dữ liệu: GET ?action=... */
+  async function gasGet(action, params = {}) {
+    const qs = new URLSearchParams({ action, ...params, _: String(Date.now()) });
+    return fetchJson(`${getGasUrl()}?${qs.toString()}`);
+  }
+
+  /** Ghi dữ liệu: body JSON gửi qua query string (GAS không nhận POST thật) */
+  async function gasPost(bodyObj) {
+    const qs = new URLSearchParams({
+      method: 'POST',
+      body: JSON.stringify(bodyObj),
+      _: String(Date.now()),
+    });
+    return fetchJson(`${getGasUrl()}?${qs.toString()}`, { timeout: 30000 });
+  }
+
+  /* ════════════════ HÀNG ĐỒNG GHI OFFLINE ════════════════ */
+
+  const queue = {
+    add(task) {
+      const q = $ls.get(LS.queue, []);
+      q.push({ ...task, ts: Date.now() });
+      $ls.set(LS.queue, q);
+    },
+    all()    { return $ls.get(LS.queue, []); },
+    save(q)  { $ls.set(LS.queue, q); },
+    clear()  { $ls.set(LS.queue, []); },
+  };
+
+  /** Chạy lại các tác vụ ghi đang đợi — gọi khi app khởi động */
+  async function flushQueue(onProgress) {
+    const q = queue.all();
+    const failed = [];
+    let ok = 0;
+    for (const task of q) {
+      try {
+        const res = await gasPost(task.body);
+        if (res && res.success) { ok++; continue; }
+        throw new Error(res && res.error || 'success = false');
+      } catch (e) {
+        failed.push(task);
+      }
+    }
+    queue.save(failed);
+    if (onProgress) onProgress({ ok, fail: failed.length });
+    return { ok, fail: failed.length };
+  }
+
+  /* ════════════════ SẢN PHẨM ════════════════ */
+
+  /** Chuẩn hoá 1 dòng sản phẩm từ GAS */
+  function normalizeProduct(p) {
+    if (!p) return null;
+    return {
+      id:           String(p.id || ''),
+      name:         String(p.name || 'Sản phẩm không tên'),
+      category:     String(p.category || ''),
+      price:        Number(p.price) || 0,
+      originalPrice:Number(p.originalPrice) || 0,
+      priceNote:    String(p.priceNote || ''),
+      imageUrl:     String(p.imageUrl || ''),
+      description:  String(p.description || ''),
+      sortOrder:    Number(p.sortOrder) || 0,
+      isActive:     p.isActive !== false && p.isActive !== 'false',
+      updatedAt:    String(p.updatedAt || ''),
+    };
+  }
+
+  /**
+   * Lấy danh sách sản phẩm.
+   * @param {boolean} includeAll  true: lấy cả sản phẩm đang ẩn (admin)
+   */
+  async function listProducts({ includeAll = false } = {}) {
+    try {
+      const res = await gasGet('getProducts', includeAll ? { includeAll: 'true' } : {});
+      if (res && res.success && Array.isArray(res.data)) {
+        const items = res.data.map(normalizeProduct).filter(Boolean);
+        $ls.set(LS.products, items);
+        return { ok: true, data: items, source: 'gas' };
+      }
+      throw new Error(res && res.error || 'Lỗi tải sản phẩm');
+    } catch (e) {
+      const cached = $ls.get(LS.products, []);
+      return { ok: cached.length > 0, data: cached, source: 'cache', error: e.message };
+    }
+  }
+
+  async function createProduct(data) {
+    const payload = {
+      name:        data.name,
+      category:   data.category,
+      price:      data.price,
+      originalPrice: data.originalPrice || 0,
+      priceNote:  data.priceNote || '',
+      imageUrl:   data.imageUrl || '',
+      description:data.description || '',
+      sortOrder:  data.sortOrder || 0,
+      isActive:   data.isActive !== false,
+      updatedAt:  new Date().toISOString(),
+    };
+    try {
+      const res = await gasPost({ action: 'createProduct', data: payload });
+      if (res && res.success) return { ok: true, data: res.data || payload };
+      throw new Error(res && res.error || 'Không thể tạo sản phẩm');
+    } catch (e) {
+      queue.add({ body: { action: 'createProduct', data: payload } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  async function updateProduct(id, data) {
+    const payload = { ...data, id: String(id), updatedAt: new Date().toISOString() };
+    try {
+      const res = await gasPost({ action: 'updateProduct', id: String(id), data: payload });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể cập nhật sản phẩm');
+    } catch (e) {
+      queue.add({ body: { action: 'updateProduct', id: String(id), data: payload } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  async function deleteProduct(id) {
+    try {
+      const res = await gasPost({ action: 'deleteProduct', id: String(id) });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể xoá sản phẩm');
+    } catch (e) {
+      queue.add({ body: { action: 'deleteProduct', id: String(id) } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  /* ════════════════ ĐƠN HÀNG ════════════════ */
+
+  const ORDER_MARK = 'coffee-order';   // deviceType đánh dấu đơn cà phê trên Sheet
+
+  /** Tạo mã đơn hàng duy nhất */
+  function newOrderId() {
+    return `DH_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+  }
+
+  /** Map đơn hàng cà phê → dòng Booking trên Google Sheets */
+  function orderToGasRow(order) {
+    const items = Array.isArray(order.items) ? order.items : [];
+    const summary = items.map(i => `${i.qty}× ${i.name}`).join(', ');
+    const d = new Date();
+    const dateStr = d.toISOString().slice(0, 10);
+    return {
+      id:            order.id,
+      customerName:  order.customerName,
+      phone:         order.phone,
+      email:         order.email || '',
+      deviceType:    ORDER_MARK,
+      scheduledAt:   order.createdAt || d.toISOString(),
+      timeSlot:      '',
+      issue:         `Đơn cà phê: ${summary}`,
+      status:        order.status || 'pending',
+      technician:    '',
+      estimatedCost: order.total ?? 0,
+      actualCost:    '',
+      returnDate:    '',
+      awaitingPartsEta: '',
+      notes:         `${order.paymentName || ''}${order.note ? ' | Ghi chú: ' + order.note : ''}`,
+      serviceCosts:  JSON.stringify(items),
+      brand:         order.paymentMethod || '',
+      model:         '',
+      priority:      'normal',
+      address:       order.address || '',
+      serial:        '', devicePassword: '', accessories: '',
+      Date:          dateStr,
+      Time_slot:     '',
+      updatedAt:     d.toISOString(),
+      statusHistory: JSON.stringify([{ status: order.status || 'pending', at: d.toISOString(), by: 'Khách hàng' }]),
+      receivedImages: '[]',
+      repairedImages: '[]',
+      customerSignature: '',
+    };
+  }
+
+  /** Map dòng Booking → đơn hàng cà phê */
+  function gasRowToOrder(row) {
+    let items = [];
+    try { items = JSON.parse(row.serviceCosts || '[]'); } catch {}
+    return {
+      id:           String(row.id || ''),
+      customerName: row.customerName || '',
+      phone:        row.phone || '',
+      email:        row.email || '',
+      address:      row.address || '',
+      items,
+      total:        Number(row.estimatedCost) || 0,
+      status:       row.status || 'pending',
+      paymentMethod: row.brand || '',
+      note:         row.notes || '',
+      createdAt:    row.scheduledAt || '',
+      updatedAt:    row.updatedAt || '',
+      raw:          row,
+    };
+  }
+
+  /**
+   * Lấy toàn bộ đơn cà phê.
+   * Backend mới (Code.gs): action getOrders trả về đúng bảng Orders.
+   * Backend cũ: fallback action getAll + lọc theo ORDER_MARK.
+   */
+  async function listOrders() {
+    try {
+      let rows = null;
+      try {
+        const direct = await gasGet('getOrders');
+        if (direct && direct.success && Array.isArray(direct.data)) rows = direct.data;
+      } catch {}
+      if (rows === null) {
+        const res = await gasGet('getAll');
+        if (res && res.success && Array.isArray(res.data)) {
+          rows = res.data.filter(r => r.deviceType === ORDER_MARK || String(r.id || '').startsWith('DH_'));
+        }
+      }
+      if (rows !== null) {
+        const orders = rows.map(gasRowToOrder).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        $ls.set(LS.orders, orders);
+        return { ok: true, data: orders, source: 'gas' };
+      }
+      throw new Error('Lỗi tải đơn hàng');
+    } catch (e) {
+      const cached = $ls.get(LS.orders, []);
+      return { ok: cached.length > 0, data: cached, source: 'cache', error: e.message };
+    }
+  }
+
+  /** Khách đặt hàng → tạo đơn trên GAS; offline thì đưa vào hàng đợi */
+  async function createOrder({ customerName, phone, email, address, note, paymentMethod, paymentName, items, total }) {
+    const order = {
+      id: newOrderId(),
+      customerName, phone, email, address, note,
+      paymentMethod, paymentName,
+      items, total,
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+    };
+
+    // 1) Backend mới (Code.gs): action createOrder + payload sạch
+    let res = null, netError = null;
+    try {
+      res = await gasPost({ action: 'createOrder', data: order });
+    } catch (e) { netError = e; }
+
+    if (res && res.success) return { ok: true, order, synced: true };
+
+    // 2) Backend cũ: action create + dòng Booking
+    if (res && res.error && /action|không hỗ trợ|unknown|not supported/i.test(res.error)) {
+      try {
+        const row = orderToGasRow(order);
+        const res2 = await gasPost({ action: 'create', id: row.id, data: row });
+        if (res2 && res2.success) return { ok: true, order, synced: true };
+      } catch (e) { netError = e; }
+    }
+
+    // 3) Mất mạng → hàng đợi (ưu tiên payload backend mới)
+    if (netError || (res && !res.success)) {
+      queue.add({ body: { action: 'createOrder', data: order } });
+      const cached = $ls.get(LS.orders, []);
+      cached.unshift(order);
+      $ls.set(LS.orders, cached);
+      return { ok: true, order, synced: false, error: (netError && netError.message) || (res && res.error) };
+    }
+    return { ok: false, error: res && res.error || 'Không thể tạo đơn hàng' };
+  }
+
+  async function updateOrderStatus(id, status) {
+    const payload = { id: String(id), status, updatedAt: new Date().toISOString() };
+    try {
+      let res = await gasPost({ action: 'updateOrder', id: String(id), data: payload });
+      if (res && res.success) return { ok: true };
+      if (res && res.error && /action|không hỗ trợ|unknown|not supported/i.test(res.error)) {
+        res = await gasPost({ action: 'update', id: String(id), data: payload });
+        if (res && res.success) return { ok: true };
+      }
+      throw new Error(res && res.error || 'Không thể cập nhật đơn');
+    } catch (e) {
+      queue.add({ body: { action: 'updateOrder', id: String(id), data: payload } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  async function deleteOrder(id) {
+    try {
+      const res = await gasPost({ action: 'delete', id: String(id) });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể xoá đơn');
+    } catch (e) {
+      queue.add({ body: { action: 'delete', id: String(id) } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  /* ════════════════ ĐẶT BÀN ════════════════ */
+
+  const RSV_MARK = 'cafe-reservation';
+
+  function newReservationId() {
+    return `DB_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+  }
+
+  function normReservation(r) {
+    if (!r) return null;
+    return {
+      id:           String(r.id || ''),
+      customerName: String(r.customerName || ''),
+      phone:        String(r.phone || ''),
+      email:        String(r.email || ''),
+      date:         String(r.date || ''),           // YYYY-MM-DD
+      time:         String(r.time || ''),           // HH:MM
+      guests:       Number(r.guests) || 1,
+      tableNote:    String(r.tableNote || ''),
+      note:         String(r.note || ''),
+      status:       String(r.status || 'pending'),
+      createdAt:    String(r.createdAt || ''),
+      updatedAt:    String(r.updatedAt || ''),
+    };
+  }
+
+  async function listReservations() {
+    try {
+      const res = await gasGet('getReservations');
+      if (res && res.success && Array.isArray(res.data)) {
+        const items = res.data.map(normReservation).filter(Boolean)
+          .sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
+        $ls.set(LS.reservations, items);
+        return { ok: true, data: items, source: 'gas' };
+      }
+      throw new Error(res && res.error || 'Lỗi tải đặt bàn');
+    } catch (e) {
+      const cached = $ls.get(LS.reservations, []);
+      return { ok: cached.length > 0, data: cached, source: 'cache', error: e.message };
+    }
+  }
+
+  async function createReservation(data) {
+    const payload = {
+      id: newReservationId(),
+      customerName: data.customerName,
+      phone:        data.phone,
+      email:        data.email || '',
+      date:         data.date,
+      time:         data.time,
+      guests:       data.guests || 1,
+      tableNote:    data.tableNote || '',
+      note:         data.note || '',
+      status:       'pending',
+      deviceType:    RSV_MARK,
+      createdAt:    new Date().toISOString(),
+      updatedAt:    new Date().toISOString(),
+    };
+    try {
+      const res = await gasPost({ action: 'createReservation', data: payload });
+      if (res && res.success) return { ok: true, data: normReservation(payload), synced: true };
+      throw new Error(res && res.error || 'Không thể tạo đặt bàn');
+    } catch (e) {
+      queue.add({ body: { action: 'createReservation', data: payload } });
+      return { ok: true, data: normReservation(payload), synced: false, error: e.message };
+    }
+  }
+
+  async function updateReservation(id, data) {
+    const payload = { ...data, id: String(id), updatedAt: new Date().toISOString() };
+    try {
+      const res = await gasPost({ action: 'updateReservation', id: String(id), data: payload });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể cập nhật đặt bàn');
+    } catch (e) {
+      queue.add({ body: { action: 'updateReservation', id: String(id), data: payload } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  async function deleteReservation(id) {
+    try {
+      const res = await gasPost({ action: 'deleteReservation', id: String(id) });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể xoá đặt bàn');
+    } catch (e) {
+      queue.add({ body: { action: 'deleteReservation', id: String(id) } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  /* ════════════════ CẢM NHẬN KHÁCH HÀNG ════════════════ */
+
+  function normTestimonial(t) {
+    if (!t) return null;
+    return {
+      id:        String(t.id || ''),
+      name:      String(t.name || ''),
+      role:      String(t.role || ''),
+      rating:    Math.max(1, Math.min(5, Number(t.rating) || 5)),
+      content:   String(t.content || ''),
+      isActive:  t.isActive !== false && t.isActive !== 'false',
+      createdAt: String(t.createdAt || ''),
+    };
+  }
+
+  async function listTestimonials() {
+    try {
+      const res = await gasGet('getTestimonials');
+      if (res && res.success && Array.isArray(res.data)) {
+        const items = res.data.map(normTestimonial).filter(Boolean);
+        $ls.set(LS.testimonials, items);
+        return { ok: true, data: items, source: 'gas' };
+      }
+      throw new Error(res && res.error || 'Lỗi tải cảm nhận');
+    } catch (e) {
+      const cached = $ls.get(LS.testimonials, []);
+      return { ok: cached.length > 0, data: cached, source: 'cache', error: e.message };
+    }
+  }
+
+  async function createTestimonial(data) {
+    const payload = {
+      id: 'TS_' + Date.now(),
+      name: data.name, role: data.role || 'Khách hàng',
+      rating: data.rating || 5,
+      content: data.content,
+      isActive: data.isActive !== false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    try {
+      const res = await gasPost({ action: 'createTestimonial', data: payload });
+      if (res && res.success) return { ok: true, data: normTestimonial(payload), synced: true };
+      throw new Error(res && res.error || 'Không thể gửi cảm nhận');
+    } catch (e) {
+      queue.add({ body: { action: 'createTestimonial', data: payload } });
+      return { ok: true, data: normTestimonial(payload), synced: false, error: e.message };
+    }
+  }
+
+  async function updateTestimonial(id, data) {
+    const payload = { ...data, id: String(id), updatedAt: new Date().toISOString() };
+    try {
+      const res = await gasPost({ action: 'updateTestimonial', id: String(id), data: payload });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể cập nhật');
+    } catch (e) {
+      queue.add({ body: { action: 'updateTestimonial', id: String(id), data: payload } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  async function deleteTestimonial(id) {
+    try {
+      const res = await gasPost({ action: 'deleteTestimonial', id: String(id) });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể xoá');
+    } catch (e) {
+      queue.add({ body: { action: 'deleteTestimonial', id: String(id) } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  /* ════════════════ TIN NHẮN LIÊN HỆ ════════════════ */
+
+  function normMessage(m) {
+    if (!m) return null;
+    return {
+      id: String(m.id || ''),
+      name: String(m.name || ''),
+      email: String(m.email || ''),
+      phone: String(m.phone || ''),
+      subject: String(m.subject || ''),
+      content: String(m.content || ''),
+      isRead: m.isRead === true || m.isRead === 'true',
+      createdAt: String(m.createdAt || ''),
+    };
+  }
+
+  async function listMessages() {
+    try {
+      const res = await gasGet('getMessages');
+      if (res && res.success && Array.isArray(res.data)) {
+        const items = res.data.map(normMessage).filter(Boolean)
+          .sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+        $ls.set(LS.messages, items);
+        return { ok: true, data: items, source: 'gas' };
+      }
+      throw new Error(res && res.error || 'Lỗi tải tin nhắn');
+    } catch (e) {
+      const cached = $ls.get(LS.messages, []);
+      return { ok: cached.length > 0, data: cached, source: 'cache', error: e.message };
+    }
+  }
+
+  async function createMessage(data) {
+    const payload = {
+      id: 'MSG_' + Date.now(),
+      name: data.name, email: data.email || '', phone: data.phone || '',
+      subject: data.subject || 'Liên hệ từ website',
+      content: data.content,
+      isRead: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    try {
+      const res = await gasPost({ action: 'createMessage', data: payload });
+      if (res && res.success) return { ok: true, synced: true };
+      throw new Error(res && res.error || 'Không thể gửi tin nhắn');
+    } catch (e) {
+      queue.add({ body: { action: 'createMessage', data: payload } });
+      return { ok: true, synced: false, error: e.message };
+    }
+  }
+
+  async function updateMessage(id, data) {
+    const payload = { ...data, id: String(id), updatedAt: new Date().toISOString() };
+    try {
+      const res = await gasPost({ action: 'updateMessage', id: String(id), data: payload });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể cập nhật');
+    } catch (e) {
+      queue.add({ body: { action: 'updateMessage', id: String(id), data: payload } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  async function deleteMessage(id) {
+    try {
+      const res = await gasPost({ action: 'deleteMessage', id: String(id) });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể xoá');
+    } catch (e) {
+      queue.add({ body: { action: 'deleteMessage', id: String(id) } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  /* ════════════════ UPLOAD ẢNH LÊN CDN ════════════════ */
+
+  /**
+   * Upload ảnh (dataURL) lên CDN backend → trả về URL công khai.
+   * Nén về tối đa 1600px / 0.9 trước khi gửi.
+   */
+  async function uploadImage(dataUrl, { maxSize = 1600, quality = 0.9 } = {}) {
+    const compressed = await compressImage(dataUrl, maxSize, quality);
+    const endpoint = (window.CAFE && window.CAFE.uploadImageEndpoint) ||
+      'https://superagent-47f29609.base44.app/functions/uploadImage';
+    const r = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dataUrl: compressed }),
+    }).catch(() => null);
+    if (!r || !r.ok) throw new Error('Upload thất bại — kiểm tra kết nối');
+    const j = await r.json();
+    if (j.success && j.url) return j.url;
+    throw new Error(j.error || 'Upload thất bại');
+  }
+
+  function compressImage(dataUrl, maxSize, quality) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        let { width: w, height: h } = img;
+        if (w > maxSize || h > maxSize) {
+          const scale = Math.min(maxSize / w, maxSize / h);
+          w = Math.round(w * scale); h = Math.round(h * scale);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = () => resolve(dataUrl);
+      img.src = dataUrl;
+    });
+  }
+
+  /* ════════════════ ĐĂNG KÝ API TOÀN CỤC ════════════════ */
+
+  window.CAFE_API = {
+    getGasUrl, setGasUrl, resetGasUrl,
+    gasGet, gasPost,
+    flushQueue, queueInfo: () => queue.all().length,
+    listProducts, createProduct, updateProduct, deleteProduct,
+    listOrders, createOrder, updateOrderStatus, deleteOrder,
+    listReservations, createReservation, updateReservation, deleteReservation,
+    listTestimonials, createTestimonial, updateTestimonial, deleteTestimonial,
+    listMessages, createMessage, updateMessage, deleteMessage,
+    uploadImage, newOrderId,
+  };
+})();
+</script>
+<script>
+/**
+ * ══════════════════════════════════════════════════════════════════════
+ *  admin.js — Logic trang quản trị (admin.html)
+ *  Đăng nhập · Dashboard thống kê · CRUD sản phẩm · Quản lý đơn hàng · Cài đặt
+ * ══════════════════════════════════════════════════════════════════════
+ */
+'use strict';
+
+(function () {
+  const C = window.CAFE;
+  const API = window.CAFE_API;
+
+  /* ═════════════════ TIỆN ÍCH ═════════════════ */
+
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => document.querySelectorAll(s);
+  const fmt = (n) => Number(n || 0).toLocaleString('vi-VN') + 'đ';
+  const fmtNum = (n) => Number(n || 0).toLocaleString('vi-VN');
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+
+  const PHU = new Intl.DateTimeFormat('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const GIO = new Intl.DateTimeFormat('vi-VN', { hour: '2-digit', minute: '2-digit' });
+  const dstr = (iso) => { try { const d = new Date(iso); return isNaN(d) ? '—' : `${PHU.format(d)} ${GIO.format(d)}`; } catch { return '—'; } };
+
+  function toast(msg, type = '') {
+    const el = document.createElement('div');
+    el.className = 'toast ' + type;
+    el.textContent = msg;
+    $('#toastWrap').appendChild(el);
+    setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .3s'; }, 2400);
+    setTimeout(() => el.remove(), 2800);
+  }
+
+  const debounce = (fn, ms = 250) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+  const catName = (id) => (C.categories.find(c => c.id === id) || {}).name || 'Khác';
+  const statusObj = (id) => C.orderStatuses.find(s => s.id === id) || C.orderStatuses[0];
+  const payName = (id) => (C.paymentMethods.find(p => p.id === id) || {}).name || id || '—';
+
+  const PLACEHOLDER_IMG = 'data:image/svg+xml,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#E9DCCB"/></svg>');
+  const imgOf = (p) => (p && p.imageUrl && String(p.imageUrl).trim()) ? p.imageUrl : PLACEHOLDER_IMG;
+
+  /* ═════════════════ AUTH ═════════════════ */
+
+  const auth = {
+    hash(pwd) { return btoa(unescape(encodeURIComponent('cafe:' + pwd))); },
+    stored() { return localStorage.getItem('cafe_admin_pwd'); },
+    password() { return this.stored() || this.hash(C.admin.defaultPassword); },
+    set(pwd) { localStorage.setItem('cafe_admin_pwd', this.hash(pwd)); },
+    check(pwd) { return this.hash(pwd) === this.password(); },
+    isLogged() { return sessionStorage.getItem(C.admin.sessionKey) === '1'; },
+    login() { sessionStorage.setItem(C.admin.sessionKey, '1'); },
+    logout() { sessionStorage.removeItem(C.admin.sessionKey); location.reload(); },
+  };
+
+  function showApp() {
+    $('#loginWrap').style.display = 'none';
+    $('#app').classList.add('show');
+  }
+
+  /* ═════════════════ TRẠNG THÁI ═════════════════ */
+
+  let PRODUCTS = [];
+  let ORDERS = [];
+  let RESERVATIONS = [];
+  let TESTIMONIALS = [];
+  let MESSAGES = [];
+  let productsSource = 'gas';
+
+  /* ═════════════════ TẢI DỮ LIỆU ═════════════════ */
+
+  async function loadAll() {
+    setSync('loading', 'Đang tải…');
+    const [pRes, oRes, rRes, tRes, mRes] = await Promise.all([
+      API.listProducts({ includeAll: true }),
+      API.listOrders(),
+      API.listReservations(),
+      API.listTestimonials(),
+      API.listMessages(),
+    ]);
+
+    if ((pRes.data || []).length > 0) {
+      PRODUCTS = pRes.data;
+      productsSource = pRes.source === 'gas' ? 'gas' : 'cache';
+    } else {
+      PRODUCTS = (window.CAFE_SAMPLES || []).map(p => ({ ...p }));
+      productsSource = 'sample';
+    }
+    PRODUCTS.sort((a, b) => (a.sortOrder - b.sortOrder) || a.name.localeCompare(b.name, 'vi'));
+
+    ORDERS = oRes.data || [];
+    // Backend mới trả về đủ bảng; backend cũ chỉ có sản phẩm + đơn
+    // (đặt bàn/cảm nhận/tin nhắn khi đó rỗng — web vẫn chạy bằng dữ liệu mẫu phía khách)
+    RESERVATIONS = rRes.data || [];
+    TESTIMONIALS = (tRes.data && tRes.data.length)
+      ? tRes.data
+      : (tRes.source === 'gas' ? [] : (window.CAFE_SAMPLES_TESTIMONIALS || []).map(t => ({ ...t, isActive: t.isActive !== false })));
+    MESSAGES = mRes.data || [];
+
+    const queued = API.queueInfo();
+    setSync(
+      queued > 0 ? 'bad' : (productsSource === 'gas' ? 'ok' : productsSource === 'cache' ? 'bad' : 'ok'),
+      queued > 0 ? `${queued} thay đổi chờ đồng bộ`
+        : productsSource === 'gas' ? 'Đã đồng bộ · Google Sheets'
+        : productsSource === 'cache' ? 'Offline — bản lưu gần nhất'
+        : 'Chế độ dữ liệu mẫu');
+  }
+
+  function setSync(kind, text) {
+    const chip = $('#syncChip');
+    chip.className = 'sync-chip ' + (kind === 'ok' ? 'ok' : kind === 'bad' ? 'bad' : '');
+    chip.textContent = '● ' + text;
+  }
+
+  /* ═════════════════ ĐIỀU HƯỚNG ═════════════════ */
+
+  const PAGE_TITLES = {
+    dashboard: 'Bảng điều khiển',
+    products: 'Quản lý sản phẩm',
+    orders: 'Quản lý đơn hàng',
+    reservations: 'Quản lý đặt bàn',
+    testimonials: 'Cảm nhận khách hàng',
+    messages: 'Tin nhắn liên hệ',
+    settings: 'Cài đặt',
+  };
+
+  let currentPage = 'dashboard';
+
+  function goto(page) {
+    currentPage = page;
+    $$('.page').forEach(p => p.hidden = p.id !== 'page-' + page);
+    $$('.side-link').forEach(l => l.classList.toggle('active', l.dataset.page === page));
+    $('#pageTitle').textContent = PAGE_TITLES[page] || '';
+    $('#sidebar').classList.remove('open');
+    $('#sidebarMask').classList.remove('show');
+
+    if (page === 'dashboard') renderDashboard();
+    if (page === 'products') renderProducts();
+    if (page === 'orders') renderOrders();
+    if (page === 'reservations') renderReservations();
+    if (page === 'testimonials') renderTestimonials();
+    if (page === 'messages') renderMessages();
+    if (page === 'settings') renderSettings();
+  }
+
+  /* ═════════════════ DASHBOARD ═════════════════ */
+
+  const notCancelled = (o) => o.status !== 'cancelled';
+  const sameDay = (iso, d) => { const t = new Date(iso); return !isNaN(t) && t.getFullYear() === d.getFullYear() && t.getMonth() === d.getMonth() && t.getDate() === d.getDate(); };
+
+  function renderDashboard() {
+    const valid = ORDERS.filter(notCancelled);
+    const now = new Date();
+    const today = valid.filter(o => sameDay(o.createdAt, now));
+    const month = valid.filter(o => { const t = new Date(o.createdAt); return !isNaN(t) && t.getFullYear() === now.getFullYear() && t.getMonth() === now.getMonth(); });
+    const pending = ORDERS.filter(o => o.status === 'pending');
+    const done = ORDERS.filter(o => o.status === 'completed');
+
+    $('#stToday').textContent = fmt(today.reduce((s, o) => s + (o.total || 0), 0));
+    $('#stTodayCount').textContent = `${today.length} đơn hàng`;
+    $('#stMonth').textContent = fmt(month.reduce((s, o) => s + (o.total || 0), 0));
+    $('#stMonthCount').textContent = `${month.length} đơn hàng`;
+    $('#stOrders').textContent = fmtNum(ORDERS.length);
+    $('#stOrdersDone').textContent = `${done.length} đơn hoàn thành`;
+    $('#stPending').textContent = fmtNum(pending.length);
+
+    const pill = $('#navPendingPill');
+    pill.hidden = pending.length === 0;
+    pill.textContent = pending.length;
+
+    // Đặt bàn
+    const rsvToday = RESERVATIONS.filter(r => sameDay(r.date + 'T00:00:00', now));
+    const rsvPending = RESERVATIONS.filter(r => r.status === 'pending');
+    $('#stRsvToday').textContent = fmtNum(rsvToday.length);
+    $('#stRsvPending').textContent = `${rsvPending.length} bàn chờ xác nhận`;
+    const rsvPill = $('#navRsvPill');
+    rsvPill.hidden = rsvPending.length === 0; rsvPill.textContent = rsvPending.length;
+
+    // Cảm nhận chờ duyệt
+    const tstPending = TESTIMONIALS.filter(t => !t.isActive);
+    const tstPill = $('#navTstPill');
+    tstPill.hidden = tstPending.length === 0; tstPill.textContent = tstPending.length;
+
+    // Tin nhắn chưa đọc
+    const msgUnread = MESSAGES.filter(m => !m.isRead);
+    const msgPill = $('#navMsgPill');
+    msgPill.hidden = msgUnread.length === 0; msgPill.textContent = msgUnread.length;
+
+    renderRevenueChart(valid);
+    renderBestSellers(valid);
+    renderUpcomingReservations();
+  }
+
+  function renderRevenueChart(valid) {
+    const days = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const rev = valid.filter(o => sameDay(o.createdAt, d)).reduce((s, o) => s + (o.total || 0), 0);
+      days.push({ d, rev });
+    }
+    const max = Math.max(...days.map(x => x.rev), 1);
+
+    $('#revChart').innerHTML = days.map(x => {
+      const h = Math.max(3, Math.round((x.rev / max) * 100));
+      const label = x.rev > 0 ? fmt(x.rev) : 'Không có đơn';
+      return `
+        <div class="bar-col">
+          <div class="bar" style="height:${h}%"><span class="tip">${label}</span></div>
+          <span class="day">${x.d.getDate()}/${x.d.getMonth() + 1}</span>
+        </div>`;
+    }).join('');
+
+    $('#chartNote').textContent = days.every(x => x.rev === 0) ? 'Chưa có dữ liệu doanh thu' : 'Di chuột lên cột để xem số tiền';
+  }
+
+  function renderBestSellers(valid) {
+    const tally = new Map();
+    valid.forEach(o => (o.items || []).forEach(i => {
+      const key = i.name || 'Không tên';
+      const cur = tally.get(key) || { name: key, qty: 0, rev: 0 };
+      cur.qty += Number(i.qty) || 0;
+      cur.rev += (Number(i.price) || 0) * (Number(i.qty) || 0);
+      tally.set(key, cur);
+    }));
+    const top = [...tally.values()].sort((a, b) => b.qty - a.qty).slice(0, 7);
+
+    $('#bestList').innerHTML = top.length ? top.map((t, i) => `
+      <li>
+        <span class="no">${i + 1}</span>
+        <span class="nm" title="${esc(t.name)}">${esc(t.name)}</span>
+        <span class="qty">${t.qty} đã bán · <b>${fmt(t.rev)}</b></span>
+      </li>`).join('')
+      : '<li style="justify-content:center;color:var(--text-soft);font-size:.88rem">Chưa có dữ liệu bán hàng</li>';
+  }
+
+  /* ═════════════════ SẢN PHẨM ═════════════════ */
+
+  let prodFilter = { kw: '', cat: 'all' };
+
+  function renderProducts() {
+    const tbody = $('#prodTbody');
+    const list = PRODUCTS.filter(p => {
+      if (prodFilter.cat !== 'all' && p.category !== prodFilter.cat) return false;
+      if (prodFilter.kw && !`${p.name} ${p.description}`.toLowerCase().includes(prodFilter.kw)) return false;
+      return true;
+    });
+
+    if (!list.length) {
+      tbody.innerHTML = `<tr><td class="t-empty" colspan="5"><div class="big"></div>${PRODUCTS.length ? 'Không khớp bộ lọc' : 'Chưa có sản phẩm — bấm “Nạp dữ liệu mẫu” hoặc “Thêm sản phẩm”'}</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = list.map(p => `
+      <tr>
+        <td>
+          <div class="prod-cell">
+            <img class="mini-thumb" src="${imgOf(p)}" alt="" loading="lazy" onerror="this.src='${PLACEHOLDER_IMG}'" />
+            <div class="meta">
+              <div class="nm">${esc(p.name)}</div>
+              <div class="sub">#${esc(p.id)} · ${p.updatedAt ? 'cập nhật ' + dstr(p.updatedAt) : ''}</div>
+            </div>
+          </div>
+        </td>
+        <td>${esc(catName(p.category))}</td>
+        <td class="num"><b>${fmt(p.price)}</b>${p.originalPrice > p.price ? `<div class="sub" style="font-size:.75rem;color:var(--text-soft);text-decoration:line-through">${fmt(p.originalPrice)}</div>` : ''}</td>
+        <td>
+          <label class="switch">
+            <input type="checkbox" ${p.isActive ? 'checked' : ''} data-toggle="${esc(p.id)}" />
+            <span class="track"></span>
+          </label>
+        </td>
+        <td style="text-align:right;white-space:nowrap">
+          <button class="btn btn-ghost btn-sm" data-edit="${esc(p.id)}">Sửa</button>
+          <button class="btn btn-danger btn-sm" data-del="${esc(p.id)}">Xoá</button>
+        </td>
+      </tr>`).join('');
+
+    tbody.querySelectorAll('[data-toggle]').forEach(el =>
+      el.addEventListener('change', () => toggleActive(el.dataset.toggle, el.checked)));
+    tbody.querySelectorAll('[data-edit]').forEach(el =>
+      el.addEventListener('click', () => openProdModal(el.dataset.edit)));
+    tbody.querySelectorAll('[data-del]').forEach(el =>
+      el.addEventListener('click', () => confirmDeleteProduct(el.dataset.del)));
+  }
+
+  async function toggleActive(id, val) {
+    const p = PRODUCTS.find(x => x.id === id);
+    if (!p) return;
+    p.isActive = val;                                  // cập nhật tức thì trên UI
+    renderProducts();
+    const res = await API.updateProduct(id, { ...p, isActive: val });
+    if (res.ok) toast(`"${p.name}" ${val ? 'đang bán' : 'đã ẩn'}`, 'ok');
+    else toast('Đã lưu tại chỗ — sẽ đồng bộ khi có mạng', 'err');
+  }
+
+  /* ── Modal sản phẩm ─────────────────────────── */
+
+  let editingId = null;
+  let pendingImage = '';       // dataURL hoặc URL ảnh mới
+
+  function openProdModal(id = null) {
+    editingId = id;
+    const p = id ? PRODUCTS.find(x => x.id === id) : null;
+    $('#prodModalTitle').textContent = p ? 'Sửa sản phẩm' : 'Thêm sản phẩm';
+    $('#pfId').value = p ? p.id : '';
+    $('#pfName').value = p ? p.name : '';
+    $('#pfCategory').value = p ? p.category : C.categories[0].id;
+    $('#pfPrice').value = p ? p.price : '';
+    $('#pfOriginalPrice').value = p ? (p.originalPrice || '') : '';
+    $('#pfPriceNote').value = p ? (p.priceNote || '') : '';
+    $('#pfDesc').value = p ? (p.description || '') : '';
+    $('#pfSort').value = p ? (p.sortOrder || 0) : (PRODUCTS.length + 1) * 10;
+    $('#pfActive').checked = p ? p.isActive !== false : true;
+    $('#pfImageUrl').value = p ? p.imageUrl : '';
+    pendingImage = p ? p.imageUrl : '';
+    $('#pfPreview').src = imgOf(p);
+    $('#pfUpStatus').className = 'up-status';
+    $('#pfUpStatus').textContent = 'Ảnh được nén và tải lên CDN; nếu mất mạng sẽ lưu base64 tại chỗ.';
+
+    $('#prodMask').classList.add('show');
+    $('#prodModal').classList.add('show');
+    setTimeout(() => $('#pfName').focus(), 120);
+  }
+
+  function closeProdModal() {
+    $('#prodMask').classList.remove('show');
+    $('#prodModal').classList.remove('show');
+  }
+
+  async function handleImageFile(file) {
+    if (!file || !file.type.startsWith('image/')) { toast('File không phải ảnh', 'err'); return; }
+    const status = $('#pfUpStatus');
+    status.className = 'up-status uploading';
+    status.textContent = '⏳ Đang nén & tải ảnh lên CDN…';
+
+    const dataUrl = await new Promise((res, rej) => {
+      const fr = new FileReader();
+      fr.onload = () => res(fr.result);
+      fr.onerror = rej;
+      fr.readAsDataURL(file);
+    });
+
+    try {
+      const url = await API.uploadImage(dataUrl);
+      pendingImage = url;
+      $('#pfImageUrl').value = url;
+      $('#pfPreview').src = url;
+      status.className = 'up-status';
+      status.textContent = '✅ Đã tải ảnh lên CDN.';
+    } catch (e) {
+      // Fallback: giữ ảnh base64 ngay trong dữ liệu
+      pendingImage = dataUrl;
+      $('#pfImageUrl').value = '';
+      $('#pfPreview').src = dataUrl;
+      status.className = 'up-status uploading';
+      status.textContent = 'Không upload được CDN — ảnh sẽ lưu kèm sản phẩm (base64).';
+    }
+  }
+
+  async function saveProduct(e) {
+    e.preventDefault();
+    const name = $('#pfName').value.trim();
+    const category = $('#pfCategory').value;
+    const price = Number($('#pfPrice').value) || 0;
+    if (!name) { toast('Vui lòng nhập tên sản phẩm', 'err'); return; }
+    if (price <= 0) { toast('Giá bán phải lớn hơn 0', 'err'); return; }
+
+    const data = {
+      name, category, price,
+      originalPrice: Number($('#pfOriginalPrice').value) || 0,
+      priceNote: $('#pfPriceNote').value.trim(),
+      imageUrl: ($('#pfImageUrl').value.trim() || pendingImage || '').trim(),
+      description: $('#pfDesc').value.trim(),
+      sortOrder: Number($('#pfSort').value) || 0,
+      isActive: $('#pfActive').checked,
+    };
+
+    const btn = e.submitter || $('#prodForm button[type=submit]');
+    btn.disabled = true; btn.textContent = 'Đang lưu…';
+
+    let res;
+    if (editingId) {
+      res = await API.updateProduct(editingId, data);
+      if (res.ok || res.queued) {
+        const p = PRODUCTS.find(x => x.id === editingId);
+        if (p) Object.assign(p, data);
+      }
+    } else {
+      res = await API.createProduct(data);
+      const newId = (res.data && res.data.id) || `local_${Date.now()}`;
+      PRODUCTS.push({ id: newId, ...data, updatedAt: new Date().toISOString() });
+    }
+
+    btn.disabled = false; btn.textContent = ' Lưu sản phẩm';
+
+    if (res.ok) toast(editingId ? 'Đã cập nhật sản phẩm' : 'Đã thêm sản phẩm mới', 'ok');
+    else if (res.queued) toast('Lưu tại chỗ — sẽ đồng bộ khi có mạng', 'err');
+    else { toast(res.error || 'Lưu thất bại', 'err'); return; }
+
+    closeProdModal();
+    renderProducts();
+  }
+
+  async function seedSampleProducts() {
+    const samples = window.CAFE_SAMPLES || [];
+    if (!samples.length) return;
+    if (!confirm(`Nạp ${samples.length} sản phẩm mẫu lên cửa hàng? (Sản phẩm hiện có sẽ được giữ nguyên)`)) return;
+    let ok = 0;
+    for (const s of samples) {
+      const res = await API.createProduct(s);
+      if (res.ok || res.queued) { ok++; PRODUCTS.push({ id: (res.data && res.data.id) || `local_${Date.now()}_${Math.random().toString(36).slice(2,6)}`, ...s }); }
+    }
+    toast(`Đã nạp ${ok}/${samples.length} sản phẩm mẫu`, 'ok');
+    renderProducts();
+  }
+
+  /* ── Xác nhận xoá ───────────────────────────── */
+
+  let confirmAction = null;
+
+  function askConfirm(title, text, fn) {
+    $('#confirmTitle').textContent = title;
+    $('#confirmText').textContent = text;
+    $('#confirmYes').textContent = 'Xoá';
+    confirmAction = fn;
+    $('#confirmMask').classList.add('show');
+    $('#confirmModal').classList.add('show');
+  }
+
+  function closeConfirm() {
+    $('#confirmMask').classList.remove('show');
+    $('#confirmModal').classList.remove('show');
+    confirmAction = null;
+  }
+
+  function confirmDeleteProduct(id) {
+    const p = PRODUCTS.find(x => x.id === id);
+    if (!p) return;
+    askConfirm('Xoá sản phẩm?', `Bạn có chắc muốn xoá "${p.name}"? Thao tác không thể hoàn tác.`, async () => {
+      PRODUCTS = PRODUCTS.filter(x => x.id !== id);      // optimistic
+      renderProducts();
+      const res = await API.deleteProduct(id);
+      if (res.ok) toast('Đã xoá sản phẩm', 'ok');
+      else toast('Đã xoá tại chỗ — sẽ đồng bộ khi có mạng', 'err');
+    });
+  }
+
+  /* ═════════════════ ĐƠN HÀNG ═════════════════ */
+
+  let orderFilter = { status: 'all', kw: '' };
+
+  function renderOrders() {
+    const tbody = $('#orderTbody');
+    const list = ORDERS.filter(o => {
+      if (orderFilter.status !== 'all' && o.status !== orderFilter.status) return false;
+      if (orderFilter.kw) {
+        const hay = `${o.id} ${o.customerName} ${o.phone} ${o.address || ''}`.toLowerCase();
+        if (!hay.includes(orderFilter.kw)) return false;
+      }
+      return true;
+    }).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    $('#orderCountLabel').textContent = `${list.length}/${ORDERS.length} đơn`;
+
+    if (!list.length) {
+      tbody.innerHTML = `<tr><td class="t-empty" colspan="8"><div class="big"></div>${ORDERS.length ? 'Không khớp bộ lọc' : 'Chưa có đơn hàng nào — đơn từ website sẽ hiện ở đây'}</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = list.map(o => {
+      const st = statusObj(o.status);
+      const itemNames = (o.items || []).map(i => `${i.qty}× ${i.name}`).join(', ');
+      return `
+      <tr>
+        <td style="font-size:.8rem;font-weight:600;color:var(--caramel)">${esc(o.id)}</td>
+        <td>
+          <div style="font-weight:600;font-size:.88rem">${esc(o.customerName)}</div>
+          <div style="font-size:.75rem;color:var(--text-soft)">${esc(o.phone)}</div>
+        </td>
+        <td style="max-width:220px;font-size:.82rem;color:var(--text-soft)">${esc(itemNames || '—')}</td>
+        <td class="num"><b>${fmt(o.total)}</b></td>
+        <td style="font-size:.8rem">${esc(payName(o.paymentMethod))}</td>
+        <td>
+          <select data-status="${esc(o.id)}" style="padding:6px 10px;border-radius:9px;border:1.5px solid var(--border);background:var(--milk);font-size:.8rem;outline:none;color:${st.color};font-weight:600">
+            ${C.orderStatuses.map(s => `<option value="${s.id}" ${s.id === o.status ? 'selected' : ''}>${s.name}</option>`).join('')}
+          </select>
+        </td>
+        <td style="font-size:.8rem;color:var(--text-soft);white-space:nowrap">${dstr(o.createdAt)}</td>
+        <td style="text-align:right;white-space:nowrap">
+          <button class="btn btn-ghost btn-sm" data-view="${esc(o.id)}">Xem</button>
+          <button class="btn btn-danger btn-sm" data-odel="${esc(o.id)}">Xoá</button>
+        </td>
+      </tr>`;
+    }).join('');
+
+    tbody.querySelectorAll('[data-status]').forEach(sel =>
+      sel.addEventListener('change', () => changeOrderStatus(sel.dataset.status, sel.value)));
+    tbody.querySelectorAll('[data-view]').forEach(el =>
+      el.addEventListener('click', () => openOrderModal(el.dataset.view)));
+    tbody.querySelectorAll('[data-odel]').forEach(el =>
+      el.addEventListener('click', () => confirmDeleteOrder(el.dataset.odel)));
+  }
+
+  async function changeOrderStatus(id, status) {
+    const o = ORDERS.find(x => x.id === id);
+    if (!o) return;
+    const old = o.status;
+    o.status = status; o.updatedAt = new Date().toISOString();   // optimistic
+    renderOrders(); renderDashboard();
+    const res = await API.updateOrderStatus(id, status);
+    if (res.ok) toast(`Đơn ${id} → ${statusObj(status).name}`, 'ok');
+    else toast('Đã lưu tại chỗ — sẽ đồng bộ khi có mạng', 'err');
+    if (old === 'pending') renderDashboard();
+  }
+
+  function openOrderModal(id) {
+    const o = ORDERS.find(x => x.id === id);
+    if (!o) return;
+    const st = statusObj(o.status);
+    $('#orderModalTitle').textContent = `Đơn ${o.id}`;
+    $('#orderModalBody').innerHTML = `
+      <dl class="kv" style="margin-bottom:14px">
+        <dt>Khách hàng</dt><dd>${esc(o.customerName)} · ${esc(o.phone)}</dd>
+        <dt>Email</dt><dd>${esc(o.email) || '—'}</dd>
+        <dt>Địa chỉ</dt><dd>${esc(o.address) || '—'}</dd>
+        <dt>Thanh toán</dt><dd>${esc(payName(o.paymentMethod))}</dd>
+        <dt>Ghi chú</dt><dd>${esc(o.note) || '—'}</dd>
+        <dt>Ngày đặt</dt><dd>${dstr(o.createdAt)}</dd>
+        <dt>Trạng thái</dt><dd><span class="badge-st st-${esc(o.status)}">${st.name}</span></dd>
+      </dl>
+      <div style="font-size:.82rem;font-weight:700;color:var(--coffee-dark);margin:14px 0 2px">Sản phẩm trong đơn</div>
+      <ul class="order-items">
+        ${(o.items || []).map(i => `<li><span>${i.qty}× ${esc(i.name)}</span><b>${fmt((i.price || 0) * i.qty)}</b></li>`).join('') || '<li>—</li>'}
+        <li style="font-weight:700;color:var(--coffee)"><span>Tổng cộng</span><span>${fmt(o.total)}</span></li>
+      </ul>
+      <div style="display:flex;gap:10px;margin-top:18px">
+        <select id="omStatus" style="flex:1;padding:10px 12px;border-radius:11px;border:1.5px solid var(--border);background:var(--milk);outline:none">
+          ${C.orderStatuses.map(s => `<option value="${s.id}" ${s.id === o.status ? 'selected' : ''}>${s.name}</option>`).join('')}
+        </select>
+        <button class="btn btn-primary" id="omSaveStatus">Cập nhật trạng thái</button>
+      </div>`;
+
+    $('#omSaveStatus').addEventListener('click', async () => {
+      const ns = $('#omStatus').value;
+      closeOrderModal();
+      await changeOrderStatus(id, ns);
+    });
+
+    $('#orderMask').classList.add('show');
+    $('#orderModal').classList.add('show');
+  }
+
+  function closeOrderModal() {
+    $('#orderMask').classList.remove('show');
+    $('#orderModal').classList.remove('show');
+  }
+
+  function confirmDeleteOrder(id) {
+    askConfirm('Xoá đơn hàng?', `Xoá vĩnh viễn đơn ${id}? Thao tác không thể hoàn tác.`, async () => {
+      ORDERS = ORDERS.filter(x => x.id !== id);
+      renderOrders(); renderDashboard();
+      const res = await API.deleteOrder(id);
+      if (res.ok) toast('Đã xoá đơn hàng', 'ok');
+      else toast('Đã xoá tại chỗ — sẽ đồng bộ khi có mạng', 'err');
+    });
+  }
+
+  /* ═════════════════ ĐẶT BÀN ═════════════════ */
+
+  const RSV_ST_MAP = { pending: 'pending', confirmed: 'delivering', seated: 'completed', cancelled: 'cancelled' };
+
+  function rsvBadge(st) { return `<span class="badge-st st-${RSV_ST_MAP[st] || 'pending'}">${esc((C.reservationStatuses.find(x => x.id === st) || {}).name || st)}</span>`; }
+
+  function renderUpcomingReservations() {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const in7 = new Date(); in7.setDate(in7.getDate() + 8);
+    const up = RESERVATIONS
+      .filter(r => r.status !== 'cancelled' && r.date >= todayStr && r.date <= in7.toISOString().slice(0, 10))
+      .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)).slice(0, 6);
+    $('#rsvUpcoming').innerHTML = up.length ? up.map(r => `
+      <li>
+        <span class="no"></span>
+        <span class="nm">${esc(r.customerName)} · ${r.guests} khách</span>
+        <span class="qty">${esc(r.date)} ${esc(r.time)}</span>
+      </li>`).join('')
+      : '<li style="justify-content:center;color:var(--text-soft);font-size:.88rem">Không có đặt bàn sắp tới</li>';
+  }
+
+  let rsvFilter = { status: 'all', kw: '' };
+
+  function renderReservations() {
+    const tbody = $('#rsvTbody');
+    const list = RESERVATIONS.filter(r => {
+      if (rsvFilter.status !== 'all' && r.status !== rsvFilter.status) return false;
+      if (rsvFilter.kw) {
+        const hay = `${r.id} ${r.customerName} ${r.phone}`.toLowerCase();
+        if (!hay.includes(rsvFilter.kw)) return false;
+      }
+      return true;
+    }).sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
+
+    $('#rsvCountLabel').textContent = `${list.length}/${RESERVATIONS.length} bàn`;
+
+    if (!list.length) {
+      tbody.innerHTML = `<tr><td class="t-empty" colspan="7"><div class="big"></div>${RESERVATIONS.length ? 'Không khớp bộ lọc' : 'Chưa có đặt bàn nào — form đặt bàn trên website sẽ ghi vào đây'}</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = list.map(r => `
+      <tr>
+        <td style="font-size:.8rem;font-weight:600;color:var(--caramel)">${esc(r.id)}</td>
+        <td>
+          <div style="font-weight:600;font-size:.88rem">${esc(r.customerName)}</div>
+          <div style="font-size:.75rem;color:var(--text-soft)">${esc(r.phone)}${r.email ? ' · ' + esc(r.email) : ''}</div>
+        </td>
+        <td class="num"><b>${esc(r.date)}</b> · ${esc(r.time)}</td>
+        <td class="num">${r.guests} khách</td>
+        <td style="font-size:.8rem;color:var(--text-soft);max-width:170px">${esc(r.tableNote || '—')}${r.note ? `<div style="font-style:italic"> ${esc(r.note)}</div>` : ''}</td>
+        <td>
+          <select data-rsvstatus="${esc(r.id)}" style="padding:6px 10px;border-radius:9px;border:1.5px solid var(--border);background:var(--milk);font-size:.8rem;outline:none;font-weight:600">
+            ${C.reservationStatuses.map(x => `<option value="${x.id}" ${x.id === r.status ? 'selected' : ''}>${x.name}</option>`).join('')}
+          </select>
+        </td>
+        <td style="text-align:right;white-space:nowrap">
+          <button class="btn btn-danger btn-sm" data-rsvdel="${esc(r.id)}">Xoá</button>
+        </td>
+      </tr>`).join('');
+
+    tbody.querySelectorAll('[data-rsvstatus]').forEach(sel =>
+      sel.addEventListener('change', () => changeRsvStatus(sel.dataset.rsvstatus, sel.value)));
+    tbody.querySelectorAll('[data-rsvdel]').forEach(el =>
+      el.addEventListener('click', () => askConfirm('Xoá đặt bàn?', `Xoá vĩnh viễn đặt bàn ${el.dataset.rsvdel}?`, async () => {
+        RESERVATIONS = RESERVATIONS.filter(x => x.id !== el.dataset.rsvdel);
+        renderReservations(); renderDashboard();
+        const res = await API.deleteReservation(el.dataset.rsvdel);
+        toast(res.ok ? 'Đã xoá đặt bàn' : 'Đã xoá tại chỗ — sẽ đồng bộ khi có mạng', res.ok ? 'ok' : 'err');
+      })));
+  }
+
+  async function changeRsvStatus(id, status) {
+    const r = RESERVATIONS.find(x => x.id === id);
+    if (!r) return;
+    r.status = status; r.updatedAt = new Date().toISOString();
+    renderReservations(); renderDashboard();
+    const res = await API.updateReservation(id, { status });
+    toast(res.ok ? `Đặt bàn ${id} → ${statusObj2(status)}` : 'Đã lưu tại chỗ — sẽ đồng bộ khi có mạng', res.ok ? 'ok' : 'err');
+  }
+  function statusObj2(id) { return (C.reservationStatuses.find(s => s.id === id) || {}).name || id; }
+
+  /* ═════════════════ CẢM NHẬN ═════════════════ */
+
+  function renderTestimonials() {
+    const tbody = $('#tstTbody');
+    const list = [...TESTIMONIALS].sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+    if (!list.length) {
+      tbody.innerHTML = `<tr><td class="t-empty" colspan="6"><div class="big"></div>Chưa có cảm nhận nào</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = list.map(t => `
+      <tr>
+        <td>
+          <div style="font-weight:600;font-size:.88rem">${esc(t.name)}</div>
+          <div style="font-size:.75rem;color:var(--text-soft)">${esc(t.role || 'Khách hàng')}</div>
+        </td>
+        <td style="color:#E8A33D;letter-spacing:2px;white-space:nowrap">${'★'.repeat(t.rating)}<span style="color:var(--border)">${'★'.repeat(5 - t.rating)}</span></td>
+        <td style="max-width:300px;font-size:.85rem;color:var(--text-soft)">${esc((t.content || '').slice(0, 140))}${(t.content || '').length > 140 ? '…' : ''}</td>
+        <td style="font-size:.8rem;color:var(--text-soft);white-space:nowrap">${dstr(t.createdAt)}</td>
+        <td>
+          <label class="switch">
+            <input type="checkbox" ${t.isActive ? 'checked' : ''} data-tsttoggle="${esc(t.id)}" />
+            <span class="track"></span>
+          </label>
+        </td>
+        <td style="text-align:right;white-space:nowrap">
+          <button class="btn btn-ghost btn-sm" data-tstedit="${esc(t.id)}">Sửa</button>
+          <button class="btn btn-danger btn-sm" data-tstdel="${esc(t.id)}">Xoá</button>
+        </td>
+      </tr>`).join('');
+
+    tbody.querySelectorAll('[data-tsttoggle]').forEach(el =>
+      el.addEventListener('change', async () => {
+        const t = TESTIMONIALS.find(x => x.id === el.dataset.tsttoggle);
+        if (!t) return;
+        t.isActive = el.checked;
+        renderTestimonials(); renderDashboard();
+        const res = await API.updateTestimonial(t.id, { isActive: t.isActive });
+        toast(res.ok ? (t.isActive ? 'Đã duyệt hiển thị' : 'Đã ẩn cảm nhận') : 'Đã lưu tại chỗ', res.ok ? 'ok' : 'err');
+      }));
+    tbody.querySelectorAll('[data-tstedit]').forEach(el =>
+      el.addEventListener('click', () => openTstModal(el.dataset.tstedit)));
+    tbody.querySelectorAll('[data-tstdel]').forEach(el =>
+      el.addEventListener('click', () => askConfirm('Xoá cảm nhận?', `Xoá cảm nhận của "${(TESTIMONIALS.find(x => x.id === el.dataset.tstdel) || {}).name || ''}"?`, async () => {
+        TESTIMONIALS = TESTIMONIALS.filter(x => x.id !== el.dataset.tstdel);
+        renderTestimonials(); renderDashboard();
+        const res = await API.deleteTestimonial(el.dataset.tstdel);
+        toast(res.ok ? 'Đã xoá cảm nhận' : 'Đã xoá tại chỗ', res.ok ? 'ok' : 'err');
+      })));
+  }
+
+  function openTstModal(id = null) {
+    const t = id ? TESTIMONIALS.find(x => x.id === id) : null;
+    $('#tstModalTitle').textContent = t ? 'Sửa cảm nhận' : 'Thêm cảm nhận';
+    $('#tfId').value = t ? t.id : '';
+    $('#tfName').value = t ? t.name : '';
+    $('#tfRole').value = t ? (t.role || '') : '';
+    $('#tfRating').value = t ? t.rating : 5;
+    $('#tfContent').value = t ? t.content : '';
+    $('#tstMask').classList.add('show');
+    $('#tstModal').classList.add('show');
+  }
+  function closeTstModal() {
+    $('#tstMask').classList.remove('show');
+    $('#tstModal').classList.remove('show');
+  }
+
+  async function saveTestimonial(e) {
+    e.preventDefault();
+    const name = $('#tfName').value.trim();
+    const content = $('#tfContent').value.trim();
+    if (!name || !content) { toast('Vui lòng nhập tên và nội dung', 'err'); return; }
+    const data = {
+      name, role: $('#tfRole').value.trim(), rating: Number($('#tfRating').value) || 5,
+      content, isActive: true,
+    };
+    const id = $('#tfId').value;
+    if (id) {
+      const t = TESTIMONIALS.find(x => x.id === id);
+      if (t) Object.assign(t, data);
+      await API.updateTestimonial(id, data);
+    } else {
+      TESTIMONIALS.push({ id: 'TS_' + Date.now(), ...data, createdAt: new Date().toISOString() });
+      await API.createTestimonial({ ...data, isActive: true });
+    }
+    toast('Đã lưu cảm nhận', 'ok');
+    closeTstModal();
+    renderTestimonials(); renderDashboard();
+  }
+
+  /* ═════════════════ TIN NHẮN ═════════════════ */
+
+  function renderMessages() {
+    const tbody = $('#msgTbody');
+    const filter = $('#msgFilter').value;
+    const list = MESSAGES.filter(m => filter === 'all' ? true : (filter === 'unread' ? !m.isRead : m.isRead))
+      .sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+    $('#msgCountLabel').textContent = `${list.length}/${MESSAGES.length} tin · ${MESSAGES.filter(m => !m.isRead).length} chưa đọc`;
+    if (!list.length) {
+      tbody.innerHTML = `<tr><td class="t-empty" colspan="6"><div class="big"></div>${MESSAGES.length ? 'Không khớp bộ lọc' : 'Chưa có tin nhắn nào — form liên hệ trên website sẽ ghi vào đây'}</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = list.map(m => `
+      <tr ${m.isRead ? '' : 'style="background:var(--beige-soft)"'}>
+        <td style="font-weight:600;font-size:.88rem">${esc(m.name)}${m.isRead ? '' : ' <span style="font-size:.65rem;background:var(--caramel);color:#fff;padding:2px 8px;border-radius:999px">Mới</span>'}</td>
+        <td style="font-size:.78rem;color:var(--text-soft)">${esc(m.email || '—')}<br />${esc(m.phone || '')}</td>
+        <td style="font-size:.85rem;white-space:nowrap">${esc(m.subject || '—')}</td>
+        <td style="max-width:300px;font-size:.84rem;color:var(--text-soft)">${esc((m.content || '').slice(0, 120))}${(m.content || '').length > 120 ? '…' : ''}</td>
+        <td style="font-size:.8rem;color:var(--text-soft);white-space:nowrap">${dstr(m.createdAt)}</td>
+        <td style="text-align:right;white-space:nowrap">
+          <button class="btn btn-ghost btn-sm" data-msgread="${esc(m.id)}" title="${m.isRead ? 'Đánh dấu chưa đọc' : 'Đánh dấu đã đọc'}">${m.isRead ? '↩' : '✓'}</button>
+          <button class="btn btn-danger btn-sm" data-msgdel="${esc(m.id)}">Xoá</button>
+        </td>
+      </tr>`).join('');
+
+    tbody.querySelectorAll('[data-msgread]').forEach(el =>
+      el.addEventListener('click', async () => {
+        const m = MESSAGES.find(x => x.id === el.dataset.msgread);
+        if (!m) return;
+        m.isRead = !m.isRead;
+        renderMessages(); renderDashboard();
+        await API.updateMessage(m.id, { isRead: m.isRead });
+      }));
+    tbody.querySelectorAll('[data-msgdel]').forEach(el =>
+      el.addEventListener('click', () => askConfirm('Xoá tin nhắn?', `Xoá tin nhắn từ "${(MESSAGES.find(x => x.id === el.dataset.msgdel) || {}).name || ''}"?`, async () => {
+        MESSAGES = MESSAGES.filter(x => x.id !== el.dataset.msgdel);
+        renderMessages(); renderDashboard();
+        const res = await API.deleteMessage(el.dataset.msgdel);
+        toast(res.ok ? 'Đã xoá tin nhắn' : 'Đã xoá tại chỗ', res.ok ? 'ok' : 'err');
+      })));
+  }
+
+  /* ═════════════════ CÀI ĐẶT ═════════════════ */
+
+  function renderSettings() {
+    $('#setGasUrl').value = API.getGasUrl();
+    $('#settingsShopInfo').innerHTML = `
+      <dt>Tên quán</dt><dd>${esc(C.shop.name)}</dd>
+      <dt>Hotline</dt><dd>${esc(C.shop.phone)}</dd>
+      <dt>Email</dt><dd>${esc(C.shop.email)}</dd>
+      <dt>Địa chỉ</dt><dd>${esc(C.shop.address)}</dd>
+      <dt>Giờ mở cửa</dt><dd>${esc(C.shop.hours)} · ${esc(C.shop.workDays)}</dd>`;
+  }
+
+  /* ═════════════════ SỰ KIỆN ═════════════════ */
+
+  function bindEvents() {
+    // Login
+    $('#loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const pwd = $('#loginPwd').value;
+      if (auth.check(pwd)) {
+        auth.login();
+        $('#loginErr').textContent = '';
+        showApp();
+        boot();
+      } else {
+        $('#loginErr').textContent = 'Mật khẩu không đúng — thử lại nhé.';
+        $('#loginPwd').select();
+      }
+    });
+
+    // Sidebar
+    $$('.side-link').forEach(l => l.addEventListener('click', () => goto(l.dataset.page)));
+    $('#linkStorefront').addEventListener('click', () => location.href = 'index.html');
+    $('#logoutBtn').addEventListener('click', () => auth.logout());
+    $('#burger').addEventListener('click', () => { $('#sidebar').classList.add('open'); $('#sidebarMask').classList.add('show'); });
+    $('#sidebarMask').addEventListener('click', () => { $('#sidebar').classList.remove('open'); $('#sidebarMask').classList.remove('show'); });
+
+    // Sync
+    $('#syncNowBtn').addEventListener('click', async () => {
+      toast('Đang làm mới dữ liệu…');
+      await loadAll();
+      goto(currentPage);
+      toast('Đã làm mới', 'ok');
+    });
+
+    // Dashboard link
+    $('#goOrders2').addEventListener('click', (e) => { e.preventDefault(); goto('orders'); });
+
+    // Products
+    $('#addProdBtn').addEventListener('click', () => openProdModal(null));
+    $('#seedBtn').addEventListener('click', seedSampleProducts);
+    $('#prodSearch').addEventListener('input', debounce(e => { prodFilter.kw = e.target.value.trim().toLowerCase(); renderProducts(); }));
+    $('#prodCatFilter').addEventListener('change', e => { prodFilter.cat = e.target.value; renderProducts(); });
+    $('#prodForm').addEventListener('submit', saveProduct);
+    $('#prodModalClose').addEventListener('click', closeProdModal);
+    $('#pfCancel').addEventListener('click', closeProdModal);
+    $('#prodMask').addEventListener('click', closeProdModal);
+    $('#pfFile').addEventListener('change', (e) => handleImageFile(e.target.files[0]));
+    $('#pfImageUrl').addEventListener('change', () => { pendingImage = $('#pfImageUrl').value.trim(); $('#pfPreview').src = imgOf({ imageUrl: pendingImage }); });
+    $('#pfPreview').addEventListener('error', function () { this.src = PLACEHOLDER_IMG; });
+
+    // Orders
+    $('#orderStatusFilter').addEventListener('change', e => { orderFilter.status = e.target.value; renderOrders(); });
+    $('#orderSearch').addEventListener('input', debounce(e => { orderFilter.kw = e.target.value.trim().toLowerCase(); renderOrders(); }));
+    $('#orderModalClose').addEventListener('click', closeOrderModal);
+    $('#orderMask').addEventListener('click', closeOrderModal);
+
+    // Confirm
+    $('#confirmNo').addEventListener('click', closeConfirm);
+    $('#confirmMask').addEventListener('click', closeConfirm);
+    $('#confirmYes').addEventListener('click', async () => {
+      const fn = confirmAction;
+      closeConfirm();
+      if (fn) await fn();
+    });
+
+    // Reservations / Testimonials / Messages
+    $('#rsvStatusFilter').innerHTML = '<option value="all">Tất cả trạng thái</option>' +
+      C.reservationStatuses.map(x => `<option value="${x.id}">${x.name}</option>`).join('');
+    $('#rsvStatusFilter').addEventListener('change', e => { rsvFilter.status = e.target.value; renderReservations(); });
+    $('#rsvSearch').addEventListener('input', debounce(e => { rsvFilter.kw = e.target.value.trim().toLowerCase(); renderReservations(); }));
+    $('#goReservations').addEventListener('click', (e) => { e.preventDefault(); goto('reservations'); });
+
+    $('#addTstBtn').addEventListener('click', () => openTstModal(null));
+    $('#tstForm').addEventListener('submit', saveTestimonial);
+    $('#tstModalClose').addEventListener('click', closeTstModal);
+    $('#tfCancel').addEventListener('click', closeTstModal);
+    $('#tstMask').addEventListener('click', closeTstModal);
+
+    $('#msgFilter').addEventListener('change', renderMessages);
+
+    // Settings
+    $('#savePwdBtn').addEventListener('click', () => {
+      const p1 = $('#setNewPwd').value, p2 = $('#setNewPwd2').value;
+      if (p1.length < 5) { toast('Mật khẩu tối thiểu 5 ký tự', 'err'); return; }
+      if (p1 !== p2) { toast('Hai mật khẩu không khớp', 'err'); return; }
+      auth.set(p1);
+      $('#setNewPwd').value = ''; $('#setNewPwd2').value = '';
+      toast('Đã lưu mật khẩu mới', 'ok');
+    });
+    $('#saveGasBtn').addEventListener('click', () => {
+      const url = $('#setGasUrl').value.trim();
+      if (API.setGasUrl(url)) toast('Đã lưu URL Google Apps Script', 'ok');
+      else toast('URL không hợp lệ — phải kết thúc bằng /exec', 'err');
+    });
+    $('#resetGasBtn').addEventListener('click', () => { API.resetGasUrl(); $('#setGasUrl').value = API.getGasUrl(); toast('Đã khôi phục URL mặc định', 'ok'); });
+    $('#testGasBtn').addEventListener('click', async () => {
+      const btn = $('#testGasBtn');
+      btn.disabled = true; btn.textContent = 'Đang kiểm tra…';
+      try {
+        const res = await API.gasGet('getProducts');
+        btn.disabled = false; btn.textContent = 'Kiểm tra kết nối';
+        if (res && res.success) toast('✅ Kết nối thành công — Google Sheets phản hồi bình thường', 'ok');
+        else toast('Kết nối được nhưng dữ liệu lỗi — kiểm tra Sheet', 'err');
+      } catch (e) {
+        btn.disabled = false; btn.textContent = 'Kiểm tra kết nối';
+        toast('Không kết nối được: ' + (e.message || 'lỗi mạng'), 'err');
+      }
+    });
+
+    // ESC đóng mọi modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      closeProdModal(); closeOrderModal(); closeConfirm(); closeTstModal();
+    });
+  }
+
+  /* ═════════════════ KHỞI TẠO ═════════════════ */
+
+  async function boot() {
+    await loadAll();
+    goto('dashboard');
+
+    // Tự đồng bộ hàng đợi ghi offline
+    if (API.queueInfo() > 0) {
+      const r = await API.flushQueue();
+      if (r.ok > 0) { toast(`Đã đồng bộ ${r.ok} thay đổi lên máy chủ`, 'ok'); await loadAll(); goto('dashboard'); }
+    }
+  }
+
+  function init() {
+    // Điền các select động
+    $('#prodCatFilter').innerHTML = '<option value="all">Tất cả danh mục</option>' +
+      C.categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    $('#pfCategory').innerHTML = C.categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    $('#orderStatusFilter').innerHTML = '<option value="all">Tất cả trạng thái</option>' +
+      C.orderStatuses.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+    $('#defaultPwdHint').textContent = C.admin.defaultPassword;
+    $('#verLabel').textContent = C.version;
+
+    bindEvents();
+
+    if (auth.isLogged()) {
+      showApp();
+      boot();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+</body>
+</html>

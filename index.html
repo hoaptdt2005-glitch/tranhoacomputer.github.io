@@ -1,0 +1,2816 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cà Phê Hòa — Cửa hàng cà phê trực tuyến</title>
+  <meta name="description" content="Cà Phê Hòa — cà phê pha máy, truyền thống và hạt rang mộc. Đặt hàng online, đặt bàn, giao tận nơi." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='52' x='50' text-anchor='middle' font-weight='bold'>CH</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+/* ══════════════════════════════════════════════════════════════════════
+   style.css — CÀ PHÊ HÒA · Giao diện khách hàng (index.html)
+   Tông màu: nâu cà phê · be · trắng sữa — Responsive mobile-first
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --coffee:       #6F4E37;
+  --coffee-dark:  #4B3226;
+  --coffee-deep:  #2E1F16;
+  --caramel:      #B0703C;
+  --beige:        #E9DCCB;
+  --beige-soft:   #F3EADB;
+  --cream:        #FBF7F0;
+  --milk:         #FFFDF8;
+  --text:         #3A2B22;
+  --text-soft:    #7A6A5D;
+  --border:       #E3D5C3;
+  --green:        #2F7D4F;
+  --red:          #C0392B;
+  --shadow:       0 6px 24px rgba(75, 50, 38, .10);
+  --shadow-lg:    0 14px 40px rgba(75, 50, 38, .18);
+  --radius:       16px;
+  --font-head:    'Playfair Display', 'Times New Roman', serif;
+  --font-body:    'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+  --header-h:     68px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; }
+input, select, textarea { font-family: inherit; font-size: 1rem; }
+
+a { color: var(--coffee); text-decoration: none; }
+
+.container { width: min(1180px, 92%); margin-inline: auto; }
+
+h1, h2, h3 { font-family: var(--font-head); color: var(--coffee-dark); line-height: 1.25; }
+
+.section { padding: 56px 0; }
+.section-head { text-align: center; margin: 0 auto 38px; max-width: 640px; }
+.section-head .kicker {
+  display: inline-block; font-size: .8rem; font-weight: 600; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--caramel); margin-bottom: 8px;
+}
+.section-head h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); line-height: 1.25; }
+.section-head p { color: var(--text-soft); margin-top: 6px; font-size: .95rem; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  border: none; border-radius: 999px; padding: 12px 26px;
+  font-size: .95rem; font-weight: 600; transition: all .22s ease;
+}
+.btn-primary { background: var(--coffee); color: var(--milk); box-shadow: var(--shadow); }
+.btn-primary:hover { background: var(--coffee-dark); transform: translateY(-2px); }
+.btn-outline { background: transparent; color: var(--coffee); border: 1.5px solid var(--coffee); }
+.btn-outline:hover { background: var(--coffee); color: var(--milk); }
+.btn-ghost { background: var(--beige-soft); color: var(--coffee-dark); }
+.btn-ghost:hover { background: var(--beige); }
+.btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+/* ── HEADER ──────────────────────────────────────────────────────────── */
+.site-header {
+  position: sticky; top: 0; z-index: 60;
+  height: var(--header-h);
+  background: rgba(251, 247, 240, .92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner { display: flex; align-items: center; justify-content: space-between; height: var(--header-h); gap: 18px; }
+
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .logo {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--coffee); color: var(--milk);
+  display: grid; place-items: center; font-size: .85rem; font-weight: 700; letter-spacing: .04em;
+  box-shadow: var(--shadow);
+}
+.brand .name { font-family: var(--font-head); font-weight: 700; font-size: 1.2rem; color: var(--coffee-dark); line-height: 1.1; }
+.brand .name small { display: block; font-family: var(--font-body); font-size: .68rem; font-weight: 500; color: var(--text-soft); letter-spacing: .08em; }
+
+.main-nav { display: flex; gap: 26px; }
+.main-nav a { font-size: .93rem; font-weight: 500; color: var(--text); padding: 6px 2px; border-bottom: 2px solid transparent; transition: .2s; }
+.main-nav a:hover { color: var(--coffee); border-color: var(--caramel); }
+
+.header-actions { display: flex; align-items: center; gap: 10px; }
+
+.cart-btn {
+  position: relative; display: inline-flex; align-items: center; gap: 9px;
+  background: var(--coffee); color: var(--milk); border: none;
+  border-radius: 999px; padding: 10px 18px; font-size: .9rem; font-weight: 600;
+  transition: background .2s;
+}
+.cart-btn:hover { background: var(--coffee-dark); }
+.cart-btn .badge {
+  position: absolute; top: -7px; right: -5px; min-width: 21px; height: 21px;
+  border-radius: 999px; background: var(--caramel); color: #fff;
+  font-size: .7rem; font-weight: 700; display: grid; place-items: center; padding: 0 5px;
+  border: 2px solid var(--cream);
+}
+
+.menu-toggle { display: none; background: none; border: none; font-size: .85rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--coffee-dark); }
+
+/* ── HERO BANNER ─────────────────────────────────────────────────────── */
+.hero { position: relative; overflow: hidden; background: var(--coffee-deep); }
+.hero img.banner { width: 100%; height: clamp(380px, 58vh, 560px); object-fit: cover; opacity: .85; }
+.hero .overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(46,31,22,.15) 0%, rgba(46,31,22,.72) 100%);
+  display: flex; align-items: flex-end;
+}
+.hero-content { width: min(1180px, 92%); margin-inline: auto; padding-bottom: clamp(40px, 7vw, 72px); color: var(--milk); }
+.hero-content .kicker { font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; color: var(--beige); font-weight: 600; margin-bottom: 12px; }
+.hero-content h1 { color: #fff; font-size: clamp(1.9rem, 5vw, 3.1rem); max-width: 18ch; margin: 0 auto; text-shadow: 0 2px 14px rgba(0,0,0,.35); }
+.hero-content p { max-width: 52ch; margin: 14px auto 26px; color: var(--beige-soft); font-size: .98rem; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.hero-actions .btn-primary { background: var(--caramel); }
+.hero-actions .btn-primary:hover { background: #96582C; }
+.hero-actions .btn-outline { color: #fff; border-color: rgba(255,255,255,.65); }
+.hero-actions .btn-outline:hover { background: #fff; color: var(--coffee-dark); }
+
+.hero-badges { display: flex; gap: 12px 26px; margin-top: 30px; flex-wrap: wrap; justify-content: center; }
+.hero-badges span { display: inline-flex; align-items: center; gap: 7px; font-size: .82rem; color: var(--beige); }
+
+/* ── DANH MỤC ────────────────────────────────────────────────────────── */
+.cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.cat-card {
+  background: var(--milk); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 28px 24px; text-align: center; transition: all .25s ease; cursor: pointer;
+}
+.cat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--caramel); }
+.cat-card h3 { font-size: 1.12rem; margin-bottom: 8px; padding-bottom: 14px; border-bottom: 2px solid var(--beige-soft); }
+.cat-card p { font-size: .84rem; color: var(--text-soft); }
+.cat-card .go { display: inline-block; margin-top: 12px; font-size: .85rem; font-weight: 600; color: var(--caramel); }
+
+/* ── BÁN CHẠY ─────────────────────────────────────────────────────────── */
+.best-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 22px; }
+
+/* ── MENU + BỘ LỌC ───────────────────────────────────────────────────── */
+.menu-toolbar {
+  background: var(--milk); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+  box-shadow: var(--shadow); margin-bottom: 28px;
+}
+.search-box { position: relative; flex: 1 1 240px; }
+.search-box input {
+  width: 100%; padding: 12px 16px; border-radius: 999px;
+  border: 1.5px solid var(--border); background: var(--cream); font-size: .92rem;
+  transition: border .2s; outline: none; color: var(--text);
+}
+.search-box input:focus { border-color: var(--caramel); }
+
+.toolbar-select { padding: 11px 14px; border-radius: 999px; border: 1.5px solid var(--border); background: var(--cream); font-size: .9rem; color: var(--text); outline: none; cursor: pointer; }
+
+.cat-tabs { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 26px; }
+.cat-tab {
+  padding: 9px 20px; border-radius: 999px; border: 1.5px solid var(--border);
+  background: var(--milk); color: var(--text); font-size: .88rem; font-weight: 500; transition: .2s;
+}
+.cat-tab:hover { border-color: var(--caramel); color: var(--caramel); }
+.cat-tab.active { background: var(--coffee); border-color: var(--coffee); color: var(--milk); }
+
+/* ── CARD SẢN PHẨM ───────────────────────────────────────────────────── */
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 22px; }
+
+.product-card {
+  background: var(--milk); border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; display: flex; flex-direction: column;
+  transition: all .25s ease; animation: cardIn .35s ease both;
+}
+.product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.product-card .thumb { position: relative; aspect-ratio: 1/1; background: var(--beige-soft); overflow: hidden; }
+.product-card .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.product-card:hover .thumb img { transform: scale(1.06); }
+.product-card .tags { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; }
+.tag { font-size: .68rem; font-weight: 700; padding: 4px 11px; border-radius: 999px; background: rgba(255,253,248,.92); color: var(--coffee-dark); backdrop-filter: blur(4px); }
+.tag.hot { background: var(--caramel); color: #fff; }
+.tag.sale { background: var(--red); color: #fff; }
+
+.product-card .info { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.product-card .cat-label { font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--caramel); }
+.product-card h3 { font-size: 1.05rem; font-family: var(--font-body); font-weight: 600; }
+.product-card .desc { font-size: .83rem; color: var(--text-soft); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
+
+.price-row { display: flex; align-items: baseline; gap: 8px; }
+.price { font-size: 1.06rem; font-weight: 700; color: var(--coffee); }
+.price-old { font-size: .82rem; color: var(--text-soft); text-decoration: line-through; }
+
+.add-cart {
+  margin-top: 6px; width: 100%; padding: 11px; border-radius: 999px; border: none;
+  background: var(--beige-soft); color: var(--coffee-dark); font-weight: 600; font-size: .9rem;
+  transition: .2s;
+}
+.add-cart:hover { background: var(--coffee); color: var(--milk); }
+.add-cart.added { background: var(--green); color: #fff; }
+
+.empty-state { text-align: center; padding: 60px 20px; color: var(--text-soft); }
+.empty-state .big { font-size: 3rem; margin-bottom: 10px; }
+
+/* ── GIỎ HÀNG (DRAWER) ────────────────────────────────────────────────── */
+.drawer-mask, .modal-mask {
+  position: fixed; inset: 0; background: rgba(46, 31, 22, .55);
+  opacity: 0; pointer-events: none; transition: opacity .28s ease; z-index: 80;
+  backdrop-filter: blur(2px);
+}
+.drawer-mask.show, .modal-mask.show { opacity: 1; pointer-events: auto; }
+
+.cart-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100vw);
+  background: var(--cream); z-index: 90; display: flex; flex-direction: column;
+  transform: translateX(105%); transition: transform .3s cubic-bezier(.3, .8, .35, 1);
+  box-shadow: var(--shadow-lg);
+}
+.cart-drawer.show { transform: translateX(0); }
+
+.cart-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; border-bottom: 1px solid var(--border); background: var(--milk); }
+.cart-head h3 { font-size: 1.1rem; }
+.cart-head .close { background: none; border: none; font-size: 1.4rem; color: var(--text-soft); line-height: 1; }
+.cart-count-chip { font-size: .75rem; color: var(--text-soft); }
+
+.cart-items { flex: 1; overflow-y: auto; padding: 16px 22px; display: flex; flex-direction: column; gap: 14px; }
+.cart-item { display: flex; gap: 13px; background: var(--milk); border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
+.cart-item img { width: 64px; height: 64px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+.cart-item .meta { flex: 1; min-width: 0; }
+.cart-item .meta h4 { font-size: .9rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cart-item .meta .p { font-size: .85rem; font-weight: 600; color: var(--coffee); margin-top: 2px; }
+.qty-controls { display: inline-flex; align-items: center; gap: 10px; margin-top: 8px; }
+.qty-controls button {
+  width: 27px; height: 27px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--cream); font-size: 1rem; color: var(--coffee-dark); line-height: 1;
+}
+.qty-controls button:hover { border-color: var(--caramel); color: var(--caramel); }
+.qty-controls span { font-size: .88rem; font-weight: 600; min-width: 18px; text-align: center; }
+.cart-item .rm { background: none; border: none; color: var(--text-soft); font-size: .95rem; align-self: flex-start; padding: 2px; }
+.cart-item .rm:hover { color: var(--red); }
+
+.cart-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--text-soft); }
+.cart-empty .big { font-size: 3rem; }
+
+.cart-foot { border-top: 1px solid var(--border); background: var(--milk); padding: 18px 22px; }
+.total-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+.total-row .label { font-size: .9rem; color: var(--text-soft); }
+.total-row .value { font-size: 1.35rem; font-weight: 700; color: var(--coffee); }
+.cart-foot .btn { width: 100%; }
+.cart-foot .note { text-align: center; font-size: .75rem; color: var(--text-soft); margin-top: 10px; }
+
+/* ── MODAL (checkout / chi tiết) ──────────────────────────────────────── */
+.modal {
+  position: fixed; z-index: 95; inset: 0; display: grid; place-items: center; padding: 20px;
+  opacity: 0; pointer-events: none; transition: opacity .25s ease;
+}
+.modal.show { opacity: 1; pointer-events: auto; }
+.modal .box {
+  width: min(560px, 100%); max-height: 88vh; overflow-y: auto;
+  background: var(--cream); border-radius: 20px; box-shadow: var(--shadow-lg);
+  transform: translateY(18px) scale(.98); transition: transform .28s ease;
+}
+.modal.show .box { transform: none; }
+
+.modal-head { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px 0; }
+.modal-head h3 { font-size: 1.25rem; }
+.modal-head .close { background: none; border: none; font-size: 1.4rem; color: var(--text-soft); }
+.modal-body { padding: 20px 24px 26px; }
+
+/* ── FORM ────────────────────────────────────────────────────────────── */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-field.full { grid-column: 1 / -1; }
+.form-field label { font-size: .82rem; font-weight: 600; color: var(--coffee-dark); }
+.form-field label .req { color: var(--red); }
+.form-field input, .form-field select, .form-field textarea {
+  padding: 11px 14px; border-radius: 12px; border: 1.5px solid var(--border);
+  background: var(--milk); font-size: .92rem; color: var(--text); outline: none; transition: border .2s;
+}
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--caramel); }
+.form-field textarea { resize: vertical; min-height: 70px; }
+
+.pay-group { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+.pay-option {
+  display: flex; gap: 12px; align-items: flex-start; padding: 13px 15px;
+  border: 1.5px solid var(--border); border-radius: 13px; background: var(--milk);
+  cursor: pointer; transition: all .2s;
+}
+.pay-option:hover { border-color: var(--caramel); }
+.pay-option.selected { border-color: var(--coffee); background: var(--beige-soft); box-shadow: inset 0 0 0 1px var(--coffee); }
+.pay-option input { margin-top: 4px; accent-color: var(--coffee); }
+.pay-option .t { font-size: .9rem; font-weight: 600; color: var(--coffee-dark); }
+.pay-option .d { font-size: .78rem; color: var(--text-soft); margin-top: 1px; }
+
+.order-summary { background: var(--milk); border: 1px solid var(--border); border-radius: 13px; padding: 14px 16px; margin: 16px 0; }
+.order-summary .line { display: flex; justify-content: space-between; font-size: .87rem; padding: 3px 0; color: var(--text-soft); }
+.order-summary .line b { color: var(--text); }
+.order-summary .grand { display: flex; justify-content: space-between; margin-top: 8px; padding-top: 10px; border-top: 1px dashed var(--border); font-weight: 700; color: var(--coffee); font-size: 1.05rem; }
+
+.form-actions { display: flex; gap: 10px; margin-top: 20px; }
+.form-actions .btn { flex: 1; }
+
+/* ── THÔNG BÁO TOAST ─────────────────────────────────────────────────── */
+.toast-wrap { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 120; display: flex; flex-direction: column; gap: 9px; align-items: center; width: min(92vw, 420px); }
+.toast {
+  background: var(--coffee-dark); color: var(--milk); padding: 12px 20px; border-radius: 999px;
+  font-size: .87rem; box-shadow: var(--shadow-lg); animation: toastIn .3s ease both; max-width: 100%; text-align: center;
+}
+.toast.ok { background: var(--green); }
+.toast.err { background: var(--red); }
+@keyframes toastIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* ── SUCCESS ORDER ────────────────────────────────────────────────────── */
+.success-box { text-align: center; padding: 14px 6px 6px; }
+.success-box .big { font-size: 3.4rem; }
+.success-box h3 { font-size: 1.4rem; margin: 8px 0 6px; }
+.success-box p { color: var(--text-soft); font-size: .92rem; }
+.success-box .code {
+  display: inline-block; margin: 14px 0; padding: 10px 22px; border-radius: 12px;
+  background: var(--beige-soft); border: 1px dashed var(--caramel);
+  font-weight: 700; color: var(--coffee-dark); letter-spacing: .04em;
+}
+
+/* ── GIỚI THIỆU / LIÊN HỆ ────────────────────────────────────────────── */
+.about-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
+.about-grid .img-box { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); }
+.about-grid h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 14px; }
+.about-grid p { color: var(--text-soft); margin-bottom: 12px; font-size: .95rem; }
+
+.contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.contact-card { background: var(--milk); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; text-align: center; box-shadow: var(--shadow); }
+.contact-card h4 { font-size: 1rem; margin-bottom: 4px; color: var(--coffee-dark); }
+.contact-card p { font-size: .87rem; color: var(--text-soft); word-break: break-word; }
+
+/* ── FOOTER ───────────────────────────────────────────────────────────── */
+.site-footer { background: var(--coffee-deep); color: var(--beige-soft); padding: 46px 0 24px; margin-top: 40px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 34px; padding-bottom: 28px; border-bottom: 1px solid rgba(233, 220, 203, .15); }
+.footer-grid h4 { color: var(--beige); font-size: 1rem; margin-bottom: 12px; font-family: var(--font-head); }
+.footer-grid p, .footer-grid a { font-size: .87rem; color: rgba(233, 220, 203, .75); }
+.footer-grid a:hover { color: var(--beige); }
+.footer-grid ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.footer-brand .logo { width: 38px; height: 38px; border-radius: 50%; background: var(--caramel); display: grid; place-items: center; }
+.footer-brand .name { font-family: var(--font-head); font-weight: 700; color: #fff; }
+.footer-brand .logo { color: var(--milk); font-size: .85rem; font-weight: 700; letter-spacing: .04em; }
+.footer-bottom { text-align: center; padding-top: 20px; font-size: .78rem; color: rgba(233, 220, 203, .5); }
+
+/* ── FAB giỏ hàng mobile ─────────────────────────────────────────────── */
+.cart-fab {
+  display: none; position: fixed; right: 18px; bottom: 18px; z-index: 70;
+  min-width: 58px; height: 52px; padding: 0 20px; border-radius: 999px; border: none;
+  background: var(--coffee); color: var(--milk); font-size: .9rem; font-weight: 600;
+  display: none; align-items: center; gap: 8px; cursor: pointer;
+  box-shadow: var(--shadow-lg);
+}
+.cart-fab.show { display: inline-flex; }
+.cart-fab .badge {
+  position: absolute; top: -3px; right: -3px; min-width: 21px; height: 21px; padding: 0 5px;
+  border-radius: 999px; background: var(--caramel); color: #fff; font-size: .7rem; font-weight: 700;
+  display: grid; place-items: center; border: 2px solid var(--cream);
+}
+
+/* ── LOADER ───────────────────────────────────────────────────────────── */
+.loader { text-align: center; padding: 50px 0; color: var(--text-soft); }
+.loader .spin {
+  width: 38px; height: 38px; margin: 0 auto 12px; border-radius: 50%;
+  border: 3.5px solid var(--beige); border-top-color: var(--coffee);
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ═════════════════ RESPONSIVE ═════════════════ */
+
+@media (max-width: 900px) {
+  .cat-grid { grid-template-columns: 1fr; max-width: 460px; margin-inline: auto; }
+  .about-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; }
+  .footer-grid { grid-template-columns: 1fr; gap: 22px; }
+}
+
+@media (max-width: 768px) {
+  .menu-toggle { display: block; }
+  .main-nav {
+    position: fixed; top: var(--header-h); left: 0; right: 0; z-index: 55;
+    background: var(--milk); border-bottom: 1px solid var(--border);
+    flex-direction: column; padding: 14px 5%;
+    transform: translateY(-130%); transition: transform .28s ease;
+    box-shadow: var(--shadow);
+  }
+  .main-nav.open { transform: none; }
+  .cart-btn .txt { display: none; }
+  .cart-btn { padding: 10px 14px; }
+
+  .form-grid { grid-template-columns: 1fr; }
+  .hero-content h1 { max-width: 100%; }
+  .hero-badges { gap: 12px; }
+}
+
+@media (max-width: 520px) {
+  .section { padding: 40px 0; }
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .best-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .product-card .info { padding: 12px 12px 14px; }
+  .product-card h3 { font-size: .9rem; }
+  .product-card .desc { display: none; }
+  .price { font-size: .95rem; }
+  .menu-toolbar { gap: 10px; }
+  .toolbar-select { flex: 1; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   v2.0 — Bổ sung cho các trang mới (tham chiếu cấu trúc template Koppee)
+   Menu · About · Service · Reservation · Testimonial · Contact
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Nav active ────────────────────────────────────────────────────────── */
+.main-nav a.active { color: var(--coffee); border-color: var(--caramel); font-weight: 600; }
+
+/* ── HERO CAROUSEL (tự viết, không Bootstrap) ─────────────────────────── */
+.hero-carousel { position: relative; overflow: hidden; background: var(--coffee-deep); }
+.hero-carousel .slides { position: relative; height: clamp(400px, 62vh, 580px); }
+.hero-carousel .slide {
+  position: absolute; inset: 0; opacity: 0; transition: opacity .7s ease;
+  pointer-events: none;
+}
+.hero-carousel .slide.active { opacity: 1; pointer-events: auto; }
+.hero-carousel .slide img.banner { width: 100%; height: 100%; object-fit: cover; }
+.hero-carousel .slide .overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(46,31,22,.18) 0%, rgba(46,31,22,.74) 100%);
+  display: flex; align-items: flex-end;
+}
+.hero-carousel .slide .hero-content { width: min(1180px, 92%); margin-inline: auto; padding-bottom: clamp(40px, 7vw, 76px); color: var(--milk); text-align: center; }
+.hero-carousel .carousel-nav {
+  position: absolute; bottom: 22px; right: max(4%, calc((100% - 1180px)/2));
+  display: flex; gap: 10px; z-index: 5;
+}
+.hero-carousel .carousel-nav button {
+  width: 42px; height: 42px; border-radius: 50%; border: none; cursor: pointer;
+  background: rgba(255,253,248,.85); color: var(--coffee-dark); font-size: 1.1rem;
+  transition: all .2s; display: grid; place-items: center;
+}
+.hero-carousel .carousel-nav button:hover { background: var(--caramel); color: #fff; }
+.hero-carousel .carousel-dots {
+  position: absolute; bottom: 34px; left: max(4%, calc((100% - 1180px)/2)); z-index: 5;
+  display: flex; gap: 8px;
+}
+.hero-carousel .carousel-dots span {
+  width: 10px; height: 10px; border-radius: 50%; background: rgba(255,253,248,.45);
+  cursor: pointer; transition: .2s;
+}
+.hero-carousel .carousel-dots span.active { background: var(--caramel); transform: scale(1.25); }
+
+/* ── PAGE HERO (banner đầu trang con — kiểu Koppee) ────────────────────── */
+.page-hero {
+  position: relative; height: 300px; overflow: hidden;
+  background: var(--coffee-deep);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+}
+.page-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .5; }
+.page-hero .inner { position: relative; z-index: 2; color: var(--milk); padding: 0 18px; }
+.page-hero .crumb { font-size: .82rem; letter-spacing: .16em; text-transform: uppercase; color: var(--beige); font-weight: 600; }
+.page-hero .crumb a { color: var(--beige); text-decoration: underline; text-underline-offset: 3px; }
+.page-hero h1 { color: #fff; font-size: clamp(1.9rem, 5vw, 2.9rem); margin-top: 10px; text-shadow: 0 2px 14px rgba(0,0,0,.35); }
+.page-hero::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(46,31,22,.35), rgba(46,31,22,.62));
+}
+@media (max-width: 520px) { .page-hero { height: 220px; } }
+
+/* ── TEASER 2 CỘT (khối giới thiệu trên index) ─────────────────────────── */
+.teaser { display: grid; grid-template-columns: 1.05fr .95fr; gap: 42px; align-items: center; }
+.teaser .img-box { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); position: relative; }
+.teaser .img-box img { width: 100%; height: 100%; object-fit: cover; }
+.teaser h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 14px; }
+.teaser p { color: var(--text-soft); margin-bottom: 12px; font-size: .95rem; }
+.teaser ul { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 14px 0 20px; }
+.teaser ul li { position: relative; padding-left: 20px; font-size: .93rem; line-height: 1.5; }
+.teaser ul li::before {
+  content: ''; position: absolute; left: 2px; top: .5em;
+  width: 8px; height: 8px; border-radius: 50%; background: var(--caramel);
+}
+@media (max-width: 900px) { .teaser { grid-template-columns: 1fr; } }
+
+/* ── DỊCH VỤ (service.html) ─────────────────────────────────────────────── */
+.service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 22px; }
+.service-card {
+  background: var(--milk); border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; transition: all .25s ease; display: flex; flex-direction: column;
+}
+.service-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--caramel); }
+.service-card .thumb { aspect-ratio: 16/10; overflow: hidden; background: var(--beige-soft); }
+.service-card .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+.service-card:hover .thumb img { transform: scale(1.05); }
+.service-card .body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
+.service-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+.service-card p { font-size: .88rem; color: var(--text-soft); flex: 1; }
+.service-card .go { margin-top: 14px; font-size: .86rem; font-weight: 600; color: var(--caramel); }
+
+/* ── CẢM NHẬN KHÁCH HÀNG (testimonial.html + teaser index) ─────────────── */
+.tst-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
+.tst-card {
+  background: var(--milk); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 26px; position: relative; transition: all .25s; display: flex; flex-direction: column; gap: 14px;
+}
+.tst-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.tst-card .quote {
+  position: absolute; top: 16px; right: 20px; font-family: var(--font-head);
+  font-size: 3.4rem; line-height: 1; color: var(--beige); pointer-events: none;
+}
+.tst-card .stars { color: #E8A33D; font-size: .95rem; letter-spacing: 2px; }
+.tst-card .content { font-size: .92rem; color: var(--text); flex: 1; }
+.tst-card .who { display: flex; align-items: center; gap: 12px; padding-top: 12px; border-top: 1px dashed var(--border); }
+.tst-card .who .avatar {
+  width: 46px; height: 46px; border-radius: 50%; background: var(--coffee);
+  color: var(--milk); display: grid; place-items: center; font-weight: 700; font-size: 1rem; flex-shrink: 0;
+}
+.tst-card .who .nm { font-weight: 600; font-size: .92rem; color: var(--coffee-dark); }
+.tst-card .who .role { font-size: .76rem; color: var(--text-soft); }
+
+.tst-form { max-width: 640px; margin: 0 auto; background: var(--milk); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); }
+.tst-form .star-picker { display: flex; gap: 6px; font-size: 1.5rem; cursor: pointer; user-select: none; }
+.tst-form .star-picker span { color: var(--border); transition: .15s; }
+.tst-form .star-picker span.on { color: #E8A33D; }
+
+/* ── ĐẶT BÀN (reservation.html) ─────────────────────────────────────────── */
+.rsv-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 26px; align-items: start; }
+.rsv-info { background: var(--coffee-deep); color: var(--beige-soft); border-radius: var(--radius); padding: 30px 28px; box-shadow: var(--shadow-lg); }
+.rsv-info h3 { color: var(--beige); font-size: 1.25rem; margin-bottom: 14px; }
+.rsv-info ul { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.rsv-info li { display: block; font-size: .9rem; }
+.rsv-info li b { display: block; color: #fff; font-size: .95rem; margin-bottom: 3px; letter-spacing: .01em; }
+.rsv-info li span { color: rgba(233,220,203,.85); line-height: 1.5; }
+.rsv-info .note-line { margin-top: 20px; padding-top: 16px; border-top: 1px dashed rgba(233,220,203,.25); font-size: .8rem; color: rgba(233,220,203,.65); }
+.rsv-form { background: var(--milk); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); }
+@media (max-width: 860px) { .rsv-grid { grid-template-columns: 1fr; } }
+
+/* ── LIÊN HỆ (contact.html) ──────────────────────────────────────────────── */
+.contact-grid-v2 { display: grid; grid-template-columns: .9fr 1.1fr; gap: 26px; align-items: start; }
+.contact-list { display: flex; flex-direction: column; gap: 14px; }
+.contact-list .item {
+  background: var(--milk);
+  border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: var(--shadow);
+}
+.contact-list .item h4 { font-size: .95rem; color: var(--coffee-dark); margin-bottom: 2px; }
+.contact-list .item p { font-size: .86rem; color: var(--text-soft); word-break: break-word; }
+.map-box { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); background: var(--beige-soft); }
+.map-box iframe { width: 100%; height: 300px; border: 0; display: block; }
+@media (max-width: 860px) { .contact-grid-v2 { grid-template-columns: 1fr; } }
+
+/* ── MỐC SON / ĐỘI NGŨ (about.html) ──────────────────────────────────────── */
+.timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+.milestone { background: var(--milk); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; text-align: center; transition: .25s; }
+.milestone:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--caramel); }
+.milestone .year { font-family: var(--font-head); font-size: 1.7rem; font-weight: 700; color: var(--caramel); }
+.milestone h4 { font-size: .98rem; margin: 6px 0 4px; color: var(--coffee-dark); }
+.milestone p { font-size: .82rem; color: var(--text-soft); }
+
+.team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; }
+.team-card { background: var(--milk); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; text-align: center; transition: .25s; }
+.team-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+.team-card .ph {
+  aspect-ratio: 1/1; background: var(--beige-soft); display: grid; place-items: center; font-size: 3.4rem;
+}
+.team-card .body { padding: 16px 18px 20px; }
+.team-card h4 { font-size: 1rem; color: var(--coffee-dark); }
+.team-card p { font-size: .8rem; color: var(--text-soft); }
+
+.values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+.value-card { background: var(--milk); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px 24px; }
+.value-card h4::after { content: ''; display: block; width: 34px; height: 3px; border-radius: 3px; background: var(--caramel); margin: 10px 0 12px; }
+.value-card h4 { font-size: 1rem; color: var(--coffee-dark); margin-bottom: 6px; }
+.value-card p { font-size: .86rem; color: var(--text-soft); }
+
+/* ═══ SPA (single-file build): 7 trang ảo điều hướng bằng hash ═══ */
+.vpage { display: none; }
+.vpage.active { display: block; animation: vfade .28s ease; }
+@keyframes vfade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }
+
+  </style>
+  <script>
+/**
+ * ══════════════════════════════════════════════════════════════════════
+ *  config.js — CÀ PHÊ HÒA · Nền tảng cà phê trực tuyến
+ *  Cấu hình trung tâm, dùng chung cho mọi trang (khách) & admin.html
+ *  ► Chỉ cần sửa file này khi đổi GAS URL, thông tin cửa hàng, danh mục…
+ *  ► PHẢI được load trước mọi file js/ khác trong <head>
+ * ══════════════════════════════════════════════════════════════════════
+ */
+'use strict';
+
+window.CAFE = {
+
+  /* ── Backend Google Apps Script (cơ sở dữ liệu MỚI, riêng biệt) ───────
+     Backend đi kèm: file Code.gs — tự tạo Google Sheets mới khi deploy.
+     Ghi dữ liệu qua: GET {GAS_URL}?method=POST&body=<encoded JSON>          */
+  GAS_URL: 'https://script.google.com/macros/s/AKfycbyDCaMSu4aeWUzKsKieTNW40Jb2IGcXH5zLNNXmqgo3fCbD5Uf5YQv_ldjZuKmebZHMoA/exec',
+  /* Sau khi deploy Code.gs mới (theo file HUONG-DAN-GAS.md):
+     1. Dán URL /exec mới vào đây, HOẶC
+     2. Vào admin.html → Cài đặt → Kết nối dữ liệu → dán URL mới           */
+
+  /* ── Endpoint upload ảnh lên CDN (Base44 backend function) ─────────── */
+  uploadImageEndpoint: 'https://superagent-47f29609.base44.app/functions/uploadImage',
+
+  /* ── Thông tin cửa hàng ─────────────────────────────────────────────── */
+  shop: {
+    name:    'Cà Phê Hòa',
+    slogan:  'Hương vị đậm đà — Chất lượng trong từng tách',
+    since:   '2015',
+    phone:   '0963.284.044',
+    email:   'thienkim29903@gmail.com',
+    address: 'Phú Thịnh, Đại Từ, Thái Nguyên',
+    hours:   '07:00 – 21:30',
+    workDays:'Thứ 2 – Chủ nhật',
+    mapsUrl: 'https://maps.google.com/?q=Phú+Thịnh,+Đại+Từ,+Thái+Nguyên',
+  },
+
+  /* ── Điều hướng (dùng chung mọi trang) ───────────────────────────────── */
+  nav: [
+    { href: 'index.html',        name: 'Trang chủ' },
+    { href: 'about.html',        name: 'Giới thiệu' },
+    { href: 'service.html',      name: 'Dịch vụ' },
+    { href: 'menu.html',         name: 'Thực đơn' },
+    { href: 'reservation.html',  name: 'Đặt bàn' },
+    { href: 'testimonial.html',  name: 'Cảm nhận' },
+    { href: 'contact.html',      name: 'Liên hệ' },
+  ],
+
+  /* ── Danh mục sản phẩm (cố định theo nghiệp vụ cà phê) ──────────────── */
+  categories: [
+    { id: 'espresso',    name: 'Cà phê pha máy',       desc: 'Espresso, Americano, Latte, Cappuccino…' },
+    { id: 'traditional', name: 'Cà phê truyền thống', desc: 'Phin, cà phê sữa đá, bạc xỉu…' },
+    { id: 'beans',       name: 'Hạt cà phê đóng gói', desc: 'Robusta, Arabica, blend rang mộc' },
+  ],
+
+  /* ── Phương thức thanh toán ─────────────────────────────────────────── */
+  paymentMethods: [
+    { id: 'cod',    name: 'Thanh toán khi nhận hàng', desc: 'Thanh toán bằng tiền mặt khi nhận đơn.' },
+    { id: 'bank',   name: 'Chuyển khoản ngân hàng',   desc: 'Vietcombank · 0123456789 · CÀ PHÊ HÒA (chuyển xong gửi ảnh bill qua Zalo).' },
+    { id: 'wallet', name: 'Ví điện tử / Momo',        desc: 'Momo: 0963284044 — CÀ PHÊ HÒA (ghi nội dung: SĐT + tên).' },
+  ],
+
+  /* ── Trạng thái đơn hàng ────────────────────────────────────────────── */
+  orderStatuses: [
+    { id: 'pending',    name: 'Chờ xác nhận', color: '#b45309' },
+    { id: 'preparing',  name: 'Đang pha chế',  color: '#7c5c3e' },
+    { id: 'delivering', name: 'Đang giao',     color: '#1d4ed8' },
+    { id: 'completed',  name: 'Hoàn thành',   color: '#15803d' },
+    { id: 'cancelled',  name: 'Đã huỷ',      color: '#b91c1c' },
+  ],
+
+  /* ── Trạng thái đặt bàn ─────────────────────────────────────────────── */
+  reservationStatuses: [
+    { id: 'pending',   name: 'Chờ xác nhận', color: '#b45309' },
+    { id: 'confirmed', name: 'Đã xác nhận',  color: '#1d4ed8' },
+    { id: 'seated',    name: 'Đã đến bàn',  color: '#15803d' },
+    { id: 'cancelled', name: 'Đã huỷ',     color: '#b91c1c' },
+  ],
+
+  /* ── Giờ đặt bàn cho phép ───────────────────────────────────────────── */
+  reservationSlots: ['07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00'],
+
+  /* ── Phạm vi giá để lọc (VND) ───────────────────────────────────────── */
+  priceRanges: [
+    { id: 'all',      name: 'Tất cả mức giá', min: 0, max: Infinity },
+    { id: 'under30',  name: 'Dưới 30.000đ', min: 0, max: 30000 },
+    { id: '30to60',   name: '30.000đ – 60.000đ', min: 30000, max: 60000 },
+    { id: 'over60',   name: 'Trên 60.000đ', min: 60000, max: Infinity },
+  ],
+
+  /* ── Gợi ý hương vị để lọc nhanh (khớp theo tên + mô tả) ─────────────── */
+  flavors: [
+    { id: 'all',    name: 'Mọi hương vị' },
+    { id: 'damda',  name: 'Đậm đà',  keywords: ['đậm', 'robusta', 'cường', 'black', 'đen'] },
+    { id: 'nhe',    name: 'Nhẹ / thanh', keywords: ['arabica', 'nhẹ', 'thanh', 'latte', 'bạc xỉu', 'cappuccino'] },
+    { id: 'sua',    name: 'Có sữa',  keywords: ['sữa', 'latte', 'bạc xỉu', 'cappuccino', 'milk'] },
+    { id: 'chua',   name: 'Vị chua trái cây', keywords: ['chua', 'trái cây', 'berry', 'citrus', 'vùng cao'] },
+    { id: 'hatsen', name: 'Hạt dẻ / socola', keywords: ['hạt dẻ', 'socola', 'chocolate', 'cacao'] },
+  ],
+
+  /* ── Quản trị ────────────────────────────────────────────────────────── */
+  admin: {
+    defaultPassword: 'cafe123',       // đổi ngay trong admin → Cài đặt
+    sessionKey: 'cafe_admin_session',
+  },
+
+  version: 'v2.0.0',
+};
+  </script>
+  <script>
+/**
+ * ══════════════════════════════════════════════════════════════════════
+ *  data.js — Dữ liệu mẫu CÀ PHÊ HÒA
+ *  Dùng khi backend chưa có dữ liệu (lần đầu triển khai) hoặc mất kết nối.
+ *  Ảnh mẫu dùng URL CDN công khai — chạy độc lập, không cần file ảnh kèm theo.
+ * ══════════════════════════════════════════════════════════════════════
+ */
+'use strict';
+
+window.CAFE_SAMPLES = [
+  /* ── Cà phê pha máy ─────────────────────────────────────────────── */
+  {
+    id: 'sm-espresso', name: 'Espresso Đậm Đà', category: 'espresso',
+    price: 22000, originalPrice: 0, priceNote: 'Shot đơn',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/547231611_generated_image.png',
+    description: 'Shot espresso chuẩn Ý từ hạt Robusta rang mộc, crema vàng óng, hậu vị đắng đậm đặc trưng.',
+    sortOrder: 1, isActive: true, isBest: true,
+  },
+  {
+    id: 'americano', name: 'Americano Nóng', category: 'espresso',
+    price: 29000, originalPrice: 0, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/547231611_generated_image.png',
+    description: 'Espresso pha loãng với nước nóng, vị cà phê thanh nhẹ, phù hợp nhâm nhi cả buổi.',
+    sortOrder: 2, isActive: true, isBest: false,
+  },
+  {
+    id: 'latte', name: 'Latte Kem Tươi', category: 'espresso',
+    price: 42000, originalPrice: 48000, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/311d51950_generated_image.png',
+    description: 'Espresso hoà quyện sữa tươi béo ngậy, latte art đẹp mắt — lựa chọn số 1 của các bạn trẻ.',
+    sortOrder: 3, isActive: true, isBest: true,
+  },
+  {
+    id: 'cappuccino', name: 'Cappuccino Bông Lớp', category: 'espresso',
+    price: 38000, originalPrice: 0, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/311d51950_generated_image.png',
+    description: 'Tỷ lệ cân bằng espresso – sữa – bọt sữa, nhẹ nhàng, thơm mùi hạt dẻ và socola.',
+    sortOrder: 4, isActive: true, isBest: false,
+  },
+  {
+    id: 'cold-brew', name: 'Cold Brew Trái Cây', category: 'espresso',
+    price: 45000, originalPrice: 0, priceNote: 'Hàng giới hạn',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/18ebea58b_generated_image.png',
+    description: 'Ngâm lạnh 18 tiếng, vị chua thanh trái cây, hậu ngọt dịu — cực mát cho ngày hè.',
+    sortOrder: 5, isActive: true, isBest: true,
+  },
+
+  /* ── Cà phê truyền thống ─────────────────────────────────────────── */
+  {
+    id: 'phin-den', name: 'Cà Phê Đen Phin', category: 'traditional',
+    price: 20000, originalPrice: 0, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/4aa982ea5_generated_image.png',
+    description: 'Phin giọt truyền thống, cà phê rang mộc 100% Robusta, đậm đà đúng chất Việt.',
+    sortOrder: 10, isActive: true, isBest: true,
+  },
+  {
+    id: 'sua-da', name: 'Cà Phê Sữa Đá', category: 'traditional',
+    price: 25000, originalPrice: 28000, priceNote: 'Best seller',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/18ebea58b_generated_image.png',
+    description: 'Cà phê phin rót lên sữa đặc, thêm đá — tách cà phê quốc dân của người Việt.',
+    sortOrder: 11, isActive: true, isBest: true,
+  },
+  {
+    id: 'bac-xiu', name: 'Bạc Xỉu', category: 'traditional',
+    price: 27000, originalPrice: 0, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/311d51950_generated_image.png',
+    description: 'Nhiều sữa ít cà phê, ngọt béo nhẹ nhàng — dễ uống cho người mới làm quen.',
+    sortOrder: 12, isActive: true, isBest: false,
+  },
+  {
+    id: 'phin-sua-nong', name: 'Phin Sữa Nóng', category: 'traditional',
+    price: 25000, originalPrice: 0, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/4aa982ea5_generated_image.png',
+    description: 'Cà phê phin nóng rót lên sữa đặc, ấm áp thơm nồng cho buổi sáng.',
+    sortOrder: 13, isActive: true, isBest: false,
+  },
+
+  /* ── Hạt cà phê đóng gói ─────────────────────────────────────────── */
+  {
+    id: 'robusta-500', name: 'Hạt Robusta Rang Mộc 500g', category: 'beans',
+    price: 95000, originalPrice: 120000, priceNote: 'Giá sỉ',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/5c5cb9ce6_generated_image.png',
+    description: 'Robusta Cầu Đất rang mộc, không tẩm bơ — vị đậm, hậu đắng mạnh, hợp pha phin.',
+    sortOrder: 20, isActive: true, isBest: true,
+  },
+  {
+    id: 'arabica-500', name: 'Hạt Arabica Cầu Đất 500g', category: 'beans',
+    price: 165000, originalPrice: 0, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/5c5cb9ce6_generated_image.png',
+    description: 'Arabica canh tác vùng cao, vị chua thanh, hương hoa quả — dành cho máy pha espresso.',
+    sortOrder: 21, isActive: true, isBest: false,
+  },
+  {
+    id: 'blend-250', name: 'Blend Hạt Dẻ-Socola 250g', category: 'beans',
+    price: 79000, originalPrice: 90000, priceNote: '',
+    imageUrl: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/5c5cb9ce6_generated_image.png',
+    description: 'Phối trộn 70/30 Robusta-Arabica rang vừa, nốt hương hạt dẻ và socola ngọt ngào.',
+    sortOrder: 22, isActive: true, isBest: false,
+  },
+];
+
+/* ── Cảm nhận khách hàng mẫu ──────────────────────────────────────────── */
+window.CAFE_SAMPLES_TESTIMONIALS = [
+  {
+    id: 'ts1', name: 'Minh Anh', role: 'Khách quen · 3 năm',
+    rating: 5, content: 'Cà phê sữa đá ở đây đúng kiểu northern cổ điển — đậm, thơm, ngọt vừa. Đơn online giao nhanh, đóng gói cẩn thận.',
+    isActive: true, createdAt: '2026-08-20T09:00:00Z',
+  },
+  {
+    id: 'ts2', name: 'Trần Đức Long', role: 'Nhân viên văn phòng',
+    rating: 5, content: 'Đặt hạt Arabica 500g đều đặn mỗi tháng. Rang theo mẻ nhỏ nên hạt luôn tươi, mùi thơm nguyên vẹn khi xay.',
+    isActive: true, createdAt: '2026-08-12T03:00:00Z',
+  },
+  {
+    id: 'ts3', name: 'Nguyễn Thu Hà', role: 'Tổ chức workshop',
+    rating: 4, content: 'Nhóm mình đặt combo workshop pha chế 12 người, quán chuẩn bị đủ dụng cụ, chị chủ nhiệt tình hướng dẫn rất tỉ mỉ.',
+    isActive: true, createdAt: '2026-07-30T08:00:00Z',
+  },
+  {
+    id: 'ts4', name: 'Phạm Văn Tú', role: 'Khách giao hàng',
+    rating: 5, content: 'Latte giao đến văn phòng vẫn nóng, lớp bọt sữa mịn. App đặt hàng dễ dùng, có mã đơn theo dõi tiện.',
+    isActive: true, createdAt: '2026-08-28T02:30:00Z',
+  },
+  {
+    id: 'ts5', name: 'Lê Ngọc Bích', role: 'Đặt bàn cuối tuần',
+    rating: 4, content: 'Không gian mộc mạc, yên tĩnh, hợp làm việc. Đặt bàn qua web nhanh gọn, được giữ bàn cạnh cửa sổ như yêu cầu.',
+    isActive: true, createdAt: '2026-08-05T05:00:00Z',
+  },
+];
+  </script>
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#home">
+      <span class="logo">CH</span>
+      <span class="name">Cà Phê Hòa<small>hương vị đậm đà</small></span>
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="#home" data-page="home">Trang chủ</a>
+      <a href="#about" data-page="about">Giới thiệu</a>
+      <a href="#service" data-page="service">Dịch vụ</a>
+      <a href="#menu" data-page="menu">Thực đơn</a>
+      <a href="#reservation" data-page="reservation">Đặt bàn</a>
+      <a href="#testimonial" data-page="testimonial">Cảm nhận</a>
+      <a href="#contact" data-page="contact">Liên hệ</a>
+    </nav>
+    <div class="header-actions">
+      <button class="cart-btn" id="cartBtn" type="button" aria-label="Mở giỏ hàng">
+        <span class="txt">Giỏ hàng</span>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">Menu</button>
+    </div>
+  </div>
+</header>
+<main id="vpages">
+<section class="vpage" id="vp-home">
+
+<!-- HERO CAROUSEL -->
+<section class="hero-carousel" id="heroCarousel">
+  <div class="slides">
+    <div class="slide active">
+      <img class="banner" src="assets/img/banner.png" alt="Cà phê Hòa" />
+      <div class="overlay"><div class="hero-content">
+        <span class="kicker">Cà Phê Hòa · Thái Nguyên · từ 2015</span>
+        <h1>Tách cà phê ngon, giao tận cửa nhà bạn</h1>
+        <p>Rang mộc mỗi tuần, pha chuẩn vị — từ ly espresso đậm đà đến hạt cà phê đóng gói tươi nguyên.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#menu">Xem thực đơn</a>
+          <a class="btn btn-outline" href="#reservation">Đặt bàn tại quán</a>
+        </div>
+        <div class="hero-badges">
+          <span>Giao nhanh trong ngày</span>
+          <span>Rang mộc 100% tự nhiên</span>
+          <span>Thanh toán linh hoạt</span>
+        </div>
+      </div></div>
+    </div>
+    <div class="slide">
+      <img class="banner" src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/19c9ebb5e_generated_image.png" alt="Barista Cà phê Hòa" />
+      <div class="overlay"><div class="hero-content">
+        <span class="kicker">Đam môn nghề cà phê</span>
+        <h1>Handcrafted — từng giọt phin đều có tâm</h1>
+        <p>Barista của chúng tôi chọn hạt, canh nhiệt rang và pha từng tách như thể pha cho chính gia đình mình.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#menu">Đặt ngay ly đầu tiên</a>
+          <a class="btn btn-outline" href="#about">Câu chuyện của quán →</a>
+        </div>
+      </div></div>
+    </div>
+  </div>
+  <div class="carousel-dots" id="heroDots"></div>
+  <div class="carousel-nav">
+    <button id="heroPrev" aria-label="Trước">‹</button>
+    <button id="heroNext" aria-label="Sau">›</button>
+  </div>
+</section>
+
+<!-- DANH MỤC -->
+<section class="section" id="categories">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Danh mục</span>
+      <h2>Chọn đẳng cấp cà phê của bạn</h2>
+      <p>Ba dòng sản phẩm được rang và pha chế thủ công tại Cà Phê Hòa</p>
+    </div>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+</section>
+
+<!-- BÁN CHẠY -->
+<section class="section" id="best" style="padding-top:0">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Yêu thích nhất</span>
+      <h2>Cà phê bán chạy</h2>
+      <p>Những ly cà phê được khách hàng gọi nhiều nhất tuần qua</p>
+    </div>
+    <div class="best-grid" id="bestGrid"><div class="loader"><div class="spin"></div>Đang tải…</div></div>
+    <p style="text-align:center;margin-top:26px"><a class="btn btn-outline" href="#menu">Xem toàn bộ thực đơn →</a></p>
+  </div>
+</section>
+
+<!-- GIỚI THIỆU TEASER -->
+<section class="section" id="about" style="background:var(--milk)">
+  <div class="container teaser">
+    <div class="img-box"><img src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/1d851367d_generated_image.png" alt="Không gian Cà Phê Hòa" loading="lazy" /></div>
+    <div>
+      <span class="kicker" style="color:var(--caramel);font-size:.8rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase">Câu chuyện</span>
+      <h2>Từ nông trại đến tách cà phê</h2>
+      <p>Cà Phê Hòa bắt đầu từ mảnh vườn cà phê của gia đình tại Đại Từ, Thái Nguyên. Chúng tôi tự tay chọn hạt, rang mộc theo mẻ nhỏ mỗi tuần để giữ trọn hương vị đất trời vùng trung du Bắc Bộ.</p>
+      <ul>
+        <li>Hạt cà phê chỉ bán trong vòng 30 ngày kể từ ngày rang</li>
+        <li>Rang mộc thủ công, không tẩm bơ, không hương liệu</li>
+        <li>Không gian mộc mạc, hợp làm việc và tụ họp</li>
+      </ul>
+      <a class="btn btn-primary" href="#about">Tìm hiểu thêm →</a>
+    </div>
+  </div>
+</section>
+
+<!-- DỊCH VỤ TEASER -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Dịch vụ</span>
+      <h2>Nhiều hơn một quán cà phê</h2>
+    </div>
+    <div class="service-grid" id="svcTeaser"></div>
+    <p style="text-align:center;margin-top:26px"><a class="btn btn-outline" href="#service">Tất cả dịch vụ →</a></p>
+  </div>
+</section>
+
+<!-- CẢM NHẬN TEASER -->
+<section class="section" style="background:var(--milk)">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Cảm nhận</span>
+      <h2>Khách hàng nói gì về chúng tôi</h2>
+    </div>
+    <div class="tst-grid" id="tstTeaser"></div>
+    <p style="text-align:center;margin-top:26px"><a class="btn btn-outline" href="#testimonial">Đọc thêm &amp; để lại cảm nhận →</a></p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="padding:0">
+  <div class="container" style="padding:0 0 56px">
+    <div style="background:linear-gradient(135deg,var(--coffee-deep),var(--coffee) 60%,var(--caramel));border-radius:24px;padding:44px 30px;text-align:center;color:var(--milk)">
+      <h2 style="color:#fff;font-size:clamp(1.4rem,3.4vw,2rem)">Thèm một ly cà phê đúng chất?</h2>
+      <p style="color:var(--beige-soft);margin:10px auto 22px;max-width:52ch;font-size:.95rem">Đặt online để được giao trong ngày, hoặc đặt bàn để tận hưởng không gian quán — chỉ 1 phút thôi.</p>
+      <div class="hero-actions" style="justify-content:center">
+        <a class="btn btn-primary" style="background:var(--caramel)" href="#menu">Đặt giao ngay</a>
+        <a class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.6)" href="#reservation">Đặt bàn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</section>
+<section class="vpage" id="vp-menu">
+
+<section class="page-hero">
+  <img src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/5c5cb9ce6_generated_image.png" alt="Thực đơn" />
+  <div class="inner">
+    <p class="crumb"><a href="#home">Trang chủ</a> · Thực đơn</p>
+    <h1>Thực đơn Cà Phê Hòa</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="menu-toolbar">
+      <div class="search-box">
+        <input type="search" id="searchInput" placeholder="Tìm cà phê, ví dụ: latte, sữa đá, robusta…" />
+      </div>
+      <select class="toolbar-select" id="priceFilter" aria-label="Lọc theo giá"></select>
+      <select class="toolbar-select" id="flavorFilter" aria-label="Lọc theo hương vị"></select>
+    </div>
+    <div class="cat-tabs" id="catTabs"></div>
+    <div class="product-grid" id="productGrid"></div>
+    <div class="empty-state" id="menuEmpty" hidden>
+      <p>Không tìm thấy sản phẩm phù hợp.<br />Thử từ khoá khác hoặc bỏ bớt bộ lọc nhé.</p>
+    </div>
+  </div>
+</section>
+
+</section>
+<section class="vpage" id="vp-about">
+
+<section class="page-hero">
+  <img src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/1d851367d_generated_image.png" alt="Giới thiệu" />
+  <div class="inner">
+    <p class="crumb"><a href="#home">Trang chủ</a> · Giới thiệu</p>
+    <h1>Về Cà Phê Hòa</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container teaser">
+    <div class="img-box"><img src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/19c9ebb5e_generated_image.png" alt="Barista đang pha chế" loading="lazy" /></div>
+    <div>
+      <span class="kicker" style="color:var(--caramel);font-size:.8rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase">Câu chuyện</span>
+      <h2>Từ mảnh vườn cà phê gia đình</h2>
+      <p>Năm 2015, từ mảnh vườn cà phê của gia đình tại Đại Từ, Thái Nguyên, chúng tôi mở một quán nhỏ với một niềm tin đơn giản: người Việt xứng đáng uống cà phê ngon hơn.</p>
+      <p>Cà Phê Hòa tự tay chọn hạt từ nông trại quen thuộc, rang mộc theo mẻ nhỏ mỗi tuần và chỉ bán hạt trong vòng 30 ngày kể từ ngày rang. Mỗi tách cà phê đều là câu chuyện của đất, nắng và người làm nghề tử tế.</p>
+      <ul>
+        <li>Rang mộc thủ công — không tẩm bơ, không hương liệu</li>
+        <li>Nguyên liệu nguồn gốc rõ ràng từ nông trại Việt Nam</li>
+        <li>Barista được đào tạo bài bản, phục vụ bằng cái tâm</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--milk)">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Giá trị cốt lõi</span>
+      <h2>Chúng tôi tin vào điều gì</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card"><h4>Tươi mộc</h4><p>Hạt luôn trong vòng 30 ngày sau rang — hương vị chưa bao giờ "ngủ đông".</p></div>
+      <div class="value-card"><h4>Tử tế</h4><p>Giá minh bạch, khẩu phần đủ, khách quen nhớ tên — kinh doanh dài hạn nằm ở đó.</p></div>
+      <div class="value-card"><h4>Đậm quê</h4><p>Không gian mộc mạc Bắc Bộ: gỗ, mây, phin nhôm và tách cà phê sữa đá đúng điệu.</p></div>
+      <div class="value-card"><h4>Bền vững</h4><p>Tái sử dụng ly, ưu tiên hạt địa phương, giảm rác thải trong từng khâu vận hành.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Hành trình</span>
+      <h2>Những cột mốc đáng nhớ</h2>
+    </div>
+    <div class="timeline">
+      <div class="milestone"><div class="year">2015</div><h4>Khai trương quán đầu tiên</h4><p>Quán nhỏ 12 chỗ tại Đại Từ với cái phin và một giấc mơ.</p></div>
+      <div class="milestone"><div class="year">2018</div><h4>Xưởng rang mộc gia đình</h4><p>Sở hữu máy rang drums, tự chủ toàn bộ khâu hạt cà phê.</p></div>
+      <div class="milestone"><div class="year">2021</div><h4>Bán &amp; giao hàng online</h4><p>Khởi đầu website đặt hàng, hạt đóng gói gửi đi cả nước.</p></div>
+      <div class="milestone"><div class="year">2024</div><h4>Workshop &amp; sự kiện</h4><p>Mở lớp học pha chế, nhận set-up quầy cà phê sự kiện.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--milk)">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Đội ngũ</span>
+      <h2>Những người đứng sau từng tách cà phê</h2>
+    </div>
+    <div class="team-grid">
+      <div class="team-card"><div class="ph">H</div><div class="body"><h4>Chị Hòa</h4><p>Founder · người canh lò rang mộc</p></div></div>
+      <div class="team-card"><div class="ph">M</div><div class="body"><h4>Anh Minh</h4><p>Head barista · 8 năm nghề pha</p></div></div>
+      <div class="team-card"><div class="ph">T</div><div class="body"><h4>Thu Trang</h4><p>Chị phụ xưởng hạt đóng gói</p></div></div>
+      <div class="team-card"><div class="ph">C</div><div class="body"><h4>Cường</h4><p>Giao hàng nhanh nhất Thái Nguyên</p></div></div>
+    </div>
+    <p style="text-align:center;margin-top:32px"><a class="btn btn-primary" href="#reservation">Ghé quán uống thử một tách →</a></p>
+  </div>
+</section>
+
+</section>
+<section class="vpage" id="vp-service">
+
+<section class="page-hero">
+  <img src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/985f6865b_generated_image.png" alt="Dịch vụ" />
+  <div class="inner">
+    <p class="crumb"><a href="#home">Trang chủ</a> · Dịch vụ</p>
+    <h1>Dịch vụ của Cà Phê Hòa</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Dịch vụ</span>
+      <h2>Nhiều hơn một quán cà phê</h2>
+      <p>6 dịch vụ trọn gói cho cá nhân, gia đình và doanh nghiệp</p>
+    </div>
+    <div class="service-grid">
+      <div class="service-card">
+        <div class="thumb"><img src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/6dd36f1cc_generated_image.png" alt="Giao hàng" loading="lazy" /></div>
+        <div class="body"><h3>Giao hàng trong ngày</h3>
+          <p>Đặt online trước 17:00, nội thành Thái Nguyên nhận đồ uống nóng hổi trong 45 phút. Đơn hạt cà phê giao toàn quốc.</p>
+          <a class="go" href="#menu">Đặt ngay →</a></div>
+      </div>
+      <div class="service-card">
+        <div class="thumb"><img src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/985f6865b_generated_image.png" alt="Rang mộc" loading="lazy" /></div>
+        <div class="body"><h3>Rang mộc theo yêu cầu</h3>
+          <p>Bạn chọn giống hạt (Robusta, Arabica, blend), mức rang và thành phần — chúng tôi rang mẻ riêng đúng số gram bạn cần.</p>
+          <a class="go" href="#contact">Nhận tư vấn →</a></div>
+      </div>
+      <div class="service-card">
+        <div class="thumb"><img src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/406765b4b_generated_image.png" alt="Sự kiện" loading="lazy" /></div>
+        <div class="body"><h3>Set-up tiệc &amp; sự kiện</h3>
+          <p>Quầy cà phê lưu động với barista, phin/V60/espresso bar cho workshop, tiệc công ty, đám cưới — trọn gói từ 30 khách.</p>
+          <a class="go" href="#contact">Nhận báo giá →</a></div>
+      </div>
+      <div class="service-card">
+        <div class="thumb"><img src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/b720aba63_generated_image.png" alt="Workshop" loading="lazy" /></div>
+        <div class="body"><h3>Workshop pha chế</h3>
+          <p>Lớp 2–3 tiếng cuối tuần: pha phin đúng chuẩn, pour-over V60, và latte art cơ bản. Tối đa 12 học viên/lớp.</p>
+          <a class="go" href="#contact">Đăng ký học →</a></div>
+      </div>
+      <div class="service-card">
+        <div class="thumb"><img src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/5c5cb9ce6_generated_image.png" alt="Hạt đóng gói" loading="lazy" /></div>
+        <div class="body"><h3>Hạt đóng gói bán lẻ</h3>
+          <p>Robusta, Arabica và blend rang mộc — đóng gói 250g/500g/1kg, có xay theo máy pha của bạn, bảo quản hút chân không.</p>
+          <a class="go" href="#menu">Xem sản phẩm →</a></div>
+      </div>
+      <div class="service-card">
+        <div class="thumb"><img src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/311d51950_generated_image.png" alt="Định kỳ" loading="lazy" /></div>
+        <div class="body"><h3>Giao hạt định kỳ</h3>
+          <p>Đăng ký nhận hạt tươi mỗi 2–4 tuần, ưu đãi 10% và freeship toàn quốc. Huỷ đổi lịch bất cứ lúc nào.</p>
+          <a class="go" href="#contact">Đăng ký gói →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--milk)">
+  <div class="container" style="text-align:center">
+    <h2 style="margin-bottom:10px">Cần dịch vụ riêng?</h2>
+    <p style="color:var(--text-soft);max-width:52ch;margin:0 auto 22px">Kể chúng tôi nghe nhu cầu của bạn — từ một buổi họp nhóm 5 người đến sự kiện 300 khách, đều có giải pháp cà phê phù hợp.</p>
+    <a class="btn btn-primary" href="#contact">Liên hệ ngay →</a>
+  </div>
+</section>
+
+</section>
+<section class="vpage" id="vp-reservation">
+
+<section class="page-hero">
+  <img src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/1d851367d_generated_image.png" alt="Đặt bàn" />
+  <div class="inner">
+    <p class="crumb"><a href="#home">Trang chủ</a> · Đặt bàn</p>
+    <h1>Đặt bàn trước, ngồi ngay chỗ đẹp</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="rsv-grid">
+      <div class="rsv-info">
+        <h3>Thông tin cần biết</h3>
+        <ul>
+          <li><b>Giờ mở cửa</b><span>07:00 – 21:30 · Thứ 2 – Chủ nhật</span></li>
+          <li><b>Địa chỉ</b><span>Phú Thịnh, Đại Từ, Thái Nguyên</span></li>
+          <li><b>Hotline</b><span><a href="tel:0963284044" style="color:var(--beige)">0963.284.044</a></span></li>
+          <li><b>Bàn &amp; không gian</b><span>40 chỗ trong nhà, 12 chỗ sân vườn, có ổ điện &amp; wifi cho nhóm làm việc</span></li>
+          <li><b>Nhóm lớn / tiệc</b><span>Từ 10 khách vui lòng gọi hotline để quán chuẩn bị sắp xếp riêng</span></li>
+        </ul>
+        <p class="note-line">Đặt bàn miễn phí — quán giữ bàn tối đa 20 phút so với giờ hẹn. Cảm ơn bạn!</p>
+      </div>
+
+      <form class="rsv-form" id="rsvForm" novalidate>
+        <div class="section-head" style="text-align:left;margin-bottom:20px">
+          <span class="kicker">Form đặt bàn</span>
+          <h2 style="font-size:1.35rem">Chọn ngày, giờ &amp; số khách</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Họ tên <span class="req">*</span></label>
+            <input type="text" id="rName" placeholder="Nguyễn Văn A" required />
+          </div>
+          <div class="form-field">
+            <label>Số điện thoại <span class="req">*</span></label>
+            <input type="tel" id="rPhone" placeholder="09xx xxx xxx" required />
+          </div>
+          <div class="form-field">
+            <label>Email (nếu có)</label>
+            <input type="email" id="rEmail" placeholder="email@vidu.com" />
+          </div>
+          <div class="form-field">
+            <label>Số khách <span class="req">*</span></label>
+            <input type="number" id="rGuests" min="1" max="40" value="2" required />
+          </div>
+          <div class="form-field">
+            <label>Ngày <span class="req">*</span></label>
+            <input type="date" id="rDate" required />
+          </div>
+          <div class="form-field">
+            <label>Giờ <span class="req">*</span></label>
+            <select id="rTime"></select>
+          </div>
+          <div class="form-field full">
+            <label>Yêu cầu chỗ ngồi</label>
+            <select id="rTable">
+              <option value="">Không có yêu cầu đặc biệt</option>
+              <option>Cạnh cửa sổ</option>
+              <option>Góc yên tĩnh</option>
+              <option>Bàn dài nhóm làm việc</option>
+              <option>Sân vườn</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label>Ghi chú</label>
+            <textarea id="rNote" placeholder="Sinh nhật, cần ổ điện, mang theo thú cưng…"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="rsvSubmit">Đặt bàn ngay</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</section>
+<section class="vpage" id="vp-testimonial">
+
+<section class="page-hero">
+  <img src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/311d51950_generated_image.png" alt="Cảm nhận" />
+  <div class="inner">
+    <p class="crumb"><a href="#home">Trang chủ</a> · Cảm nhận</p>
+    <h1>Khách hàng nói gì</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Cảm nhận thật</span>
+      <h2>Những lời khen làm chúng tôi vui cả ngày</h2>
+      <p>Toàn bộ cảm nhận đến từ khách hàng đã dùng sản phẩm &amp; dịch vụ của quán</p>
+    </div>
+    <div class="tst-grid" id="tstGrid"><div class="loader"><div class="spin"></div>Đang tải…</div></div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--milk)">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Chia sẻ</span>
+      <h2>Để lại cảm nhận của bạn</h2>
+      <p>Cảm nhận mới sẽ được duyệt bởi quản trị trước khi hiển thị</p>
+    </div>
+    <form class="tst-form" id="tstForm" novalidate>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Tên của bạn <span class="req">*</span></label>
+          <input type="text" id="tName" placeholder="Ví dụ: Minh Anh" required />
+        </div>
+        <div class="form-field">
+          <label>Bạn là ai? (khách quen, nhân viên VP…)</label>
+          <input type="text" id="tRole" placeholder="Khách hàng" />
+        </div>
+        <div class="form-field full">
+          <label>Đánh giá sao</label>
+          <div class="star-picker" id="starPicker" data-val="5"></div>
+        </div>
+        <div class="form-field full">
+          <label>Cảm nhận của bạn <span class="req">*</span></label>
+          <textarea id="tContent" placeholder="Ly cà phê nào khiến bạn nhớ nhất? Không gian thế nào?" required></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" id="tstSubmit">Gửi cảm nhận</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+</section>
+<section class="vpage" id="vp-contact">
+
+<section class="page-hero">
+  <img src="https://media.base44.com/images/public/6a38474af6727477cf96ad43/18ebea58b_generated_image.png" alt="Liên hệ" />
+  <div class="inner">
+    <p class="crumb"><a href="#home">Trang chủ</a> · Liên hệ</p>
+    <h1>Liên hệ với Cà Phê Hòa</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="contact-grid-v2">
+      <div class="contact-list">
+        <div class="item"><span><h4>Địa chỉ</h4><p>Phú Thịnh, Đại Từ, Thái Nguyên</p></span></div>
+        <div class="item"><span><h4>Điện thoại</h4><p><a href="tel:0963284044">0963.284.044</a></p></span></div>
+        <div class="item"><span><h4>Email</h4><p><a href="mailto:thienkim29903@gmail.com">thienkim29903@gmail.com</a></p></span></div>
+        <div class="item"><span><h4>Giờ mở cửa</h4><p>07:00 – 21:30 · Thứ 2 – Chủ nhật</p></span></div>
+        <div class="map-box"><iframe src="https://maps.google.com/maps?q=Ph%C3%BA%20Th%E1%BB%8Bnh%2C%20%C4%90%E1%BA%A1i%20T%E1%BB%AB%2C%20Th%C3%A1i%20Nguy%C3%AAn&t=&z=14&ie=UTF8&iwloc=&output=embed" title="Bản đồ Cà Phê Hòa" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+      </div>
+
+      <form class="rsv-form" id="msgForm" novalidate>
+        <div class="section-head" style="text-align:left;margin-bottom:20px">
+          <span class="kicker">Gửi tin nhắn</span>
+          <h2 style="font-size:1.35rem">Chúng tôi trả lời trong giờ mở cửa</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Tên của bạn <span class="req">*</span></label>
+            <input type="text" id="mName" placeholder="Nguyễn Văn A" required />
+          </div>
+          <div class="form-field">
+            <label>Số điện thoại</label>
+            <input type="tel" id="mPhone" placeholder="09xx xxx xxx" />
+          </div>
+          <div class="form-field">
+            <label>Email</label>
+            <input type="email" id="mEmail" placeholder="email@vidu.com" />
+          </div>
+          <div class="form-field">
+            <label>Chủ đề</label>
+            <select id="mSubject">
+              <option>Hỏi về sản phẩm</option>
+              <option>Đặt hàng số lượng lớn</option>
+              <option>Rang mộc theo yêu cầu</option>
+              <option>Set-up sự kiện</option>
+              <option>Workshop pha chế</option>
+              <option>Góp ý / phản hồi</option>
+              <option>Khác</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label>Nội dung <span class="req">*</span></label>
+            <textarea id="mContent" placeholder="Bạn cần quán hỗ trợ điều gì?" required></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="msgSubmit">Gửi tin nhắn</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</section>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <span class="logo">CH</span>
+          <span class="name">Cà Phê Hòa</span>
+        </div>
+        <p>Hương vị đậm đà — Chất lượng trong từng tách.</p>
+        <p style="margin-top:8px">Phú Thịnh, Đại Từ, Thái Nguyên · 0963.284.044</p>
+      </div>
+      <div>
+        <h4>Khám phá</h4>
+        <ul>
+          <li><a href="#about">Về chúng tôi</a></li>
+          <li><a href="#service">Dịch vụ</a></li>
+          <li><a href="#menu">Thực đơn</a></li>
+          <li><a href="#reservation">Đặt bàn</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Giờ mở cửa</h4>
+        <ul>
+          <li>07:00 – 21:30</li>
+          <li>Thứ 2 – Chủ nhật</li>
+          <li><a href="tel:0963284044">0963.284.044</a></li>
+          <li><a href="mailto:thienkim29903@gmail.com">thienkim29903@gmail.com</a></li>
+          <li><a href="admin.html">Quản trị cửa hàng</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Cà Phê Hòa · Nền tảng thương mại điện tử cà phê trực tuyến · v2.0.0</div>
+  </div>
+</footer>
+<script>
+/**
+ * ══════════════════════════════════════════════════════════════════════
+ *  api.js — Tầng dữ liệu CAFE HOA
+ *  ─────────────────────────────────────────────────────────────────────
+ *  Nhiệm vụ:
+ *    • Nói chuyện với backend Google Apps Script (GAS → Google Sheets)
+ *    • Cache offline bằng localStorage + hàng đợi ghi khi mất mạng
+ *    • Chuẩn hoá dữ liệu Sản phẩm & Đơn hàng cho cả store & admin
+ *
+ *  Lưu ý protocol (giữ nguyên backend hiện tại, đã kiểm chứng):
+ *    • Đọc : GET {GAS_URL}?action=<name>&_=<timestamp>
+ *    • Ghi : GET {GAS_URL}?method=POST&body=<encodeURIComponent(JSON)>
+ *  ══════════════════════════════════════════════════════════════════════
+ */
+'use strict';
+
+(function () {
+  const LS = {
+    gasUrl:    'cafe_gas_url',
+    products:  'cafe_products_cache',
+    orders:    'cafe_orders_cache',
+    queue:     'cafe_write_queue',
+    reservations:'cafe_reservations_cache',
+    testimonials:'cafe_testimonials_cache',
+    messages:  'cafe_messages_cache',
+  };
+
+  /* ════════════════ HELPERS ════════════════ */
+
+  const $ls = {
+    get(k, fallback) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fallback; } catch { return fallback; } },
+    set(k, v)        { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } },
+    del(k)          { try { localStorage.removeItem(k); } catch {} },
+  };
+
+  function getGasUrl() {
+    const saved = $ls.get(LS.gasUrl, null);
+    if (saved && /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(saved)) return saved;
+    return (window.CAFE && window.CAFE.GAS_URL) || '';
+  }
+
+  function setGasUrl(url) {
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(url)) return false;
+    $ls.set(LS.gasUrl, url);
+    return true;
+  }
+
+  function resetGasUrl() { $ls.del(LS.gasUrl); }
+
+  /** fetch JSON an toàn, có timeout */
+  async function fetchJson(url, { timeout = 25000 } = {}) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), timeout);
+    try {
+      const res = await fetch(url, { signal: ctrl.signal, cache: 'no-store' });
+      const text = await res.text();
+      try { return JSON.parse(text); }
+      catch { throw new Error('Phản hồi không phải JSON hợp lệ'); }
+    } finally { clearTimeout(t); }
+  }
+
+  /** Đọc dữ liệu: GET ?action=... */
+  async function gasGet(action, params = {}) {
+    const qs = new URLSearchParams({ action, ...params, _: String(Date.now()) });
+    return fetchJson(`${getGasUrl()}?${qs.toString()}`);
+  }
+
+  /** Ghi dữ liệu: body JSON gửi qua query string (GAS không nhận POST thật) */
+  async function gasPost(bodyObj) {
+    const qs = new URLSearchParams({
+      method: 'POST',
+      body: JSON.stringify(bodyObj),
+      _: String(Date.now()),
+    });
+    return fetchJson(`${getGasUrl()}?${qs.toString()}`, { timeout: 30000 });
+  }
+
+  /* ════════════════ HÀNG ĐỒNG GHI OFFLINE ════════════════ */
+
+  const queue = {
+    add(task) {
+      const q = $ls.get(LS.queue, []);
+      q.push({ ...task, ts: Date.now() });
+      $ls.set(LS.queue, q);
+    },
+    all()    { return $ls.get(LS.queue, []); },
+    save(q)  { $ls.set(LS.queue, q); },
+    clear()  { $ls.set(LS.queue, []); },
+  };
+
+  /** Chạy lại các tác vụ ghi đang đợi — gọi khi app khởi động */
+  async function flushQueue(onProgress) {
+    const q = queue.all();
+    const failed = [];
+    let ok = 0;
+    for (const task of q) {
+      try {
+        const res = await gasPost(task.body);
+        if (res && res.success) { ok++; continue; }
+        throw new Error(res && res.error || 'success = false');
+      } catch (e) {
+        failed.push(task);
+      }
+    }
+    queue.save(failed);
+    if (onProgress) onProgress({ ok, fail: failed.length });
+    return { ok, fail: failed.length };
+  }
+
+  /* ════════════════ SẢN PHẨM ════════════════ */
+
+  /** Chuẩn hoá 1 dòng sản phẩm từ GAS */
+  function normalizeProduct(p) {
+    if (!p) return null;
+    return {
+      id:           String(p.id || ''),
+      name:         String(p.name || 'Sản phẩm không tên'),
+      category:     String(p.category || ''),
+      price:        Number(p.price) || 0,
+      originalPrice:Number(p.originalPrice) || 0,
+      priceNote:    String(p.priceNote || ''),
+      imageUrl:     String(p.imageUrl || ''),
+      description:  String(p.description || ''),
+      sortOrder:    Number(p.sortOrder) || 0,
+      isActive:     p.isActive !== false && p.isActive !== 'false',
+      updatedAt:    String(p.updatedAt || ''),
+    };
+  }
+
+  /**
+   * Lấy danh sách sản phẩm.
+   * @param {boolean} includeAll  true: lấy cả sản phẩm đang ẩn (admin)
+   */
+  async function listProducts({ includeAll = false } = {}) {
+    try {
+      const res = await gasGet('getProducts', includeAll ? { includeAll: 'true' } : {});
+      if (res && res.success && Array.isArray(res.data)) {
+        const items = res.data.map(normalizeProduct).filter(Boolean);
+        $ls.set(LS.products, items);
+        return { ok: true, data: items, source: 'gas' };
+      }
+      throw new Error(res && res.error || 'Lỗi tải sản phẩm');
+    } catch (e) {
+      const cached = $ls.get(LS.products, []);
+      return { ok: cached.length > 0, data: cached, source: 'cache', error: e.message };
+    }
+  }
+
+  async function createProduct(data) {
+    const payload = {
+      name:        data.name,
+      category:   data.category,
+      price:      data.price,
+      originalPrice: data.originalPrice || 0,
+      priceNote:  data.priceNote || '',
+      imageUrl:   data.imageUrl || '',
+      description:data.description || '',
+      sortOrder:  data.sortOrder || 0,
+      isActive:   data.isActive !== false,
+      updatedAt:  new Date().toISOString(),
+    };
+    try {
+      const res = await gasPost({ action: 'createProduct', data: payload });
+      if (res && res.success) return { ok: true, data: res.data || payload };
+      throw new Error(res && res.error || 'Không thể tạo sản phẩm');
+    } catch (e) {
+      queue.add({ body: { action: 'createProduct', data: payload } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  async function updateProduct(id, data) {
+    const payload = { ...data, id: String(id), updatedAt: new Date().toISOString() };
+    try {
+      const res = await gasPost({ action: 'updateProduct', id: String(id), data: payload });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể cập nhật sản phẩm');
+    } catch (e) {
+      queue.add({ body: { action: 'updateProduct', id: String(id), data: payload } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  async function deleteProduct(id) {
+    try {
+      const res = await gasPost({ action: 'deleteProduct', id: String(id) });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể xoá sản phẩm');
+    } catch (e) {
+      queue.add({ body: { action: 'deleteProduct', id: String(id) } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  /* ════════════════ ĐƠN HÀNG ════════════════ */
+
+  const ORDER_MARK = 'coffee-order';   // deviceType đánh dấu đơn cà phê trên Sheet
+
+  /** Tạo mã đơn hàng duy nhất */
+  function newOrderId() {
+    return `DH_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+  }
+
+  /** Map đơn hàng cà phê → dòng Booking trên Google Sheets */
+  function orderToGasRow(order) {
+    const items = Array.isArray(order.items) ? order.items : [];
+    const summary = items.map(i => `${i.qty}× ${i.name}`).join(', ');
+    const d = new Date();
+    const dateStr = d.toISOString().slice(0, 10);
+    return {
+      id:            order.id,
+      customerName:  order.customerName,
+      phone:         order.phone,
+      email:         order.email || '',
+      deviceType:    ORDER_MARK,
+      scheduledAt:   order.createdAt || d.toISOString(),
+      timeSlot:      '',
+      issue:         `Đơn cà phê: ${summary}`,
+      status:        order.status || 'pending',
+      technician:    '',
+      estimatedCost: order.total ?? 0,
+      actualCost:    '',
+      returnDate:    '',
+      awaitingPartsEta: '',
+      notes:         `${order.paymentName || ''}${order.note ? ' | Ghi chú: ' + order.note : ''}`,
+      serviceCosts:  JSON.stringify(items),
+      brand:         order.paymentMethod || '',
+      model:         '',
+      priority:      'normal',
+      address:       order.address || '',
+      serial:        '', devicePassword: '', accessories: '',
+      Date:          dateStr,
+      Time_slot:     '',
+      updatedAt:     d.toISOString(),
+      statusHistory: JSON.stringify([{ status: order.status || 'pending', at: d.toISOString(), by: 'Khách hàng' }]),
+      receivedImages: '[]',
+      repairedImages: '[]',
+      customerSignature: '',
+    };
+  }
+
+  /** Map dòng Booking → đơn hàng cà phê */
+  function gasRowToOrder(row) {
+    let items = [];
+    try { items = JSON.parse(row.serviceCosts || '[]'); } catch {}
+    return {
+      id:           String(row.id || ''),
+      customerName: row.customerName || '',
+      phone:        row.phone || '',
+      email:        row.email || '',
+      address:      row.address || '',
+      items,
+      total:        Number(row.estimatedCost) || 0,
+      status:       row.status || 'pending',
+      paymentMethod: row.brand || '',
+      note:         row.notes || '',
+      createdAt:    row.scheduledAt || '',
+      updatedAt:    row.updatedAt || '',
+      raw:          row,
+    };
+  }
+
+  /**
+   * Lấy toàn bộ đơn cà phê.
+   * Backend mới (Code.gs): action getOrders trả về đúng bảng Orders.
+   * Backend cũ: fallback action getAll + lọc theo ORDER_MARK.
+   */
+  async function listOrders() {
+    try {
+      let rows = null;
+      try {
+        const direct = await gasGet('getOrders');
+        if (direct && direct.success && Array.isArray(direct.data)) rows = direct.data;
+      } catch {}
+      if (rows === null) {
+        const res = await gasGet('getAll');
+        if (res && res.success && Array.isArray(res.data)) {
+          rows = res.data.filter(r => r.deviceType === ORDER_MARK || String(r.id || '').startsWith('DH_'));
+        }
+      }
+      if (rows !== null) {
+        const orders = rows.map(gasRowToOrder).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        $ls.set(LS.orders, orders);
+        return { ok: true, data: orders, source: 'gas' };
+      }
+      throw new Error('Lỗi tải đơn hàng');
+    } catch (e) {
+      const cached = $ls.get(LS.orders, []);
+      return { ok: cached.length > 0, data: cached, source: 'cache', error: e.message };
+    }
+  }
+
+  /** Khách đặt hàng → tạo đơn trên GAS; offline thì đưa vào hàng đợi */
+  async function createOrder({ customerName, phone, email, address, note, paymentMethod, paymentName, items, total }) {
+    const order = {
+      id: newOrderId(),
+      customerName, phone, email, address, note,
+      paymentMethod, paymentName,
+      items, total,
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+    };
+
+    // 1) Backend mới (Code.gs): action createOrder + payload sạch
+    let res = null, netError = null;
+    try {
+      res = await gasPost({ action: 'createOrder', data: order });
+    } catch (e) { netError = e; }
+
+    if (res && res.success) return { ok: true, order, synced: true };
+
+    // 2) Backend cũ: action create + dòng Booking
+    if (res && res.error && /action|không hỗ trợ|unknown|not supported/i.test(res.error)) {
+      try {
+        const row = orderToGasRow(order);
+        const res2 = await gasPost({ action: 'create', id: row.id, data: row });
+        if (res2 && res2.success) return { ok: true, order, synced: true };
+      } catch (e) { netError = e; }
+    }
+
+    // 3) Mất mạng → hàng đợi (ưu tiên payload backend mới)
+    if (netError || (res && !res.success)) {
+      queue.add({ body: { action: 'createOrder', data: order } });
+      const cached = $ls.get(LS.orders, []);
+      cached.unshift(order);
+      $ls.set(LS.orders, cached);
+      return { ok: true, order, synced: false, error: (netError && netError.message) || (res && res.error) };
+    }
+    return { ok: false, error: res && res.error || 'Không thể tạo đơn hàng' };
+  }
+
+  async function updateOrderStatus(id, status) {
+    const payload = { id: String(id), status, updatedAt: new Date().toISOString() };
+    try {
+      let res = await gasPost({ action: 'updateOrder', id: String(id), data: payload });
+      if (res && res.success) return { ok: true };
+      if (res && res.error && /action|không hỗ trợ|unknown|not supported/i.test(res.error)) {
+        res = await gasPost({ action: 'update', id: String(id), data: payload });
+        if (res && res.success) return { ok: true };
+      }
+      throw new Error(res && res.error || 'Không thể cập nhật đơn');
+    } catch (e) {
+      queue.add({ body: { action: 'updateOrder', id: String(id), data: payload } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  async function deleteOrder(id) {
+    try {
+      const res = await gasPost({ action: 'delete', id: String(id) });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể xoá đơn');
+    } catch (e) {
+      queue.add({ body: { action: 'delete', id: String(id) } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  /* ════════════════ ĐẶT BÀN ════════════════ */
+
+  const RSV_MARK = 'cafe-reservation';
+
+  function newReservationId() {
+    return `DB_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+  }
+
+  function normReservation(r) {
+    if (!r) return null;
+    return {
+      id:           String(r.id || ''),
+      customerName: String(r.customerName || ''),
+      phone:        String(r.phone || ''),
+      email:        String(r.email || ''),
+      date:         String(r.date || ''),           // YYYY-MM-DD
+      time:         String(r.time || ''),           // HH:MM
+      guests:       Number(r.guests) || 1,
+      tableNote:    String(r.tableNote || ''),
+      note:         String(r.note || ''),
+      status:       String(r.status || 'pending'),
+      createdAt:    String(r.createdAt || ''),
+      updatedAt:    String(r.updatedAt || ''),
+    };
+  }
+
+  async function listReservations() {
+    try {
+      const res = await gasGet('getReservations');
+      if (res && res.success && Array.isArray(res.data)) {
+        const items = res.data.map(normReservation).filter(Boolean)
+          .sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
+        $ls.set(LS.reservations, items);
+        return { ok: true, data: items, source: 'gas' };
+      }
+      throw new Error(res && res.error || 'Lỗi tải đặt bàn');
+    } catch (e) {
+      const cached = $ls.get(LS.reservations, []);
+      return { ok: cached.length > 0, data: cached, source: 'cache', error: e.message };
+    }
+  }
+
+  async function createReservation(data) {
+    const payload = {
+      id: newReservationId(),
+      customerName: data.customerName,
+      phone:        data.phone,
+      email:        data.email || '',
+      date:         data.date,
+      time:         data.time,
+      guests:       data.guests || 1,
+      tableNote:    data.tableNote || '',
+      note:         data.note || '',
+      status:       'pending',
+      deviceType:    RSV_MARK,
+      createdAt:    new Date().toISOString(),
+      updatedAt:    new Date().toISOString(),
+    };
+    try {
+      const res = await gasPost({ action: 'createReservation', data: payload });
+      if (res && res.success) return { ok: true, data: normReservation(payload), synced: true };
+      throw new Error(res && res.error || 'Không thể tạo đặt bàn');
+    } catch (e) {
+      queue.add({ body: { action: 'createReservation', data: payload } });
+      return { ok: true, data: normReservation(payload), synced: false, error: e.message };
+    }
+  }
+
+  async function updateReservation(id, data) {
+    const payload = { ...data, id: String(id), updatedAt: new Date().toISOString() };
+    try {
+      const res = await gasPost({ action: 'updateReservation', id: String(id), data: payload });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể cập nhật đặt bàn');
+    } catch (e) {
+      queue.add({ body: { action: 'updateReservation', id: String(id), data: payload } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  async function deleteReservation(id) {
+    try {
+      const res = await gasPost({ action: 'deleteReservation', id: String(id) });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể xoá đặt bàn');
+    } catch (e) {
+      queue.add({ body: { action: 'deleteReservation', id: String(id) } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  /* ════════════════ CẢM NHẬN KHÁCH HÀNG ════════════════ */
+
+  function normTestimonial(t) {
+    if (!t) return null;
+    return {
+      id:        String(t.id || ''),
+      name:      String(t.name || ''),
+      role:      String(t.role || ''),
+      rating:    Math.max(1, Math.min(5, Number(t.rating) || 5)),
+      content:   String(t.content || ''),
+      isActive:  t.isActive !== false && t.isActive !== 'false',
+      createdAt: String(t.createdAt || ''),
+    };
+  }
+
+  async function listTestimonials() {
+    try {
+      const res = await gasGet('getTestimonials');
+      if (res && res.success && Array.isArray(res.data)) {
+        const items = res.data.map(normTestimonial).filter(Boolean);
+        $ls.set(LS.testimonials, items);
+        return { ok: true, data: items, source: 'gas' };
+      }
+      throw new Error(res && res.error || 'Lỗi tải cảm nhận');
+    } catch (e) {
+      const cached = $ls.get(LS.testimonials, []);
+      return { ok: cached.length > 0, data: cached, source: 'cache', error: e.message };
+    }
+  }
+
+  async function createTestimonial(data) {
+    const payload = {
+      id: 'TS_' + Date.now(),
+      name: data.name, role: data.role || 'Khách hàng',
+      rating: data.rating || 5,
+      content: data.content,
+      isActive: data.isActive !== false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    try {
+      const res = await gasPost({ action: 'createTestimonial', data: payload });
+      if (res && res.success) return { ok: true, data: normTestimonial(payload), synced: true };
+      throw new Error(res && res.error || 'Không thể gửi cảm nhận');
+    } catch (e) {
+      queue.add({ body: { action: 'createTestimonial', data: payload } });
+      return { ok: true, data: normTestimonial(payload), synced: false, error: e.message };
+    }
+  }
+
+  async function updateTestimonial(id, data) {
+    const payload = { ...data, id: String(id), updatedAt: new Date().toISOString() };
+    try {
+      const res = await gasPost({ action: 'updateTestimonial', id: String(id), data: payload });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể cập nhật');
+    } catch (e) {
+      queue.add({ body: { action: 'updateTestimonial', id: String(id), data: payload } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  async function deleteTestimonial(id) {
+    try {
+      const res = await gasPost({ action: 'deleteTestimonial', id: String(id) });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể xoá');
+    } catch (e) {
+      queue.add({ body: { action: 'deleteTestimonial', id: String(id) } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  /* ════════════════ TIN NHẮN LIÊN HỆ ════════════════ */
+
+  function normMessage(m) {
+    if (!m) return null;
+    return {
+      id: String(m.id || ''),
+      name: String(m.name || ''),
+      email: String(m.email || ''),
+      phone: String(m.phone || ''),
+      subject: String(m.subject || ''),
+      content: String(m.content || ''),
+      isRead: m.isRead === true || m.isRead === 'true',
+      createdAt: String(m.createdAt || ''),
+    };
+  }
+
+  async function listMessages() {
+    try {
+      const res = await gasGet('getMessages');
+      if (res && res.success && Array.isArray(res.data)) {
+        const items = res.data.map(normMessage).filter(Boolean)
+          .sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+        $ls.set(LS.messages, items);
+        return { ok: true, data: items, source: 'gas' };
+      }
+      throw new Error(res && res.error || 'Lỗi tải tin nhắn');
+    } catch (e) {
+      const cached = $ls.get(LS.messages, []);
+      return { ok: cached.length > 0, data: cached, source: 'cache', error: e.message };
+    }
+  }
+
+  async function createMessage(data) {
+    const payload = {
+      id: 'MSG_' + Date.now(),
+      name: data.name, email: data.email || '', phone: data.phone || '',
+      subject: data.subject || 'Liên hệ từ website',
+      content: data.content,
+      isRead: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    try {
+      const res = await gasPost({ action: 'createMessage', data: payload });
+      if (res && res.success) return { ok: true, synced: true };
+      throw new Error(res && res.error || 'Không thể gửi tin nhắn');
+    } catch (e) {
+      queue.add({ body: { action: 'createMessage', data: payload } });
+      return { ok: true, synced: false, error: e.message };
+    }
+  }
+
+  async function updateMessage(id, data) {
+    const payload = { ...data, id: String(id), updatedAt: new Date().toISOString() };
+    try {
+      const res = await gasPost({ action: 'updateMessage', id: String(id), data: payload });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể cập nhật');
+    } catch (e) {
+      queue.add({ body: { action: 'updateMessage', id: String(id), data: payload } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  async function deleteMessage(id) {
+    try {
+      const res = await gasPost({ action: 'deleteMessage', id: String(id) });
+      if (res && res.success) return { ok: true };
+      throw new Error(res && res.error || 'Không thể xoá');
+    } catch (e) {
+      queue.add({ body: { action: 'deleteMessage', id: String(id) } });
+      return { ok: false, queued: true, error: e.message };
+    }
+  }
+
+  /* ════════════════ UPLOAD ẢNH LÊN CDN ════════════════ */
+
+  /**
+   * Upload ảnh (dataURL) lên CDN backend → trả về URL công khai.
+   * Nén về tối đa 1600px / 0.9 trước khi gửi.
+   */
+  async function uploadImage(dataUrl, { maxSize = 1600, quality = 0.9 } = {}) {
+    const compressed = await compressImage(dataUrl, maxSize, quality);
+    const endpoint = (window.CAFE && window.CAFE.uploadImageEndpoint) ||
+      'https://superagent-47f29609.base44.app/functions/uploadImage';
+    const r = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dataUrl: compressed }),
+    }).catch(() => null);
+    if (!r || !r.ok) throw new Error('Upload thất bại — kiểm tra kết nối');
+    const j = await r.json();
+    if (j.success && j.url) return j.url;
+    throw new Error(j.error || 'Upload thất bại');
+  }
+
+  function compressImage(dataUrl, maxSize, quality) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        let { width: w, height: h } = img;
+        if (w > maxSize || h > maxSize) {
+          const scale = Math.min(maxSize / w, maxSize / h);
+          w = Math.round(w * scale); h = Math.round(h * scale);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = () => resolve(dataUrl);
+      img.src = dataUrl;
+    });
+  }
+
+  /* ════════════════ ĐĂNG KÝ API TOÀN CỤC ════════════════ */
+
+  window.CAFE_API = {
+    getGasUrl, setGasUrl, resetGasUrl,
+    gasGet, gasPost,
+    flushQueue, queueInfo: () => queue.all().length,
+    listProducts, createProduct, updateProduct, deleteProduct,
+    listOrders, createOrder, updateOrderStatus, deleteOrder,
+    listReservations, createReservation, updateReservation, deleteReservation,
+    listTestimonials, createTestimonial, updateTestimonial, deleteTestimonial,
+    listMessages, createMessage, updateMessage, deleteMessage,
+    uploadImage, newOrderId,
+  };
+})();
+</script>
+<script>
+/**
+ * ══════════════════════════════════════════════════════════════════════
+ *  common.js — Phần dùng chung cho MỌI trang khách hàng
+ *  Helpers · Giỏ hàng (drawer tự chèn) · Checkout · Render sản phẩm
+ *  Trang nào include file này đều có giỏ hàng + đặt hàng đầy đủ.
+ * ══════════════════════════════════════════════════════════════════════
+ */
+'use strict';
+
+(function () {
+  const C = window.CAFE;
+  const API = window.CAFE_API;
+
+  /* ═════════════════ HELPERS ═════════════════ */
+
+  const $  = (sel, r) => (r || document).querySelector(sel);
+  const $$ = (sel, r) => Array.from((r || document).querySelectorAll(sel));
+  const fmt = (n) => Number(n).toLocaleString('vi-VN') + 'đ';
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+  const debounce = (fn, ms = 250) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+  const catName = (id) => (C.categories.find(c => c.id === id) || {}).name || 'Khác';
+
+  const PLACEHOLDER_IMG = 'data:image/svg+xml,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#E9DCCB"/></svg>');
+  const imgOf = (p) => (p && p.imageUrl && String(p.imageUrl).trim()) ? p.imageUrl : PLACEHOLDER_IMG;
+
+  function toast(msg, type = '') {
+    let wrap = $('#toastWrap');
+    if (!wrap) { wrap = document.createElement('div'); wrap.id = 'toastWrap'; wrap.className = 'toast-wrap'; document.body.appendChild(wrap); }
+    const el = document.createElement('div');
+    el.className = 'toast ' + type;
+    el.textContent = msg;
+    wrap.appendChild(el);
+    setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .3s'; }, 2200);
+    setTimeout(() => el.remove(), 2600);
+  }
+
+  /* ═════════════════ GIỎ HÀNG ═════════════════ */
+
+  const SHIPPING_FEE = 10000;
+  const FREE_SHIP_MIN = 100000;
+
+  const cart = {
+    items: [],
+    load() {
+      try { this.items = JSON.parse(localStorage.getItem('cafe_cart') || '[]'); }
+      catch { this.items = []; }
+    },
+    save() { try { localStorage.setItem('cafe_cart', JSON.stringify(this.items)); } catch {} },
+    add(p, qty = 1) {
+      const found = this.items.find(i => i.id === p.id);
+      if (found) found.qty += qty;
+      else this.items.push({ id: p.id, name: p.name, price: p.price, imageUrl: p.imageUrl, qty });
+      this.save(); UI.renderCart();
+    },
+    setQty(id, qty) {
+      const it = this.items.find(i => i.id === id);
+      if (!it) return;
+      if (qty <= 0) this.items = this.items.filter(i => i.id !== id);
+      else it.qty = qty;
+      this.save(); UI.renderCart();
+    },
+    remove(id) { this.items = this.items.filter(i => i.id !== id); this.save(); UI.renderCart(); },
+    clear() { this.items = []; this.save(); },
+    count() { return this.items.reduce((s, i) => s + i.qty, 0); },
+    subtotal() { return this.items.reduce((s, i) => s + i.qty * i.price, 0); },
+  };
+
+  /* ═════════════════ RENDER SẢN PHẨM ═════════════════ */
+
+  function cardHtml(p, i) {
+    const hasSale = p.originalPrice > p.price && p.originalPrice > 0;
+    const tags = [];
+    if (p.isBest) tags.push('<span class="tag hot">Bán chạy</span>');
+    if (hasSale) tags.push(`<span class="tag sale">-${Math.round((1 - p.price / p.originalPrice) * 100)}%</span>`);
+    return `
+      <article class="product-card" style="animation-delay:${Math.min(i * 45, 360)}ms">
+        <div class="thumb">
+          <img src="${esc(imgOf(p))}" alt="${esc(p.name)}" loading="lazy" />
+          <div class="tags">${tags.join('')}</div>
+        </div>
+        <div class="info">
+          <span class="cat-label">${esc(catName(p.category))}</span>
+          <h3>${esc(p.name)}</h3>
+          <p class="desc">${esc(p.description || '')}</p>
+          <div class="price-row">
+            <span class="price">${fmt(p.price)}</span>
+            ${hasSale ? `<span class="price-old">${fmt(p.originalPrice)}</span>` : ''}
+            ${p.priceNote ? `<span class="price-old" style="text-decoration:none">${esc(p.priceNote)}</span>` : ''}
+          </div>
+          <button class="add-cart" data-id="${esc(p.id)}">+ Thêm vào giỏ</button>
+        </div>
+      </article>`;
+  }
+
+  function bindAddButtons(container, products) {
+    $$('.add-cart', container).forEach(btn =>
+      btn.addEventListener('click', () => {
+        const p = products.find(x => x.id === btn.dataset.id);
+        if (!p) return;
+        cart.add(p);
+        toast(`Đã thêm "${p.name}" vào giỏ`, 'ok');
+        btn.classList.add('added');
+        btn.textContent = 'Đã thêm';
+        setTimeout(() => { btn.classList.remove('added'); btn.textContent = '+ Thêm vào giỏ'; }, 1100);
+      }));
+  }
+
+  /* Tải sản phẩm dùng chung (dùng cho index best-sellers & menu) */
+  async function loadProducts({ includeAll = false } = {}) {
+    const res = await API.listProducts({ includeAll });
+    let items = (res.data || []);
+    let source = res.source === 'gas' ? 'gas' : (items.length ? 'cache' : 'sample');
+    if (items.length === 0 || !items.some(p => p.isActive)) {
+      if (includeAll) items = (window.CAFE_SAMPLES || []).map(p => ({ ...p }));
+      else items = (window.CAFE_SAMPLES || []).filter(p => p.isActive);
+      source = 'sample';
+    }
+    items.sort((a, b) => ((a.sortOrder || 0) - (b.sortOrder || 0)) || a.name.localeCompare(b.name, 'vi'));
+    return { items, source };
+  }
+
+  /* ═════════════════ CHECKOUT ═════════════════ */
+
+  let selectedPay = C.paymentMethods[0].id;
+
+  function mountCheckout() {
+    if ($('#checkoutModal')) return;
+    const html = `
+      <div class="modal-mask" id="checkoutMask"></div>
+      <div class="modal" id="checkoutModal" role="dialog" aria-label="Thanh toán">
+        <div class="box">
+          <div class="modal-head">
+            <h3>Thông tin giao hàng</h3>
+            <button class="close" id="checkoutClose" aria-label="Đóng">×</button>
+          </div>
+          <div class="modal-body">
+            <form id="checkoutForm" novalidate>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label>Họ tên <span class="req">*</span></label>
+                  <input type="text" id="fName" placeholder="Nguyễn Văn A" required />
+                </div>
+                <div class="form-field">
+                  <label>Số điện thoại <span class="req">*</span></label>
+                  <input type="tel" id="fPhone" placeholder="09xx xxx xxx" required />
+                </div>
+                <div class="form-field">
+                  <label>Email (nếu có)</label>
+                  <input type="email" id="fEmail" placeholder="email@vidu.com" />
+                </div>
+                <div class="form-field">
+                  <label>Phương thức giao</label>
+                  <select id="fShip">
+                    <option value="delivery">Giao tận nơi (+10.000đ)</option>
+                    <option value="pickup">Nhận tại cửa hàng</option>
+                  </select>
+                </div>
+                <div class="form-field full">
+                  <label>Địa chỉ giao hàng <span class="req">*</span></label>
+                  <input type="text" id="fAddress" placeholder="Số nhà, đường, phường/xã, tỉnh/thành" required />
+                </div>
+                <div class="form-field full">
+                  <label>Ghi chú cho quán</label>
+                  <textarea id="fNote" placeholder="Ít đá, giao giờ trưa, thêm ống hút…"></textarea>
+                </div>
+              </div>
+              <div class="form-field full" style="margin-top:16px">
+                <label>Phương thức thanh toán <span class="req">*</span></label>
+                <div class="pay-group" id="payGroup"></div>
+              </div>
+              <div class="order-summary" id="orderSummary"></div>
+              <div class="form-actions">
+                <button type="button" class="btn btn-ghost" id="checkoutBack">Giỏ hàng</button>
+                <button type="submit" class="btn btn-primary" id="placeOrderBtn">Đặt hàng</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal" id="successModal" role="dialog" aria-label="Đặt hàng thành công">
+        <div class="box">
+          <div class="modal-body" style="padding:34px 26px">
+            <div class="success-box">
+              
+              <h3>Đặt hàng thành công!</h3>
+              <p>Cảm ơn bạn đã đặt cà phê tại <b>${esc(C.shop.name)}</b>.<br />Quán sẽ gọi xác nhận trong ít phút.</p>
+              <div class="code" id="successCode">DH_XXXX</div>
+              <p id="successWarn" style="color:var(--caramel);font-size:.8rem"></p>
+              <div class="form-actions">
+                <button class="btn btn-primary" id="successClose">Đóng</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    document.body.insertAdjacentHTML('beforeend', html);
+
+    $('#checkoutForm').addEventListener('submit', placeOrder);
+    $('#checkoutClose').addEventListener('click', closeCheckout);
+    $('#checkoutMask').addEventListener('click', closeCheckout);
+    $('#checkoutBack').addEventListener('click', () => { closeCheckout(); UI.openCart(); });
+    $('#fShip').addEventListener('change', renderSummary);
+    $('#successClose').addEventListener('click', () => $('#successModal').classList.remove('show'));
+  }
+
+  function renderPayGroup() {
+    const g = $('#payGroup');
+    g.innerHTML = C.paymentMethods.map(m => `
+      <label class="pay-option ${m.id === selectedPay ? 'selected' : ''}">
+        <input type="radio" name="pay" value="${m.id}" ${m.id === selectedPay ? 'checked' : ''} />
+        <span><span class="t">${esc(m.name)}</span><span class="d" style="display:block">${esc(m.desc)}</span></span>
+      </label>`).join('');
+    $$('.pay-option', g).forEach(el =>
+      el.addEventListener('click', () => { selectedPay = el.querySelector('input').value; renderPayGroup(); }));
+  }
+
+  function shipFee() {
+    const val = $('#fShip') ? $('#fShip').value : 'delivery';
+    if (val === 'pickup') return 0;
+    return cart.subtotal() >= FREE_SHIP_MIN ? 0 : SHIPPING_FEE;
+  }
+
+  function renderSummary() {
+    const sub = cart.subtotal();
+    const fee = shipFee();
+    $('#orderSummary').innerHTML = `
+      ${cart.items.map(i => `
+        <div class="line"><span>${i.qty}× ${esc(i.name)}</span><b>${fmt(i.qty * i.price)}</b></div>`).join('')}
+      <div class="line"><span>Phí giao hàng</span><b>${fee === 0 ? 'Miễn phí' : fmt(fee)}</b></div>
+      <div class="grand"><span>Tổng cộng</span><span>${fmt(sub + fee)}</span></div>`;
+  }
+
+  function openCheckout() {
+    if (!cart.items.length) { toast('Giỏ hàng đang trống', 'err'); return; }
+    UI.closeCart();
+    renderSummary();
+    $('#checkoutMask').classList.add('show');
+    $('#checkoutModal').classList.add('show');
+  }
+
+  function closeCheckout() {
+    const m = $('#checkoutMask'), k = $('#checkoutModal');
+    if (m) m.classList.remove('show');
+    if (k) k.classList.remove('show');
+  }
+
+  async function placeOrder(e) {
+    e.preventDefault();
+    const name = $('#fName').value.trim();
+    const phone = $('#fPhone').value.trim();
+    const address = $('#fAddress').value.trim();
+    const email = $('#fEmail').value.trim();
+    const note = $('#fNote').value.trim();
+    const ship = $('#fShip').value;
+
+    if (!name || !phone || !address) { toast('Vui lòng điền đủ tên, SĐT và địa chỉ', 'err'); return; }
+    if (!/^[0-9+.\s-]{8,15}$/.test(phone)) { toast('Số điện thoại không hợp lệ', 'err'); return; }
+
+    const pay = C.paymentMethods.find(m => m.id === selectedPay) || C.paymentMethods[0];
+    const fee = shipFee();
+    const total = cart.subtotal() + fee;
+    const fullAddress = ship === 'pickup' ? `Nhận tại cửa hàng — ${C.shop.address}` : address;
+
+    const btn = $('#placeOrderBtn');
+    btn.disabled = true; btn.textContent = 'Đang gửi đơn…';
+
+    const res = await API.createOrder({
+      customerName: name, phone, email, address: fullAddress, note,
+      paymentMethod: pay.id, paymentName: pay.name,
+      items: cart.items.map(i => ({ id: i.id, name: i.name, price: i.price, qty: i.qty })),
+      total,
+    });
+
+    btn.disabled = false; btn.textContent = 'Đặt hàng';
+
+    if (res.ok) {
+      cart.clear();
+      closeCheckout();
+      UI.renderCart();
+      $('#successCode').textContent = res.order.id;
+      $('#successWarn').textContent = res.synced === false
+        ? 'Đơn của bạn đã được lưu tạm trên máy — sẽ tự gửi lên quán khi có mạng.'
+        : '';
+      $('#successModal').classList.add('show');
+      $('#checkoutForm').reset();
+      selectedPay = C.paymentMethods[0].id;
+      renderPayGroup();
+    } else {
+      toast('Không thể gửi đơn — vui lòng thử lại', 'err');
+    }
+  }
+
+  /* ═════════════════ DRAWER GIỎ HÀNG (tự chèn) ═════════════════ */
+
+  function mountDrawer() {
+    if ($('#cartDrawer')) return;
+    const html = `
+      <div class="drawer-mask" id="drawerMask"></div>
+      <aside class="cart-drawer" id="cartDrawer" aria-label="Giỏ hàng">
+        <div class="cart-head">
+          <div>
+            <h3>Giỏ hàng của bạn</h3>
+            <span class="cart-count-chip" id="cartCountChip">0 sản phẩm</span>
+          </div>
+          <button class="close" id="cartClose" aria-label="Đóng">×</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-empty" id="cartEmpty" hidden>
+          
+          <p>Giỏ hàng đang trống.<br />Thêm vài ly cà phê thôi nào!</p>
+          <a class="btn btn-ghost" href="#menu">Xem thực đơn</a>
+        </div>
+        <div class="cart-foot" id="cartFoot" hidden>
+          <div class="total-row">
+            <span class="label">Tạm tính</span>
+            <span class="value" id="cartTotal">0đ</span>
+          </div>
+          <button class="btn btn-primary" id="checkoutBtn">Thanh toán</button>
+          <p class="note">Miễn phí giao hàng nội thành cho đơn từ ${fmt(FREE_SHIP_MIN)}</p>
+        </div>
+      </aside>
+      <button class="cart-fab" id="cartFab" aria-label="Giỏ hàng">
+        <span class="fab-txt">Giỏ hàng</span><span class="badge" id="fabBadge" hidden>0</span>
+      </button>`;
+    document.body.insertAdjacentHTML('beforeend', html);
+    $('#cartClose').addEventListener('click', UI.closeCart);
+    $('#drawerMask').addEventListener('click', UI.closeCart);
+    $('#checkoutBtn').addEventListener('click', openCheckout);
+    $('#cartFab').addEventListener('click', UI.openCart);
+    window.addEventListener('resize', () => UI.renderCart());
+  }
+
+  /* ═════════════════ GIAO DIỆN DÙNG CHUNG ═════════════════ */
+
+  const UI = {
+    $, $$, fmt, esc, debounce, catName, imgOf, PLACEHOLDER_IMG, toast,
+    cart, cardHtml, bindAddButtons, loadProducts,
+
+    renderCart() {
+      const count = cart.count();
+      const badge = $('#cartBadge'), fabBadge = $('#fabBadge');
+      if (badge) { badge.hidden = count === 0; badge.textContent = count; }
+      if (fabBadge) { fabBadge.hidden = count === 0; fabBadge.textContent = count; }
+      const fab = $('#cartFab');
+      if (fab) fab.classList.toggle('show', count > 0 && window.innerWidth < 900);
+      const chip = $('#cartCountChip');
+      if (chip) chip.textContent = `${count} sản phẩm`;
+
+      const wrap = $('#cartItems'), emptyEl = $('#cartEmpty'), foot = $('#cartFoot');
+      if (!wrap) return;
+
+      if (!cart.items.length) {
+        wrap.innerHTML = ''; wrap.hidden = true;
+        emptyEl.hidden = false; foot.hidden = true;
+        return;
+      }
+      wrap.hidden = false; emptyEl.hidden = true; foot.hidden = false;
+
+      wrap.innerHTML = cart.items.map(i => `
+        <div class="cart-item">
+          <img src="${esc(imgOf({ imageUrl: i.imageUrl }))}" alt="${esc(i.name)}" loading="lazy" />
+          <div class="meta">
+            <h4>${esc(i.name)}</h4>
+            <div class="p">${fmt(i.price)}</div>
+            <div class="qty-controls">
+              <button data-act="dec" data-id="${esc(i.id)}" aria-label="Giảm">−</button>
+              <span>${i.qty}</span>
+              <button data-act="inc" data-id="${esc(i.id)}" aria-label="Tăng">+</button>
+            </div>
+          </div>
+          <button class="rm" data-act="rm" data-id="${esc(i.id)}" title="Xoá khỏi giỏ">×</button>
+        </div>`).join('');
+
+      $$('#cartItems button[data-act]').forEach(btn =>
+        btn.addEventListener('click', () => {
+          const { act, id } = btn.dataset;
+          const it = cart.items.find(x => x.id === id);
+          if (act === 'inc') cart.setQty(id, (it ? it.qty : 0) + 1);
+          if (act === 'dec') cart.setQty(id, (it ? it.qty : 0) - 1);
+          if (act === 'rm') { cart.remove(id); toast('Đã xoá khỏi giỏ hàng'); }
+        }));
+
+      $('#cartTotal').textContent = fmt(cart.subtotal());
+    },
+
+    openCart()  { $('#cartDrawer') && $('#cartDrawer').classList.add('show'); $('#drawerMask') && $('#drawerMask').classList.add('show'); },
+    closeCart() { $('#cartDrawer') && $('#cartDrawer').classList.remove('show'); $('#drawerMask') && $('#drawerMask').classList.remove('show'); },
+  };
+
+  /* ═════════════════ HEADER CHUNG ═════════════════ */
+
+  function mountHeader() {
+    // Badge cho nút giỏ hàng trong header (nếu trang có #cartBtn)
+    const btn = $('#cartBtn');
+    if (btn) {
+      if (!btn.querySelector('.badge')) {
+        const b = document.createElement('span');
+        b.className = 'badge'; b.id = 'cartBadge'; b.hidden = true;
+        btn.appendChild(b);
+      }
+      btn.addEventListener('click', UI.openCart);
+    }
+    // Menu mobile
+    const toggle = $('#menuToggle');
+    if (toggle) toggle.addEventListener('click', () => $('#mainNav').classList.toggle('open'));
+    $$('#mainNav a').forEach(a =>
+      a.addEventListener('click', () => $('#mainNav') && $('#mainNav').classList.remove('open')));
+    // Đánh dấu nav active theo trang hiện tại
+    const here = location.pathname.split('/').pop() || 'index.html';
+    $$('#mainNav a').forEach(a => {
+      if (a.getAttribute('href') === here) a.classList.add('active');
+    });
+  }
+
+  /* ═════════════════ KHỞI TẠO ═════════════════ */
+
+  document.addEventListener('DOMContentLoaded', () => {
+    cart.load();
+    mountHeader();
+    mountDrawer();
+    mountCheckout();
+    renderPayGroup();
+    UI.renderCart();
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      UI.closeCart(); closeCheckout();
+      const s = $('#successModal'); if (s) s.classList.remove('show');
+    });
+
+    // Đồng bộ hàng đợi ghi offline (nếu có)
+    if (API.queueInfo && API.queueInfo() > 0) {
+      API.flushQueue().then(r => { if (r.ok > 0) toast(`Đã đồng bộ ${r.ok} thay đổi lên máy chủ`, 'ok'); });
+    }
+  });
+
+  window.CAFE_UI = UI;
+})();
+</script>
+<script>
+/**
+ * ══════════════════════════════════════════════════════════════════════
+ *  menu.js — Trang Thực đơn (menu.html)
+ *  Tìm kiếm · Lọc giá / hương vị · Tabs danh mục · Grid sản phẩm
+ *  Dùng CAFE_UI (common.js) cho giỏ hàng & checkout.
+ * ══════════════════════════════════════════════════════════════════════
+ */
+'use strict';
+
+(function () {
+  const C = window.CAFE;
+  const UI = window.CAFE_UI;
+  const { $, $$, toast, debounce, catName } = UI;
+
+  let PRODUCTS = [];
+  let productsSource = 'sample';
+
+  const state = { category: 'all', search: '', priceId: 'all', flavorId: 'all' };
+
+  /* ═════════════════ LOAD & RENDER ═════════════════ */
+
+  async function loadProducts() {
+    const res = await UI.loadProducts({ includeAll: false });
+    PRODUCTS = res.items.filter(p => p.isActive);
+    productsSource = res.source;
+    renderTabs();
+    renderMenu();
+    if (productsSource === 'sample') {
+      toast('Đang chạy với dữ liệu mẫu — quản trị viên vào admin.html để thêm sản phẩm thật', 'ok');
+    } else if (productsSource === 'cache') {
+      toast('Không tải được dữ liệu mới — hiển thị bản lưu gần nhất', 'err');
+    }
+  }
+
+  function applyFilters() {
+    const kw = state.search.trim().toLowerCase();
+    const range = C.priceRanges.find(r => r.id === state.priceId) || C.priceRanges[0];
+    const flavor = C.flavors.find(f => f.id === state.flavorId) || C.flavors[0];
+
+    return PRODUCTS.filter(p => {
+      if (state.category !== 'all' && p.category !== state.category) return false;
+      if (p.price < range.min || p.price >= range.max) return false;
+      const hay = `${p.name} ${p.description} ${catName(p.category)}`.toLowerCase();
+      if (kw && !hay.includes(kw)) return false;
+      if (flavor.id !== 'all') {
+        const hit = flavor.keywords.some(k => hay.includes(k.toLowerCase()));
+        if (!hit) return false;
+      }
+      return true;
+    });
+  }
+
+  function renderMenu() {
+    const grid = $('#productGrid');
+    const empty = $('#menuEmpty');
+    const list = applyFilters();
+    empty.hidden = list.length > 0;
+    grid.innerHTML = list.map((p, i) => UI.cardHtml(p, i)).join('');
+    UI.bindAddButtons(grid, PRODUCTS);
+  }
+
+  function renderTabs() {
+    const tabs = $('#catTabs');
+    tabs.innerHTML = [
+      `<button class="cat-tab ${state.category === 'all' ? 'active' : ''}" data-cat="all">Tất cả</button>`,
+      ...C.categories.map(c =>
+        `<button class="cat-tab ${state.category === c.id ? 'active' : ''}" data-cat="${c.id}">${UI.esc(c.name)}</button>`),
+    ].join('');
+    $$('#catTabs .cat-tab').forEach(b =>
+      b.addEventListener('click', () => {
+        state.category = b.dataset.cat;
+        renderTabs();
+        renderMenu();
+      }));
+  }
+
+  function renderFilters() {
+    $('#priceFilter').innerHTML = C.priceRanges.map(r =>
+      `<option value="${r.id}">${UI.esc(r.name)}</option>`).join('');
+    $('#flavorFilter').innerHTML = C.flavors.map(f =>
+      `<option value="${f.id}">${UI.esc(f.name)}</option>`).join('');
+  }
+
+  /* ═════════════════ KHỞI TẠO ═════════════════ */
+
+  /* Cho SPA single-file build: router gọi khi đổi tab qua hash */
+  window.CAFE_MENU = {
+    setCategory(id) {
+      if (id === 'all' || CAFE.categories.some(c => c.id === id)) {
+        state.category = id;
+        renderTabs();
+        renderMenu();
+      }
+    },
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Chọn sẵn tab theo ?cat=<id> (từ trang chủ)
+    const q = new URLSearchParams(location.search).get('cat');
+    if (q && (q === 'all' || C.categories.some(c => c.id === q))) state.category = q;
+    renderFilters();
+    $('#searchInput').addEventListener('input', debounce(e => {
+      state.search = e.target.value; renderMenu();
+    }));
+    $('#priceFilter').addEventListener('change', e => { state.priceId = e.target.value; renderMenu(); });
+    $('#flavorFilter').addEventListener('change', e => { state.flavorId = e.target.value; renderMenu(); });
+    loadProducts();
+  });
+})();
+</script>
+<script>
+(function () {
+  const UI = window.CAFE_UI, C = window.CAFE;
+  const $ = UI.$, $$ = UI.$$;
+
+  /* Carousel */
+  const slides = $$('#heroCarousel .slide');
+  let cur = 0, timer;
+  const dots = $('#heroDots');
+  dots.innerHTML = slides.map((_, i) => `<span data-i="${i}" class="${i === 0 ? 'active' : ''}"></span>`).join('');
+  function go(i) {
+    cur = (i + slides.length) % slides.length;
+    slides.forEach((s, k) => s.classList.toggle('active', k === cur));
+    $$('#heroDots span').forEach((d, k) => d.classList.toggle('active', k === cur));
+  }
+  function auto() { clearInterval(timer); timer = setInterval(() => go(cur + 1), 6000); }
+  $('#heroPrev').addEventListener('click', () => { go(cur - 1); auto(); });
+  $('#heroNext').addEventListener('click', () => { go(cur + 1); auto(); });
+  $$('#heroDots span').forEach(d => d.addEventListener('click', () => { go(+d.dataset.i); auto(); }));
+  auto();
+
+  /* Danh mục */
+  $('#catGrid').innerHTML = C.categories.map(c => `
+    <a class="cat-card" href="#menu?cat=${c.id}" data-cat="${c.id}">
+      <h3>${UI.esc(c.name)}</h3>
+      <p>${UI.esc(c.desc)}</p>
+      <span class="go">Xem sản phẩm →</span>
+    </a>`).join('');
+
+  /* Bán chạy */
+  (async () => {
+    const { items } = await UI.loadProducts({ includeAll: false });
+    const best = items.filter(p => p.isBest && p.isActive).slice(0, 8);
+    const list = best.length ? best : items.slice(0, 6);
+    $('#bestGrid').innerHTML = list.map((p, i) => UI.cardHtml(p, i)).join('');
+    UI.bindAddButtons($('#bestGrid'), items);
+  })();
+
+  /* Dịch vụ teaser */
+  const svc = [
+    { name: 'Giao hàng trong ngày', desc: 'Đặt online trước 17:00 — nóng hổi tận nơi trong nội thành.', img: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/6dd36f1cc_generated_image.png' },
+    { name: 'Rang mộc theo yêu cầu', desc: 'Chọn hạt, chọn mức rang — nhận đúng vị bạn yêu thích.', img: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/985f6865b_generated_image.png' },
+    { name: 'Set-up tiệc &amp; sự kiện', desc: 'Quầy cà phê lưu động cho workshop, tiệc công ty.', img: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/406765b4b_generated_image.png' },
+    { name: 'Workshop pha chế', desc: 'Lớp học pha phin &amp; pour-over cuối tuần cùng barista.', img: 'https://media.base44.com/images/public/6a38474af6727477cf96ad43/b720aba63_generated_image.png' },
+  ];
+  $('#svcTeaser').innerHTML = svc.map(s => `
+    <a class="service-card" href="#service">
+      <div class="thumb"><img src="${s.img}" alt="${s.name}" loading="lazy" /></div>
+      <div class="body">
+        <h3>${s.name}</h3>
+        <p>${s.desc}</p>
+        <span class="go">Tìm hiểu →</span>
+      </div>
+    </a>`).join('');
+
+  /* Cảm nhận teaser */
+  (async () => {
+    const res = await window.CAFE_API.listTestimonials();
+    const list = (res.data && res.data.length ? res.data : (window.CAFE_SAMPLES_TESTIMONIALS || []))
+      .filter(t => t.isActive).slice(0, 3);
+    $('#tstTeaser').innerHTML = list.map(t => `
+      <div class="tst-card">
+        <span class="quote">”</span>
+        <div class="stars">${'★'.repeat(t.rating)}${'☆'.repeat(5 - t.rating)}</div>
+        <p class="content">${UI.esc(t.content)}</p>
+        <div class="who">
+          <span class="avatar">${UI.esc((t.name || 'K').trim().charAt(0).toUpperCase())}</span>
+          <span><span class="nm">${UI.esc(t.name)}</span><span class="role" style="display:block">${UI.esc(t.role || 'Khách hàng')}</span></span>
+        </div>
+      </div>`).join('');
+  })();
+})();
+</script>
+<script>
+(function () {
+  const UI = window.CAFE_UI, C = window.CAFE;
+  const $ = UI.$;
+  const pad = (n) => String(n).padStart(2, '0');
+  const today = new Date();
+  $('#rDate').min = today.toISOString().slice(0, 10);
+  $('#rDate').value = today.toISOString().slice(0, 10);
+  $('#rTime').innerHTML = C.reservationSlots.map(s => `<option value="${s}">${s}</option>`).join('');
+  $('#rsvForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = $('#rName').value.trim();
+    const phone = $('#rPhone').value.trim();
+    const date = $('#rDate').value;
+    if (!name || !phone || !date) { UI.toast('Vui lòng điền đủ tên, SĐT và ngày', 'err'); return; }
+    if (!/^[0-9+.\s-]{8,15}$/.test(phone)) { UI.toast('Số điện thoại không hợp lệ', 'err'); return; }
+    const btn = $('#rsvSubmit');
+    btn.disabled = true; btn.textContent = 'Đang gửi…';
+    const res = await window.CAFE_API.createReservation({
+      customerName: name, phone,
+      email: $('#rEmail').value.trim(),
+      date, time: $('#rTime').value,
+      guests: Number($('#rGuests').value) || 1,
+      tableNote: $('#rTable').value,
+      note: $('#rNote').value.trim(),
+    });
+    btn.disabled = false; btn.textContent = 'Đặt bàn ngay';
+    if (res.ok) {
+      UI.toast(`Đặt bàn thành công! Mã đặt bàn: ${res.data.id} — quán sẽ gọi xác nhận.`, 'ok');
+      e.target.reset();
+      $('#rGuests').value = 2;
+      $('#rDate').value = date;
+    } else {
+      UI.toast('Không gửi được — thử lại sau nhé', 'err');
+    }
+  });
+})();
+</script>
+<script>
+(function () {
+  const UI = window.CAFE_UI;
+  const { $, $$ } = UI;
+  let rating = 5;
+
+  function render() {
+    $('#starPicker').innerHTML = [1,2,3,4,5].map(i =>
+      `<span data-i="${i}" class="${i <= rating ? 'on' : ''}">★</span>`).join('');
+    $$('#starPicker span').forEach(s =>
+      s.addEventListener('click', () => { rating = +s.dataset.i; render(); }));
+  }
+  render();
+
+  (async () => {
+    const res = await window.CAFE_API.listTestimonials();
+    const list = (res.data && res.data.length ? res.data : (window.CAFE_SAMPLES_TESTIMONIALS || []))
+      .filter(t => t.isActive);
+    $('#tstGrid').innerHTML = list.length ? list.map(t => `
+      <div class="tst-card">
+        <span class="quote">”</span>
+        <div class="stars">${'★'.repeat(t.rating)}${'☆'.repeat(5 - t.rating)}</div>
+        <p class="content">${UI.esc(t.content)}</p>
+        <div class="who">
+          <span class="avatar">${UI.esc((t.name || 'K').trim().charAt(0).toUpperCase())}</span>
+          <span><span class="nm">${UI.esc(t.name)}</span><span class="role" style="display:block">${UI.esc(t.role || 'Khách hàng')}</span></span>
+        </div>
+      </div>`).join('')
+      : '<p style="text-align:center;color:var(--text-soft)">Chưa có cảm nhận nào — bạn là người đầu tiên nhé!</p>';
+  })();
+
+  $('#tstForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = $('#tName').value.trim();
+    const content = $('#tContent').value.trim();
+    if (!name || !content) { UI.toast('Vui lòng nhập tên và cảm nhận', 'err'); return; }
+    const btn = $('#tstSubmit');
+    btn.disabled = true; btn.textContent = 'Đang gửi…';
+    const res = await window.CAFE_API.createTestimonial({
+      name, role: $('#tRole').value.trim() || 'Khách hàng',
+      rating, content, isActive: false,
+    });
+    btn.disabled = false; btn.textContent = 'Gửi cảm nhận';
+    if (res.ok) {
+      UI.toast('Cảm ơn bạn! Cảm nhận sẽ hiển thị sau khi được duyệt', 'ok');
+      e.target.reset(); rating = 5; render();
+    } else {
+      UI.toast('Không gửi được — thử lại sau nhé', 'err');
+    }
+  });
+})();
+</script>
+<script>
+(function () {
+  const UI = window.CAFE_UI;
+  const $ = UI.$;
+  $('#msgForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = $('#mName').value.trim();
+    const content = $('#mContent').value.trim();
+    if (!name || !content) { UI.toast('Vui lòng nhập tên và nội dung', 'err'); return; }
+    const btn = $('#msgSubmit');
+    btn.disabled = true; btn.textContent = 'Đang gửi…';
+    const res = await window.CAFE_API.createMessage({
+      name,
+      phone: $('#mPhone').value.trim(),
+      email: $('#mEmail').value.trim(),
+      subject: $('#mSubject').value,
+      content,
+    });
+    btn.disabled = false; btn.textContent = 'Gửi tin nhắn';
+    if (res.ok) {
+      UI.toast('Đã gửi! Quán sẽ phản hồi sớm nhất', 'ok');
+      e.target.reset();
+    } else {
+      UI.toast('Không gửi được — thử lại sau nhé', 'err');
+    }
+  });
+})();
+</script>
+<script>
+/* ═══ SPA ROUTER — 7 trang ảo điều hướng bằng hash (#home #menu …) ═══ */
+(function () {
+  const PAGES = ['home','menu','about','service','reservation','testimonial','contact'];
+  function parseHash() {
+    const raw = (location.hash || '#home').slice(1);
+    const [name, q] = raw.split('?');
+    return { name: PAGES.indexOf(name) > -1 ? name : 'home', params: new URLSearchParams(q || '') };
+  }
+  function route() {
+    const { name, params } = parseHash();
+    document.querySelectorAll('.vpage').forEach(s =>
+      s.classList.toggle('active', s.id === 'vp-' + name));
+    document.querySelectorAll('#mainNav a').forEach(a =>
+      a.classList.toggle('active', a.dataset.page === name));
+    window.scrollTo({ top: 0 });
+    // từ trang chủ bấm danh mục → #menu?cat=espresso
+    if (name === 'menu' && params.get('cat') && window.CAFE_MENU) {
+      window.CAFE_MENU.setCategory(params.get('cat'));
+    }
+  }
+  window.addEventListener('hashchange', route);
+  route();
+})();
+</script>
+</body>
+</html>
